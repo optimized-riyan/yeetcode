@@ -1,5 +1,5 @@
 <script setup>
-import Layout from '../Layouts/Layout.vue'
+import Layout from '../Layouts/ProblemSetLayout.vue'
 import { Head } from '@inertiajs/vue3'
 
 defineProps({ user: Object })
@@ -7,8 +7,7 @@ defineProps({ user: Object })
 
 <template>
     <Layout>
-        <Head title="Welcome" />
-        <h1>Welcome</h1>
+        <Head title="Yeetcode - Problems" />
         <p>Hello {{ user.name }}, welcome to your first Inertia app!</p>
     </Layout>
 </template>

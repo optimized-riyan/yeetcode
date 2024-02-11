@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
-    return "Index page...";
+    return redirect()->route('problemset');
 });
 
-Route::resource('users', UserController::class);
+
+Route::get('/problemset', function () {
+    return Inertia::render('/ProblemSet');
+})->name('problemset');
+
+// Route::resource('users', UserController::class);
