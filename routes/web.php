@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 
 Route::get('/problemset', function () {
-    return Inertia::render('/ProblemSet');
+    return Inertia::render('ProblemSet');
 })->name('problemset');
 
 // Route::resource('users', UserController::class);

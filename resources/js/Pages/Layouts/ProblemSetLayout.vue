@@ -3,11 +3,12 @@ import Dropdown from '../Components/Dropdown.vue';
 </script>
 
 <template>
-    <div class="flex flex-col w-screen">
+    <div class="flex flex-col w-screen min-h-screen bg-leetcode-background text-leetcode-text">
         <!-- entire top navbar -->
-        <nav class="flex justify-between w-3/4 mx-auto">
+        <nav class="flex justify-between w-3/4 mx-auto bg-leetcode-navbar">
             <div>
                 <ul class="flex">
+                    <li>Icon</li>
                     <li>Explore</li>
                     <li>Problems</li>
                     <li>Content</li>
@@ -27,6 +28,7 @@ import Dropdown from '../Components/Dropdown.vue';
                 </ul>
             </div>
         </nav>
+        <!-- content -->
         <div class="w-3/4 mx-auto">
             <slot></slot>
         </div>
