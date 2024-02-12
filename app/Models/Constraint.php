@@ -10,6 +10,9 @@ class Constraint extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'constraint',
+    ];
 
     public function description(): BelongsTo {
         return $this->belongsTo(Description::class);

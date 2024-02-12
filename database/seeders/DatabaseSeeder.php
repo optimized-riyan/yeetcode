@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             DifficultySeeder::class,
             ProblemSeeder::class,
         ]);
+        \App\Models\Topic::factory(20)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

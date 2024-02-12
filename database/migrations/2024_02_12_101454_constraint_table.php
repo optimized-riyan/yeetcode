@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('constraints', function (Blueprint $table) {
+            $table->foreignId('description_id')->constrained()->cascadeOnDelete();
+            $table->text('constraint');
+        });
     }
 
     /**
@@ -19,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('constraints');
     }
 };

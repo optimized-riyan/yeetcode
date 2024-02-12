@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Problem;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hints', function (Blueprint $table) {
-            $table->foreignIdFor(Problem::class)->constrained()->cascadeOnDelete();
+            $table->primary('problem_id');
+            $table->foreignId('problem_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('hint_number');
             $table->text('brief');
         });

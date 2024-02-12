@@ -10,6 +10,12 @@ class Example extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'input',
+        'output',
+        'explaination',
+    ];
+    public $timestamp = false;
 
     public function description(): BelongsTo {
         return $this->belongsTo(Description::class);
