@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -33,7 +34,7 @@ class Problem extends Model
         return $this->hasMany(Topic::class);
     }
 
-    public function similarProblems(): HasMany {
-        return $this->hasMany(Problem::class);
+    public function similarProblems(): BelongsToMany {
+        return $this->belongsToMany(Problem::class);
     }
 }

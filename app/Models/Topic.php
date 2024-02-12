@@ -10,6 +10,7 @@ class Topic extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
 
     public function problems(): HasMany {
         return $this->hasMany(Problem::class);

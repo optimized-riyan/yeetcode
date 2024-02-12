@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
-            ProblemSeeder::class,
             DifficultySeeder::class,
+            ProblemSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([
