@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hints', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->unsignedTinyInteger('hint_number');
+            $table->text('brief');
         });
     }
 

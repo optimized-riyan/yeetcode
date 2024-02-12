@@ -17,7 +17,8 @@ class HintFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'hint_number' => fake()->numberBetween(1, 3),
+            'brief' => fake()->text,
         ];
     }
 }
