@@ -10,6 +10,9 @@ class Hint extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'problem_id';
+    public $incrementing = false;
+    public $timestamps = false;
 
     public function problem(): BelongsTo {
         return $this->belongsTo(Problem::class);

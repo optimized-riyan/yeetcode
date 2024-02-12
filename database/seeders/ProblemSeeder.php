@@ -13,6 +13,6 @@ class ProblemSeeder extends Seeder
      */
     public function run(): void
     {
-        Problem::factory()->count(10)->hasHints(random_int(1, 3))->make();
+        Problem::factory()->count(10)->hasHints(random_int(1, 3))->create();
     }
 }

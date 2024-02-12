@@ -15,6 +15,7 @@ class Problem extends Model
     protected $fillable = [
         'name',
     ];
+    public $timestamps = false;
 
     public function difficulty(): BelongsTo {
         return $this->belongsTo(Difficulty::class);

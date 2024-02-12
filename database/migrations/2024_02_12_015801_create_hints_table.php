@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hints', function (Blueprint $table) {
+            $table->unsignedBigInteger('problem_id');
             $table->unsignedTinyInteger('hint_number');
             $table->text('brief');
         });
