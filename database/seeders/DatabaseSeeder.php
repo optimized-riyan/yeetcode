@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DifficultySeeder::class,
             ProblemSeeder::class,
+            ExampleSeeder::class,
         ]);
         \App\Models\Topic::factory(20)->create();
 

@@ -14,6 +14,7 @@ class Description extends Model
     protected $fillable = [
         'brief',
     ];
+    public $incrementing = false;
 
     public function constraints(): HasMany {
         return $this->hasMany(Constraint::class);

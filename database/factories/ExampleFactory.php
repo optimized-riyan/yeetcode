@@ -17,7 +17,17 @@ class ExampleFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'input' => fake()->text,
+            'output' => fake()->text,
+            'explaination' => fake()->text,
         ];
+    }
+
+    public function withoutExplaination(): Factory {
+        return $this->state(function (array $attributes) {
+            return [
+                'explaination' => null
+            ];
+        });
     }
 }

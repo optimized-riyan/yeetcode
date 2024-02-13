@@ -17,7 +17,7 @@ class ConstraintFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'constraint' => fake()->text,
         ];
     }
 }
