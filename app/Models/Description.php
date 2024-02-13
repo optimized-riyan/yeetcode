@@ -15,6 +15,8 @@ class Description extends Model
         'brief',
     ];
     public $incrementing = false;
+    public $timestamps = false;
+    protected $primaryKey = 'problem_id';
 
     public function constraints(): HasMany {
         return $this->hasMany(Constraint::class);

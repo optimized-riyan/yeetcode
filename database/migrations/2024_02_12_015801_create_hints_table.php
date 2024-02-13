@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hints', function (Blueprint $table) {
-            $table->primary('problem_id');
+            // $table->primary('problem_id');
             $table->foreignId('problem_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('hint_number');
             $table->text('brief');
