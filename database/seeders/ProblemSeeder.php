@@ -15,8 +15,8 @@ class ProblemSeeder extends Seeder
     public function run(): void
     {
         Problem::factory(10)->afterCreating(function (Problem $problem) {
+            // $description = new Description();
             $description = Description::factory()->makeOne();
-            $description->brief = fake()->paragraph;
             $description->problem()->associate($problem);
             $description->save();
         })->hasHints(fake()->numberBetween(1, 3))->create();
