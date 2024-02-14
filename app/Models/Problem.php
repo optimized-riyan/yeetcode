@@ -23,7 +23,7 @@ class Problem extends Model
     }
 
     public function description(): HasOne {
-        return $this->hasOne(Description::class);
+        return $this->hasOne(Description::class, 'problem_id', 'id');
     }
 
     public function hints(): HasMany {

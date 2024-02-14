@@ -27,6 +27,6 @@ class Description extends Model
     }
 
     public function problem(): BelongsTo {
-        return $this->belongsTo(Problem::class);
+        return $this->belongsTo(Problem::class, 'problem_id', 'id');
     }
 }
