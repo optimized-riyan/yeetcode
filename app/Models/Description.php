@@ -19,11 +19,11 @@ class Description extends Model
     protected $primaryKey = 'problem_id';
 
     public function constraints(): HasMany {
-        return $this->hasMany(Constraint::class);
+        return $this->hasMany(Constraint::class, 'description_id', 'problem_id');
     }
 
     public function examples(): HasMany {
-        return $this->hasMany(Example::class);
+        return $this->hasMany(Example::class, 'description_id', 'problem_id');
     }
 
     public function problem(): BelongsTo {

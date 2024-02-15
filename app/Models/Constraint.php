@@ -13,6 +13,7 @@ class Constraint extends Model
     protected $fillable = [
         'constraint',
     ];
+    public $timestamps = false;
 
     public function description(): BelongsTo {
         return $this->belongsTo(Description::class);

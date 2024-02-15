@@ -15,9 +15,9 @@ class Example extends Model
         'output',
         'explaination',
     ];
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function description(): BelongsTo {
-        return $this->belongsTo(Description::class);
+        return $this->belongsTo(Description::class, 'description_id', 'problem_id');
     }
 }
