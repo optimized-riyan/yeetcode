@@ -15,7 +15,7 @@ class ProblemSeeder extends Seeder
      */
     public function run(): void
     {
-        Problem::factory(20)->afterCreating(function (Problem $problem) {
+        $problems = Problem::factory(20)->afterCreating(function (Problem $problem) {
             $description = Description::factory()->makeOne();
             $description->problem()->associate($problem);
             $description->save();
@@ -29,5 +29,9 @@ class ProblemSeeder extends Seeder
                 $example->save();
             });
         })->hasHints(fake()->numberBetween(1, 3))->create();
+
+        foreach ($problems as $problem) {
+            $problem->similarProblems()->attach(Problem::find(random_int(1, 20)));
+        }
     }
 }
