@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Constraint;
 use App\Models\Problem;
 use App\Models\Description;
+use App\Models\Difficulty;
 use App\Models\Example;
 use Illuminate\Database\Seeder;
 
@@ -28,9 +29,11 @@ class ProblemSeeder extends Seeder
                 $description->examples()->save($example);
                 $example->save();
             });
-        })->hasHints(fake()->numberBetween(1, 3))->create();
+        })->hasHints(fake()->numberBetween(1, 3))
+        ->create();
 
         foreach ($problems as $problem) {
+            $problem->similarProblems()->attach(Problem::find(random_int(1, 20)));
             $problem->similarProblems()->attach(Problem::find(random_int(1, 20)));
         }
     }

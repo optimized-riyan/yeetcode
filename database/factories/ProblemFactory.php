@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Difficulty;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class ProblemFactory extends Factory
     {
         return [
             'name' => fake()->sentence,
+            'difficulty_id' => fake()->numberBetween(1, Difficulty::count()),
         ];
     }
 }

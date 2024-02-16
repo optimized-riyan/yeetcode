@@ -1,8 +1,9 @@
 <script setup>
 import ProblemSetLayout from '../Pages/Layouts/ProblemSetLayout.vue';
+import ProblemEntry from './Components/ProblemEntry.vue';
 import { Head } from '@inertiajs/vue3';
 
-defineProps({ studyPlans: Array })
+defineProps({ studyPlans: Array, problemList: Array })
 </script>
 
 <template>
@@ -20,8 +21,8 @@ defineProps({ studyPlans: Array })
 
                 </div>
                 <!-- problem list -->
-                <div>
-
+                <div class="flex flex-col" v-for="problem in problemList" :key="problem.id">
+                    <ProblemEntry :problem="problem"></ProblemEntry>
                 </div>
             </div>
             <!-- right panel -->

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Models\Problem;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,7 +22,9 @@ Route::get('/', function () {
 
 
 Route::get('/problemset', function () {
-    return Inertia::render('ProblemSet');
+    return Inertia::render('ProblemSet', [
+        'problemList' => Problem::all(),
+    ]);
 })->name('problemset');
 
 // Route::resource('users', UserController::class);
