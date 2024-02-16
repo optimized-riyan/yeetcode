@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 Route::get('/problemset', function () {
     return Inertia::render('ProblemSet', [
-        'problemList' => Problem::all(),
+        'problemList' => Problem::with('difficulty')->get(),
     ]);
 })->name('problemset');
 

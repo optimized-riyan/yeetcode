@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col">
+    <div class="flex">
         <!-- status -->
         <div>
             haiyah
@@ -10,7 +10,7 @@
         </div>
         <!-- difficulty -->
         <div>
-            {{ problem.difficulty }}
+            {{ problem.difficulty.difficulty }}
         </div>
     </div>
 </template>
