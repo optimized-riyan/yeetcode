@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProblemController;
 use App\Models\Problem;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,4 +27,7 @@ Route::get('/problemset', function () {
     ]);
 })->name('problemset');
 
-// Route::resource('users', UserController::class);
+
+Route::resource('problems', ProblemController::class)->only([
+    'show',
+]);
