@@ -17,7 +17,7 @@ class DescriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'brief' => fake()->paragraph
+            'brief' => fake()->paragraph(100),
         ];
     }
 }

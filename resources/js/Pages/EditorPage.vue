@@ -1,11 +1,30 @@
+<script setup>
+defineProps({ problem: Object });
+</script>
 <template lang="">
-    Hiiiiii
+    <!-- entire page -->
+    <div class="flex flex-col h-screen">
+        <!-- titlebar -->
+        <div class="bg-leetcode-background h-10"></div>
+        <!-- left and right panel -->
+        <div class="flex h-full">
+            <!-- left panel -->
+            <div class="w-1/3 h-full bg-slate-400 overflow-auto">
+                <p>
+                    {{ problem.description.brief }}
+                </p>
+            </div>
+            <!-- right panel -->
+            <div class="flex flex-col grow">
+                <!-- editor -->
+                <div class="h-2/3 bg-leetcode-green"></div>
+                <!-- console -->
+                <div class="grow"></div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
-export default {
-
-}
+export default {};
 </script>
-<style lang="">
-
-</style>
+<style lang=""></style>

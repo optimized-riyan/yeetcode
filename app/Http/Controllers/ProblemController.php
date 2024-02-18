@@ -9,6 +9,6 @@ use Inertia\Inertia;
 class ProblemController extends Controller
 {
     public function show(Problem $problem) {
-        return Inertia::render('EditorPage');
+        return Inertia::render('EditorPage', [ 'problem' => $problem->load('description') ]);
     }
 }
