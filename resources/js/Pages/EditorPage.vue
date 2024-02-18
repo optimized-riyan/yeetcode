@@ -5,11 +5,11 @@ defineProps({ problem: Object });
     <!-- entire page -->
     <div class="flex flex-col h-screen">
         <!-- titlebar -->
-        <div class="bg-leetcode-background h-10"></div>
+        <div class="bg-leetcode-background h-10 shrink-0"></div>
         <!-- left and right panel -->
-        <div class="flex h-full">
+        <div class="flex">
             <!-- left panel -->
-            <div class="w-1/3 h-full bg-slate-400 overflow-auto">
+            <div class="flex flex-col w-1/3 bg-slate-400 overflow-auto">
                 <p>
                     {{ problem.description.brief }}
                 </p>
