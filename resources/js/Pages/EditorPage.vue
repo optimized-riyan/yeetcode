@@ -12,6 +12,7 @@ defineProps({ problem: Object, trivialTestcases: Object });
         <div class="flex grow overflow-auto">
             <!-- left panel -->
             <Description :problem="problem"></Description>
+            {{ console.log(problem) }}
             <!-- right panel -->
             <div class="flex flex-col grow">
                 <!-- editor -->
