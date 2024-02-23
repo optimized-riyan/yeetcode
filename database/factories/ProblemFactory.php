@@ -20,6 +20,7 @@ class ProblemFactory extends Factory
         return [
             'name' => fake()->sentence,
             'difficulty_id' => fake()->numberBetween(1, Difficulty::count()),
+            'trivial_testcases' => fake()->numberBetween(1, 4),
         ];
     }
 }

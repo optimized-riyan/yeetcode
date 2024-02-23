@@ -1,5 +1,5 @@
 <script setup>
-defineProps({ problem: Object });
+defineProps({ problem: Object, trivialTestcases: Object });
 </script>
 <template lang="">
     <!-- entire page -->
@@ -19,7 +19,9 @@ defineProps({ problem: Object });
                     <textarea cols="80" rows="18"></textarea>
                 </div>
                 <!-- console -->
-                <div class="grow"></div>
+                <div class="grow">
+
+                </div>
             </div>
         </div>
     </div>

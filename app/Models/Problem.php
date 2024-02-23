@@ -37,4 +37,8 @@ class Problem extends Model
     public function similarProblems(): BelongsToMany {
         return $this->belongsToMany(Problem::class, 'problem_problem', 'problem1_id', 'problem2_id');
     }
+
+    public function testcases(): HasMany {
+        return $this->hasMany(Testcase::class);
+    }
 }

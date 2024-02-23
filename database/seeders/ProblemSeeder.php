@@ -30,6 +30,7 @@ class ProblemSeeder extends Seeder
                 $example->save();
             });
         })->hasHints(fake()->numberBetween(1, 3))
+        ->hasTestcases(20)
         ->create();
 
         foreach ($problems as $problem) {

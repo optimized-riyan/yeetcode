@@ -31,3 +31,5 @@ Route::get('/problemset', function () {
 Route::resource('problems', ProblemController::class)->only([
     'show',
 ]);
+Route::get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
+Route::get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');
