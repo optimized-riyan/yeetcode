@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name', 127);
             $table->unsignedBigInteger('difficulty_id');
-            $table->unsignedTinyInteger('trivial_testcases');
         });
     }
 

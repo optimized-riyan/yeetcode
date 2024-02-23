@@ -18,6 +18,7 @@ class TestcaseFactory extends Factory
     {
         return [
             'testcase' => fake()->sentence(2),
+            'is_trivial' => false,
         ];
     }
 }

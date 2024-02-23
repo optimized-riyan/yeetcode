@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('testcase');
             $table->unsignedBigInteger('problem_id');
+            $table->boolean('is_trivial');
         });
     }
 

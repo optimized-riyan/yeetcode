@@ -7,6 +7,7 @@ use App\Models\Problem;
 use App\Models\Description;
 use App\Models\Difficulty;
 use App\Models\Example;
+use App\Models\Testcase;
 use Illuminate\Database\Seeder;
 
 class ProblemSeeder extends Seeder
@@ -17,6 +18,11 @@ class ProblemSeeder extends Seeder
     public function run(): void
     {
         $problems = Problem::factory(20)->afterCreating(function (Problem $problem) {
+            $problem->testcases()->take(3)->get()->each(function (Testcase $testcase) {
+                $testcase->is_trivial = true;
+                $testcase->save();
+            });
+
             $description = Description::factory()->makeOne();
             $description->problem()->associate($problem);
             $description->save();
