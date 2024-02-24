@@ -15,7 +15,8 @@ class ProblemController extends Controller
                 'description',
                 'testcases' => function ($query) {
                     $query->where('is_trivial', 1);
-                }
+                },
+                'tcParameters'
             ])
         ]);
     }

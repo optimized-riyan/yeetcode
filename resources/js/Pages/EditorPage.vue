@@ -12,7 +12,6 @@ defineProps({ problem: Object, trivialTestcases: Object });
         <div class="flex grow overflow-auto">
             <!-- left panel -->
             <Description :problem="problem"></Description>
-            {{ console.log(problem) }}
             <!-- right panel -->
             <div class="flex flex-col grow">
                 <!-- editor -->
@@ -21,7 +20,20 @@ defineProps({ problem: Object, trivialTestcases: Object });
                 </div>
                 <!-- console -->
                 <div class="grow">
-
+                    <!-- testcases -->
+                    <ul class="flex">
+                        <li v-for="(testcase, index) in testcaseArray" :key="index">
+                            <button type="button" @click="testcaseChange(index)">Testcase {{index+1}}</button>
+                        </li>
+                    </ul>
+                    <!-- testcase content -->
+                    <div>
+                        <ul>
+                            <li v-for="(tcParam, index) in tcParameters" :key="index">
+                                <TestcaseParam :parameterName="tcParameters[index]" :parameterContent="testcaseArray[currentTestcase].testcase"></TestcaseParam>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,9 +41,25 @@ defineProps({ problem: Object, trivialTestcases: Object });
 </template>
 <script>
 import Description from './Components/EditorComponents/Description.vue';
+import TestcaseParam from './Components/EditorComponents/TestcaseParam.vue';
 export default {
+    data() {
+        return {
+            currentTestcase: 0,
+            testcaseArray: Object.values(this.problem.testcases),
+            tcParameters: this.problem.tc_parameters.params.split(' '),
+        }
+    },
     components: {
         Description,
+        TestcaseParam,
+    },
+    computed: {
+    },
+    methods: {
+        testcaseChange(index) {
+            this.currentTestcase = index
+        }
     }
 };
 </script>
