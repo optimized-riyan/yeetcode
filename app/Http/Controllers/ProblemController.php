@@ -28,4 +28,9 @@ class ProblemController extends Controller
             'result' => $result,
         ]);
     }
+
+    public function store(Request $request)
+    {
+
+    }
 }

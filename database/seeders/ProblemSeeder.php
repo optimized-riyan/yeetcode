@@ -37,7 +37,7 @@ class ProblemSeeder extends Seeder
             });
         })->hasHints(fake()->numberBetween(1, 3))
         ->hasTestcases(20)
-        ->hasTcParameter()
+        ->hasTcParameters()
         ->create();
 
         foreach ($problems as $problem) {
