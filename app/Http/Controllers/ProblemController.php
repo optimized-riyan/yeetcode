@@ -29,6 +29,10 @@ class ProblemController extends Controller
         ]);
     }
 
+    public function create() {
+        return Inertia::render('StoreProblem', []);
+    }
+
     public function store(Request $request)
     {
 
