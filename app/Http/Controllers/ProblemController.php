@@ -21,11 +21,9 @@ class ProblemController extends Controller
     {
         return Inertia::render('EditorPage', [
             'problem' => $problem->load([
-                'description',
                 'testcases' => function ($query) {
                     $query->where('is_trivial', 1);
                 },
-                'tcParameters'
             ])
         ]);
     }

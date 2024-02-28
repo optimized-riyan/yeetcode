@@ -23,21 +23,16 @@ class ProblemSeeder extends Seeder
                 $testcase->save();
             });
 
-            $description = Description::factory()->makeOne();
-            $description->problem()->associate($problem);
-            $description->save();
-
-            Constraint::factory(3)->make()->each(function (Constraint $constraint) use ($description) {
-                $description->constraints()->save($constraint);
+            Constraint::factory(3)->make()->each(function (Constraint $constraint) use ($problem) {
+                $problem->constraints()->save($constraint);
                 $constraint->save();
             });
-            Example::factory(3)->make()->each(function (Example $example) use ($description) {
-                $description->examples()->save($example);
+            Example::factory(3)->make()->each(function (Example $example) use ($problem) {
+                $problem->examples()->save($example);
                 $example->save();
             });
         })->hasHints(fake()->numberBetween(1, 3))
         ->hasTestcases(20)
-        ->hasTcParameters()
         ->create();
 
         foreach ($problems as $problem) {

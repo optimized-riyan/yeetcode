@@ -79,7 +79,7 @@ export default {
         return {
             currentTestcase: 0,
             testcaseArray: Object.values(this.problem.testcases),
-            tcParameters: this.problem.tc_parameters.params.split(' '),
+            tcParameters: this.problem.tc_parameters.split(' '),
             consolePanel: 'testcases',
             testcaseOutputs: ['gay1', 'gay2', 'gay3', 'gay4'],
             expectedOutputs: ['straight1', 'straight2', 'straight3', 'straight4']

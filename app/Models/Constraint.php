@@ -15,7 +15,7 @@ class Constraint extends Model
     ];
     public $timestamps = false;
 
-    public function description(): BelongsTo {
-        return $this->belongsTo(Description::class);
+    public function problem(): BelongsTo {
+        return $this->belongsTo(Problem::class);
     }
 }

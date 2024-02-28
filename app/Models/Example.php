@@ -17,7 +17,7 @@ class Example extends Model
     ];
     public $timestamps = false;
 
-    public function description(): BelongsTo {
-        return $this->belongsTo(Description::class, 'description_id', 'problem_id');
+    public function problem(): BelongsTo {
+        return $this->belongsTo(Problem::class);
     }
 }

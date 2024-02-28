@@ -7,7 +7,7 @@
             <span>{{ problem.id }}</span>. {{ problem.name }}
         </div>
         <p>
-            {{ problem.description.brief }}
+            {{ problem.description }}
         </p>
     </div>
 </template>

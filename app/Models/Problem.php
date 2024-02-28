@@ -15,6 +15,8 @@ class Problem extends Model
 
     protected $fillable = [
         'name',
+        'description',
+        'tc_parameters'
     ];
     public $timestamps = false;
 
@@ -22,8 +24,12 @@ class Problem extends Model
         return $this->belongsTo(Difficulty::class);
     }
 
-    public function description(): HasOne {
-        return $this->hasOne(Description::class, 'problem_id', 'id');
+    public function examples(): HasMany {
+        return $this->hasMany(Example::class);
+    }
+
+    public function constraints(): HasMany {
+        return $this->hasMany(Constraint::class);
     }
 
     public function hints(): HasMany {

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('problems', function (Blueprint $table) {
             $table->id();
             $table->string('name', 127);
+            $table->text('description');
+            $table->string('tc_parameters', 127);
             $table->unsignedBigInteger('difficulty_id');
         });
     }
