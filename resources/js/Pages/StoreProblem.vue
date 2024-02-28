@@ -1,7 +1,7 @@
 <script setup>
 </script>
 <template lang="">
-    <form @submit.prevent="submit" class="bg-leetcode-background text-leetcode-text">
+    <form class="bg-leetcode-background text-leetcode-text">
         <div>
             <label for="name">Name: </label>
             <input type="text" name="name">
@@ -58,6 +58,7 @@
             <span>Add Constraint: </span><textarea ref="constraintsTextarea" name="constraints" cols="30" rows="10"></textarea>
             <button type="button" @click="()=>{form.examples.push(this.$refs.constraintsTextarea.value)}">Add</button>
         </div>
+        <button type="button" @click="submitForm">Submit New Problem</button>
     </form>
 </template>
 <script>
@@ -68,12 +69,17 @@ export default {
                 name: null,
                 description: null,
                 examples: [],
+                constraints: [],
                 testcases: [],
                 topics: [],
                 similar_problems: [],
                 hints: [],
-                constraints: [],
             }
+        }
+    },
+    methods: {
+        submitForm() {
+
         }
     }
 }

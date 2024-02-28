@@ -21,15 +21,15 @@ Route::get('/', function () {
 });
 
 
-Route::get('/problemset', function () {
-    return Inertia::render('ProblemSet', [
-        'problemList' => Problem::with('difficulty')->get(),
-    ]);
-})->name('problemset');
+// Route::get('/problemset', function () {
+//     return Inertia::render('ProblemSet', [
+//         'problemList' => Problem::with('difficulty')->get(),
+//     ]);
+// })->name('problemset');
 
 
 Route::resource('problems', ProblemController::class)->only([
-    'show', 'store', 'create',
+    'show', 'store', 'create', 'index',
 ]);
 Route::get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
 Route::get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');

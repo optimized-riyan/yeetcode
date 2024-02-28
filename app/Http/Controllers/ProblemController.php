@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProblemRequest;
 use Illuminate\Http\Request;
 use App\Models\Problem;
 use Inertia\Inertia;
 
 class ProblemController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('ProblemSet', [
+            'problemList' => Problem::with('difficulty')->get(),
+        ]);
+    }
+
     public function show(Problem $problem)
     {
         return Inertia::render('EditorPage', [
@@ -29,12 +37,17 @@ class ProblemController extends Controller
         ]);
     }
 
-    public function create() {
+    public function create()
+    {
         return Inertia::render('StoreProblem', []);
     }
 
-    public function store(Request $request)
+    public function store(ProblemRequest $request)
     {
+        $form = $request->validated();
 
+        // $problem = Problem;
+
+        return to_route('problems.index');
     }
 }
