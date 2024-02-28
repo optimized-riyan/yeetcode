@@ -12,25 +12,45 @@
         </div>
         <!-- examples -->
         <div>
+            <button type="button" @click="()=>{form.examples.push({input: '', output: '', explaination: ''})}">Add Example</button>
             <ul v-for="(example, index) in form.examples" :key="index">
-                <li>
-                    {{ example }}
+                <li class="flex-col">
+                    <div>
+                        <p>Example {{ index+1 }}</p>
+                    </div>
+                    <div class="flex">
+                        <label :for="'exampleInput'+index">Input</label>
+                        <input :id="'exampleInput'+index" type="text" v-model="form.examples[index].input">
+                    </div>
+                    <div class="flex">
+                        <label :for="'exampleOutput'+index">Output</label>
+                        <input :id="'exampleOutput'+index" type="text" v-model="form.examples[index].output">
+                    </div>
+                    <div class="flex">
+                        <label :for="'exampleExplaination'+index">Explaination</label>
+                        <textarea :id="'exampleExplaination'+index" cols="30" rows="5" v-model="form.examples[index].explaination"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" @click="()=>{form.examples.splice(index, 1)}">Remove</button>
+                    </div>
                 </li>
             </ul>
-            <span>Add Example: </span><textarea ref="examplesTextarea" name="examples" cols="30" rows="10"></textarea>
-            <button type="button" @click="()=>{form.examples.push(this.$refs.examplesTextarea.value)}">Add</button>
         </div>
         <!-- testcases -->
         <div>
+            <button type="button" @click="()=>{form.testcases.push({testcase: ''})}">Add Testcase</button>
             <ul v-for="(testcase, index) in form.testcases" :key="index">
                 <li>
-                    {{ testcase }}
+                    <div>
+                        <label :for="'testcase'+index">Testcase {{ index+1 }}</label>
+                        <textarea :id="'testcase'+index" cols="30" rows="10" v-model="form.testcases[index].testcase"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" @click="()=>{form.testcases.splice(index, 1)}">Remove</button>
+                    </div>
                 </li>
             </ul>
-            <span>Add Testcase: </span><textarea ref="testcasesTextarea" name="testcases" cols="30" rows="10"></textarea>
-            <button type="button" @click="()=>{form.examples.push(this.$refs.testcasesTextarea.value)}">Add</button>
         </div>
-        <button type="button">Add Testcase</button>
         <!-- topics -->
         <div>
         </div>
@@ -40,13 +60,18 @@
         <button type="button">Add Similar Problem</button>
         <!-- hints -->
         <div>
+            <button type="button" @click="()=>{form.hints.push({hint: ''})}">Add Hint</button>
             <ul v-for="(hint, index) in form.hints" :key="index">
                 <li>
-                    {{ hint }}
+                    <div>
+                        <label :for="'hint'+index">Hint {{ index+1 }}</label>
+                        <textarea :id="'hint'+index" cols="30" rows="10"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" @click="()=>{form.hints.splice(index, 1)}">Remove</button>
+                    </div>
                 </li>
             </ul>
-            <span>Add Hint: </span><textarea ref="hintsTextarea" name="hints" cols="30" rows="10"></textarea>
-            <button type="button" @click="()=>{form.examples.push(this.$refs.hintsTextarea.value)}">Add</button>
         </div>
         <!-- constraints -->
         <div>
@@ -80,7 +105,7 @@ export default {
     methods: {
         submitForm() {
 
-        }
+        },
     }
 }
 </script>
