@@ -65,7 +65,7 @@
                 <li>
                     <div>
                         <label :for="'hint'+index">Hint {{ index+1 }}</label>
-                        <textarea :id="'hint'+index" cols="30" rows="10"></textarea>
+                        <textarea :id="'hint'+index" cols="30" rows="10" v-model="form.hints[index].hint"></textarea>
                     </div>
                     <div>
                         <button type="button" @click="()=>{form.hints.splice(index, 1)}">Remove</button>
@@ -75,13 +75,18 @@
         </div>
         <!-- constraints -->
         <div>
-            <ul v-for="(testcase, index) in form.testcases" :key="index">
+            <button type="button" @click="()=>{form.constraints.push({constraint: ''})}">Add Constraint</button>
+            <ul v-for="(constraint, index) in form.constraints" :key="index">
                 <li>
-                    {{ testcase }}
+                    <div>
+                        <label :for="'constraint'+index">Constraint {{ index+1 }}</label>
+                        <textarea :id="'constraint'+index" cols="30" rows="10" v-model="form.constraints[index].constraint"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" @click="()=>{form.constraints.splice(index, 1)}">Remove</button>
+                    </div>
                 </li>
             </ul>
-            <span>Add Constraint: </span><textarea ref="constraintsTextarea" name="constraints" cols="30" rows="10"></textarea>
-            <button type="button" @click="()=>{form.examples.push(this.$refs.constraintsTextarea.value)}">Add</button>
         </div>
         <button type="button" @click="submitForm">Submit New Problem</button>
     </form>
