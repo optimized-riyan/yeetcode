@@ -1,19 +1,8 @@
 <script setup>
-import { onMounted } from 'vue';
 import ace from 'ace-builds';
 import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
-
-onMounted(() => {
-    ace.edit('editor', {
-        minLines: 10,
-        fontSize: 13,
-        showPrintMargin: false,
-        theme: 'ace/theme/cloud_editor_dark',
-        mode: 'ace/mode/javascript',
-        tabSize: 4
-    })
-});
+import 'ace-builds/src-noconflict/keybinding-vim';
 
 defineProps({ problem: Object, trivialTestcases: Object });
 </script>
@@ -32,7 +21,7 @@ defineProps({ problem: Object, trivialTestcases: Object });
             <div class="flex flex-col grow">
                 <!-- editor -->
                 <div class="h-2/3 bg-leetcode-green">
-                    <div id="editor">console.log('Hello World!');</div>
+                    <div ref="aceEditor" class="h-full">console.log('Hello World!');</div>
                 </div>
                 <!-- console -->
                 <div class="grow">
@@ -98,7 +87,8 @@ export default {
             tcParameters: this.problem.tc_parameters.split(' '),
             consolePanel: 'testcases',
             testcaseOutputs: ['gay1', 'gay2', 'gay3', 'gay4'],
-            expectedOutputs: ['straight1', 'straight2', 'straight3', 'straight4']
+            expectedOutputs: ['straight1', 'straight2', 'straight3', 'straight4'],
+            editor: null,
         }
     },
     components: {
@@ -111,12 +101,17 @@ export default {
         testcaseChange(index) {
             this.currentTestcase = index
         }
-    }
+    },
+    mounted() {
+        this.editor = ace.edit(this.$refs.aceEditor, {
+            minLines: 10,
+            fontSize: 12,
+            showPrintMargin: false,
+            theme: 'ace/theme/cloud_editor_dark',
+            mode: 'ace/mode/javascript',
+            // keyboardHandler: 'ace/keyboard/vim',
+            tabSize: 4
+        });
+    },
 };
 </script>
-<style scoped>
-    #editor {
-        width: 100%;
-        height: 100%;
-    }
-</style>
