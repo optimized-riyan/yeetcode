@@ -6,10 +6,10 @@ import 'ace-builds/src-noconflict/mode-javascript';
 
 onMounted(() => {
     ace.edit('editor', {
-        maxLines: 20,
         minLines: 10,
-        fontSize: 14,
-        theme: 'ace/theme/monokai',
+        fontSize: 13,
+        showPrintMargin: false,
+        theme: 'ace/theme/cloud_editor_dark',
         mode: 'ace/mode/javascript',
         tabSize: 4
     })
@@ -114,4 +114,9 @@ export default {
     }
 };
 </script>
-<style lang=""></style>
+<style scoped>
+    #editor {
+        width: 100%;
+        height: 100%;
+    }
+</style>
