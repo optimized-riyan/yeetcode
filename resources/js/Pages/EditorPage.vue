@@ -1,4 +1,20 @@
 <script setup>
+import { onMounted } from 'vue';
+import ace from 'ace-builds';
+import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
+import 'ace-builds/src-noconflict/mode-javascript';
+
+onMounted(() => {
+    ace.edit('editor', {
+        maxLines: 20,
+        minLines: 10,
+        fontSize: 14,
+        theme: 'ace/theme/monokai',
+        mode: 'ace/mode/javascript',
+        tabSize: 4
+    })
+});
+
 defineProps({ problem: Object, trivialTestcases: Object });
 </script>
 <template lang="">
@@ -16,7 +32,7 @@ defineProps({ problem: Object, trivialTestcases: Object });
             <div class="flex flex-col grow">
                 <!-- editor -->
                 <div class="h-2/3 bg-leetcode-green">
-                    <textarea cols="80" rows="18"></textarea>
+                    <div id="editor">console.log('Hello World!');</div>
                 </div>
                 <!-- console -->
                 <div class="grow">

@@ -16,6 +16,8 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.0.14",
         "@vitejs/plugin-vue": "^5.0.4",
+        "ace-builds": "^1.32.6",
+        "file-loader": "^6.2.0",
         "path": "^0.12.7",
         "vue": "^3.4.18"
     }
