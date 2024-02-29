@@ -1,14 +1,16 @@
 <script setup>
+import { router } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 </script>
 <template lang="">
-    <form class="bg-leetcode-background text-leetcode-text">
+    <form class="bg-leetcode-background text-leetcode-text" autocomplete="off">
         <div>
             <label for="name">Name: </label>
-            <input type="text" name="name">
+            <input type="text" id="name">
         </div>
         <div>
             <label for="description">Description: </label>
-            <textarea name="description" id="" cols="30" rows="10"></textarea>
+            <textarea id="description" cols="30" rows="10"></textarea>
         </div>
         <!-- examples -->
         <div>
@@ -109,7 +111,7 @@ export default {
     },
     methods: {
         submitForm() {
-
+            router.post(route('problems.store'));
         },
     }
 }
