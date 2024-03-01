@@ -6,11 +6,11 @@ import { route } from 'ziggy-js';
     <form class="bg-leetcode-background text-leetcode-text" autocomplete="off">
         <div>
             <label for="name">Name: </label>
-            <input type="text" id="name">
+            <input type="text" id="name" v-model="form.name">
         </div>
         <div>
             <label for="description">Description: </label>
-            <textarea id="description" cols="30" rows="10"></textarea>
+            <textarea id="description" cols="30" rows="10" v-model="form.description"></textarea>
         </div>
         <!-- examples -->
         <div>
@@ -98,8 +98,8 @@ export default {
     data() {
         return {
             form: {
-                name: null,
-                description: null,
+                name: '',
+                description: '',
                 examples: [],
                 constraints: [],
                 testcases: [],
