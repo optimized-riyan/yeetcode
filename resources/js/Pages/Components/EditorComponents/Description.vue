@@ -1,5 +1,3 @@
-<script setup>
-</script>
 <template lang="">
     <div class="flex flex-col w-1/3 bg-slate-400 overflow-auto">
         <!-- problem name and number -->
@@ -18,6 +16,3 @@ export default {
     }
 }
 </script>
-<style lang="">
-
-</style>

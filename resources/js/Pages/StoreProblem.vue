@@ -1,12 +1,11 @@
 <script setup>
-import { router } from '@inertiajs/vue3';
-import { route } from 'ziggy-js';
 </script>
 <template lang="">
     <form class="bg-leetcode-background text-leetcode-text" autocomplete="off">
         <div>
             <label for="name">Name: </label>
             <input type="text" id="name" v-model="form.name">
+            <p v-if="$page.props.errors.name">{{ $page.props.errors.name }}</p>
         </div>
         <div>
             <label for="description">Description: </label>
@@ -94,6 +93,9 @@ import { route } from 'ziggy-js';
     </form>
 </template>
 <script>
+import { router } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
+
 export default {
     data() {
         return {
@@ -113,7 +115,10 @@ export default {
         submitForm() {
             router.post(route('problems.store'), this.form);
         },
-    }
+    },
+    props: {
+        errors: null,
+    },
 }
 </script>
 <style lang="">

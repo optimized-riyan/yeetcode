@@ -1,11 +1,3 @@
-<script setup>
-import ace from 'ace-builds';
-import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
-import 'ace-builds/src-noconflict/mode-javascript';
-import 'ace-builds/src-noconflict/keybinding-vim';
-
-defineProps({ problem: Object, trivialTestcases: Object });
-</script>
 <template lang="">
     <!-- entire page -->
     <div class="flex flex-col h-screen">
@@ -77,8 +69,13 @@ defineProps({ problem: Object, trivialTestcases: Object });
     </div>
 </template>
 <script>
+import ace from 'ace-builds';
+import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
+import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/keybinding-vim';
 import Description from './Components/EditorComponents/Description.vue';
 import TestcaseParam from './Components/EditorComponents/TestcaseParam.vue';
+
 export default {
     data() {
         return {
@@ -113,5 +110,9 @@ export default {
             tabSize: 4
         });
     },
+    props: {
+        problem: Object,
+        trivialTestcases: Object,
+    }
 };
 </script>

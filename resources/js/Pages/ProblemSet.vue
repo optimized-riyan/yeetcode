@@ -1,11 +1,3 @@
-<script setup>
-import ProblemSetLayout from '../Pages/Layouts/ProblemSetLayout.vue';
-import ProblemEntry from './Components/ProblemEntry.vue';
-import { Head } from '@inertiajs/vue3';
-
-defineProps({ studyPlans: Array, problemList: Array })
-</script>
-
 <template>
     <Head title="Yeetcode - Problems"></Head>
     <ProblemSetLayout>
@@ -32,3 +24,19 @@ defineProps({ studyPlans: Array, problemList: Array })
         </div>
     </ProblemSetLayout>
 </template>
+<script>
+import ProblemSetLayout from '../Pages/Layouts/ProblemSetLayout.vue';
+import ProblemEntry from './Components/ProblemEntry.vue';
+import { Head } from '@inertiajs/vue3';
+
+export default {
+    components: {
+        ProblemEntry,
+        ProblemSetLayout,
+        Head,
+    },
+    props: {
+        problemList: [],
+    }
+}
+</script>

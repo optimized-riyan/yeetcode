@@ -1,6 +1,3 @@
-<script setup>
-import { Link } from '@inertiajs/vue3';
-</script>
 <template>
     <div class="flex">
         <!-- status -->
@@ -19,13 +16,11 @@ import { Link } from '@inertiajs/vue3';
 </template>
 
 <script>
+import { Link } from '@inertiajs/vue3';
+
 export default {
     props: {
         problem: Object
     }
 }
 </script>
-
-<style lang="">
-
-</style>

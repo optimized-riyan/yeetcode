@@ -1,7 +1,3 @@
-<script setup>
-import Dropdown from '../Components/Dropdown.vue';
-</script>
-
 <template>
     <div class="flex flex-col w-screen min-h-screen bg-leetcode-background text-leetcode-text">
         <!-- entire top navbar -->
@@ -34,3 +30,12 @@ import Dropdown from '../Components/Dropdown.vue';
         </div>
     </div>
 </template>
+<script>
+import Dropdown from '../Components/Dropdown.vue';
+
+export default {
+    components: {
+        Dropdown,
+    }
+}
+</script>

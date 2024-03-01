@@ -7,6 +7,7 @@
 </template>
 <script>
 import TestcaseParam from './TestcaseParam.vue';
+
 export default {
     props: {
         tcParameters: Array
@@ -16,6 +17,3 @@ export default {
     }
 }
 </script>
-<style lang="">
-
-</style>
