@@ -21,13 +21,6 @@ Route::get('/', function () {
 });
 
 
-// Route::get('/problemset', function () {
-//     return Inertia::render('ProblemSet', [
-//         'problemList' => Problem::with('difficulty')->get(),
-//     ]);
-// })->name('problemset');
-
-
 Route::resource('problems', ProblemController::class)->only([
     'show', 'store', 'create', 'index',
 ]);

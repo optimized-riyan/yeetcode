@@ -111,7 +111,7 @@ export default {
     },
     methods: {
         submitForm() {
-            router.post(route('problems.store'));
+            router.post(route('problems.store'), this.form);
         },
     }
 }

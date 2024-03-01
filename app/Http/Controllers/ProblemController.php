@@ -45,6 +45,7 @@ class ProblemController extends Controller
 
     public function store(ProblemRequest $request)
     {
+        echo "the store function ran!!!?";
         $form = $request->validated();
 
         $problem = new Problem();
