@@ -63,7 +63,7 @@
                 <div v-if="sim_prob_dropdown">
                     <!-- filter -->
                     <div>
-                        <input type="text"><span><button type="button">Find</button></span>
+                        <input type="text" @keyup.enter="fetchSimilarProblems" v-model="problems_by_title_text"><span><button type="button" @click="fetchSimilarProblems">Find</button></span>
                     </div>
                     <!-- selected problems -->
                     <div>
@@ -71,7 +71,11 @@
                     </div>
                     <!-- list of problems -->
                     <div>
-
+                        <ul v-for="(problem, index) in problems_by_title" :key="index">
+                            <li>
+                                {{ problem.name }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -127,6 +131,8 @@ export default {
                 hints: [],
             },
             sim_prob_dropdown: false,
+            problems_by_title_text: '',
+            problems_by_title: [],
         }
     },
     methods: {
@@ -134,7 +140,13 @@ export default {
             router.post(route('problems.store'), this.form);
         },
         async fetchSimilarProblems() {
-            await fetch();
+            try {
+                const data = await (await fetch(`http://127.0.0.1:8000/problems/get-problems?like=${encodeURIComponent(this.problems_by_title_text)}`)).json();
+                this.problems_by_title = data.problems;
+            }
+            catch(err) {
+                console.log(err);
+            }
         }
     },
     props: {
