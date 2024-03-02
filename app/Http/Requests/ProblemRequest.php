@@ -24,10 +24,21 @@ class ProblemRequest extends FormRequest
         return [
             'name' => 'required|max:127',
             'description' => 'required|max:1023',
-            'examples' => 'min:1',
+            'examples' => 'min:1|array:input,output,explaination',
             'examples.*' => 'required|max:1023',
             'testcases' => 'min:1',
             'topics' => 'min:1',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.max' => 'Name must be under :max characters',
+            'description.max' => 'Description must be under :max characters',
+            'examples.min' => 'Please enter at least :min example',
+            'examples.*.max' => 'Example must be under :max characters',
+            'testcases.min' => 'Please enter at least :min testcase',
         ];
     }
 }
