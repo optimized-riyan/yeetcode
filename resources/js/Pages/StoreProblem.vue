@@ -141,7 +141,7 @@ export default {
         },
         async fetchSimilarProblems() {
             try {
-                const data = await (await fetch(`http://127.0.0.1:8000/problems/get-problems?like=${encodeURIComponent(this.problems_by_title_text)}`)).json();
+                const data = await (await fetch(`http://localhost:8000/api/get-problems?like=${encodeURIComponent(this.problems_by_title_text)}`)).json();
                 this.problems_by_title = data.problems;
             }
             catch(err) {
