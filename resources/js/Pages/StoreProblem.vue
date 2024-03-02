@@ -133,6 +133,9 @@ export default {
         submitForm() {
             router.post(route('problems.store'), this.form);
         },
+        async fetchSimilarProblems() {
+            await fetch();
+        }
     },
     props: {
         errors: null,

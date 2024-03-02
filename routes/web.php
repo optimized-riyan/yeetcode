@@ -21,9 +21,9 @@ Route::get('/', function () {
 });
 
 
-Route::resource('problems', ProblemController::class)->only([
-    'show', 'store', 'create', 'index',
-]);
-Route::get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
-Route::get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');
-Route::get('problems/create', [ProblemController::class, 'create'])->name('problems.create');
+Route::resource('problems', ProblemController::class);
+Route::controller(ProblemController::class)->group(function () {
+    Route::get('problems/{problem}/run', 'run')->name('problems.run');
+    Route::get('problems/{problem}/submit', 'submit')->name('problems.submit');
+    Route::get('problems/get-problems', 'get_problems')->name('problems.get-problems');
+});
