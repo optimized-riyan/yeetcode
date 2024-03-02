@@ -51,4 +51,11 @@ class Problem extends Model
     public function tcParameters(): HasOne {
         return $this->hasOne(TcParameter::class, 'problem_id', 'id');
     }
+
+    public function scopeProblemsByTitle($query, $title = '') {
+        if ($title)
+            return $query->where('name', 'like', '%'.$title.'%');
+        else
+            return $query;
+    }
 }

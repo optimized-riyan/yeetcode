@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('problems/get-problems', [ProblemController::class, 'getProblems'])->name('problems.get-problems');
+Route::get('problems/get-problems', [ProblemController::class, 'getProblemsByTitle'])->name('problems.get-problems');
 Route::resource('problems', ProblemController::class);
 Route::get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
 Route::get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');
