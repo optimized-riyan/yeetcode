@@ -17,13 +17,11 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return redirect()->route('problemset');
+    return redirect()->route('problems.index');
 });
 
 
+Route::get('problems/get-problems', [ProblemController::class, 'getProblems'])->name('problems.get-problems');
 Route::resource('problems', ProblemController::class);
-Route::controller(ProblemController::class)->group(function () {
-    Route::get('problems/{problem}/run', 'run')->name('problems.run');
-    Route::get('problems/{problem}/submit', 'submit')->name('problems.submit');
-    Route::get('problems/get-problems', 'get_problems')->name('problems.get-problems');
-});
+Route::get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
+Route::get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');

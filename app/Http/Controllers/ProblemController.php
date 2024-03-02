@@ -19,6 +19,13 @@ class ProblemController extends Controller
         ]);
     }
 
+    public function getProblems(Request $request) {
+        $input = $request->input('like');
+
+        // Problem::
+        return sprintf('did u send %s as input?', $input);
+    }
+
     public function show(Problem $problem)
     {
         return Inertia::render('EditorPage', [
@@ -80,12 +87,5 @@ class ProblemController extends Controller
         }
 
         return to_route('problems.index');
-    }
-
-    public function get_problems(Request $request) {
-        $input = $request->input('like');
-
-        // Problem::
-        return sprintf('did u send %s as input?', $input);
     }
 }
