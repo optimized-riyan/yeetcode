@@ -1,8 +1,8 @@
 <script setup>
 </script>
 <template lang="">
-    <div class="bg-leetcode-background h-screen">
-        <form class="text-leetcode-text w-3/4 mx-auto flex-col" autocomplete="off">
+    <div class="bg-leetcode-background">
+        <form class="text-leetcode-text w-3/4 mx-auto h-screen flex-col" autocomplete="off">
             <!-- name -->
             <div>
                 <label for="name">Name: </label>
