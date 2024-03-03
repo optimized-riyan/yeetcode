@@ -8,6 +8,7 @@ use App\Models\Example;
 use App\Models\Hint;
 use Illuminate\Http\Request;
 use App\Models\Problem;
+use App\Models\Topic;
 use Inertia\Inertia;
 
 class ProblemController extends Controller
@@ -84,11 +85,18 @@ class ProblemController extends Controller
 
     public function getProblemsByTitle(Request $request)
     {
-        $input = $request->input('like');
+        $input = $request->input('probs');
 
         $problems = Problem::problemsByTitle($input)->select('name')->get();
         return response()->json([
             'problems' => $problems,
         ]);
+    }
+
+    public function getTopicsWithFilter(Request $request) {
+        $input = $request->input('topics');
+
+        // $topics = Topic
+        return "hi";
     }
 }

@@ -55,6 +55,22 @@
             </div>
             <!-- topics -->
             <div>
+                <!-- dropdown button -->
+                <button type="button" @click="()=>{topics_dropdown = !topics_dropdown}">Add Topics</button>
+                <div v-if="topics_dropdown">
+                    <!-- filter -->
+                    <div>
+                        <input type="text" @keyup.enter="fetchTopicsWithFilter" v-model="topics_text"><span><button type="button" @click="fetchTopicsWithFilter">Find</button></span>
+                    </div>
+                    <!-- selected topics -->
+                    <div>
+
+                    </div>
+                    <!-- list of topics -->
+                    <div>
+
+                    </div>
+                </div>
             </div>
             <!-- similar problems -->
             <div>
@@ -79,21 +95,6 @@
                     </div>
                 </div>
             </div>
-            <!-- hints -->
-            <div>
-                <button type="button" @click="()=>{form.hints.push({hint: ''})}">Add Hint</button>
-                <ul v-for="(hint, index) in form.hints" :key="index">
-                    <li>
-                        <div>
-                            <label :for="'hint'+index">Hint {{ index+1 }}</label>
-                            <textarea :id="'hint'+index" cols="30" rows="10" v-model="form.hints[index].hint"></textarea>
-                        </div>
-                        <div>
-                            <button type="button" @click="()=>{form.hints.splice(index, 1)}">Remove</button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
             <!-- constraints -->
             <div>
                 <button type="button" @click="()=>{form.constraints.push({constraint: ''})}">Add Constraint</button>
@@ -105,6 +106,21 @@
                         </div>
                         <div>
                             <button type="button" @click="()=>{form.constraints.splice(index, 1)}">Remove</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- hints -->
+            <div>
+                <button type="button" @click="()=>{form.hints.push({hint: ''})}">Add Hint</button>
+                <ul v-for="(hint, index) in form.hints" :key="index">
+                    <li>
+                        <div>
+                            <label :for="'hint'+index">Hint {{ index+1 }}</label>
+                            <textarea :id="'hint'+index" cols="30" rows="10" v-model="form.hints[index].hint"></textarea>
+                        </div>
+                        <div>
+                            <button type="button" @click="()=>{form.hints.splice(index, 1)}">Remove</button>
                         </div>
                     </li>
                 </ul>
@@ -133,6 +149,9 @@ export default {
             sim_prob_dropdown: false,
             problems_by_title_text: '',
             problems_by_title: [],
+            topics_dropdown: false,
+            topics_text: '',
+            filtered_topics: [],
         }
     },
     methods: {
@@ -141,11 +160,19 @@ export default {
         },
         async fetchSimilarProblems() {
             try {
-                const data = await (await fetch(`http://localhost:8000/api/get-problems?like=${encodeURIComponent(this.problems_by_title_text)}`)).json();
+                const data = await (await fetch(`http://localhost:8000/api/get-problems?probs=${encodeURIComponent(this.problems_by_title_text)}`)).json();
                 this.problems_by_title = data.problems;
             }
-            catch(err) {
-                console.log(err);
+            catch (err) {
+                console.error(err);
+            }
+        },
+        async fetchTopicsWithFilter() {
+            try {
+                const data = await (await fetch()).json();
+            }
+            catch (err) {
+                console.error(err);
             }
         }
     },

@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/get-problems', [ProblemController::class, 'getProblemsByTitle']);
+
+Route::get('/get-topics', [ProblemController::class, 'getTopicsWithFilter']);
