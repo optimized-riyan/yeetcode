@@ -3,11 +3,13 @@
 <template lang="">
     <div class="bg-leetcode-background h-screen">
         <form class="text-leetcode-text w-3/4 mx-auto" autocomplete="off">
+            <!-- name -->
             <div>
                 <label for="name">Name: </label>
                 <input type="text" id="name" v-model="form.name">
                 <p v-if="$page.props.errors.name">{{ $page.props.errors.name }}</p>
             </div>
+            <!-- description -->
             <div>
                 <label for="description">Description: </label>
                 <textarea id="description" cols="30" rows="10" v-model="form.description"></textarea>
@@ -60,13 +62,26 @@
                 <div v-if="topics_dropdown">
                     <!-- filter -->
                     <div>
-                        <input type="text" @keyup.enter="fetchTopicsWithFilter" v-model="topics_text"><span><button type="button" @click="fetchTopicsWithFilter">Find</button></span>
+                        <div>
+                            <input type="text" @keyup.enter="fetchTopicsWithFilter" v-model="topics_text">
+                        </div>
+                        <div>
+                            <button type="button" @click="fetchTopicsWithFilter">Find</button>
+                        </div>
                     </div>
                     <!-- selected topics -->
                     <div>
-                        <input type="text" @keyup.enter="pushNewTopic" ref="new_topic"><span><button type="button" @click="pushNewTopic">Add New Topic</button></span>
+                        <div>
+                            <div>
+                                <input type="text" @keyup.enter="pushNewTopic" ref="new_topic">
+                            </div>
+                            <div>
+                                <button type="button" @click="pushNewTopic">Add New Topic</button>
+                            </div>
+                        </div>
                         <ul v-for="(topic, index) in form.new_topics" :key="index">
-                            {{ topic }}
+                            <div>{{ topic }}</div>
+                            <div><button type="button" @click="()=>{form.new_topics.splice(index, 1)}">Remove</button></div>
                         </ul>
                         <ul v-for="(topic, index) in form.selected_topics" :key="index">
                             {{ topic.name }}
@@ -89,7 +104,12 @@
                 <div v-if="sim_prob_dropdown">
                     <!-- filter -->
                     <div>
-                        <input type="text" @keyup.enter="fetchSimilarProblems" v-model="problems_by_title_text"><span><button type="button" @click="fetchSimilarProblems">Find</button></span>
+                        <div>
+                            <input type="text" @keyup.enter="fetchSimilarProblems" v-model="problems_by_title_text">
+                        </div>
+                        <div>
+                            <button type="button" @click="fetchSimilarProblems">Find</button>
+                        </div>
                     </div>
                     <!-- selected problems -->
                     <div>
