@@ -15,4 +15,11 @@ class Topic extends Model
     public function problems(): HasMany {
         return $this->hasMany(Problem::class);
     }
+
+    public function scopeTopicsWithFilter($query, $title = '') {
+        if ($title)
+            return $query->where('name', 'like', '%'.$title.'%');
+        else
+            return $query;
+    }
 }

@@ -64,11 +64,21 @@
                     </div>
                     <!-- selected topics -->
                     <div>
-
+                        <input type="text" @keyup.enter="pushNewTopic" ref="new_topic"><span><button type="button" @click="pushNewTopic">Add New Topic</button></span>
+                        <ul v-for="(topic, index) in form.new_topics" :key="index">
+                            {{ topic }}
+                        </ul>
+                        <ul v-for="(topic, index) in form.selected_topics" :key="index">
+                            {{ topic.name }}
+                        </ul>
                     </div>
                     <!-- list of topics -->
                     <div>
-
+                        <ul v-for="(topic, index) in filtered_topics" :key="index">
+                            <li>
+                                {{ topic.name }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -83,7 +93,6 @@
                     </div>
                     <!-- selected problems -->
                     <div>
-
                     </div>
                     <!-- list of problems -->
                     <div>
@@ -142,7 +151,8 @@ export default {
                 examples: [],
                 constraints: [],
                 testcases: [],
-                topics: [],
+                selected_topics: [],
+                new_topics: [],
                 similar_problems: [],
                 hints: [],
             },
@@ -169,11 +179,14 @@ export default {
         },
         async fetchTopicsWithFilter() {
             try {
-                const data = await (await fetch()).json();
+                const data = await (await fetch(`http://localhost:8000/api/get-topics?topics=${encodeURIComponent(this.topics_text)}`)).json();
             }
             catch (err) {
                 console.error(err);
             }
+        },
+        pushNewTopic() {
+            this.form.new_topics.push(this.$refs.new_topic.value);
         }
     },
     props: {

@@ -96,7 +96,9 @@ class ProblemController extends Controller
     public function getTopicsWithFilter(Request $request) {
         $input = $request->input('topics');
 
-        // $topics = Topic
-        return "hi";
+        $topics = Topic::topicsWithFilter($input)->select('name')->get();
+        return response()->json([
+            'topics' => $topics,
+        ]);
     }
 }
