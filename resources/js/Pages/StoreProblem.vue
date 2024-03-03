@@ -2,7 +2,7 @@
 </script>
 <template lang="">
     <div class="bg-leetcode-background">
-        <form class="text-leetcode-text w-3/4 mx-auto h-screen flex-col" autocomplete="off">
+        <form class="text-leetcode-text w-2/5 mx-auto h-screen flex-col" autocomplete="off">
             <!-- name -->
             <div>
                 <label for="name">Name: </label>
@@ -166,12 +166,14 @@
 <script>
 import ace from 'ace-builds';
 import 'ace-builds/esm-resolver';
-import 'ace-builds/src-noconflict/worker-javascript';
+import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url";
 import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/keybinding-vim';
 import { router } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
+
+ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
 
 export default {
     data() {

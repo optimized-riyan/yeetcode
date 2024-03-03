@@ -71,12 +71,14 @@
 <script>
 import ace from 'ace-builds';
 import 'ace-builds/esm-resolver';
-import 'ace-builds/src-noconflict/worker-javascript';
+import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url";
 import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/keybinding-vim';
 import Description from './Components/EditorComponents/Description.vue';
 import TestcaseParam from './Components/EditorComponents/TestcaseParam.vue';
+
+ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
 
 export default {
     data() {
