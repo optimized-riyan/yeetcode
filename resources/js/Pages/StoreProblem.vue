@@ -2,7 +2,7 @@
 </script>
 <template lang="">
     <div class="bg-leetcode-background h-screen">
-        <form class="text-leetcode-text w-3/4 mx-auto" autocomplete="off">
+        <form class="text-leetcode-text w-3/4 mx-auto flex-col" autocomplete="off">
             <!-- name -->
             <div>
                 <label for="name">Name: </label>
@@ -13,6 +13,11 @@
             <div>
                 <label for="description">Description: </label>
                 <textarea id="description" cols="30" rows="10" v-model="form.description"></textarea>
+            </div>
+            <!-- scaffholding -->
+            <div class="h-1/2">
+                <p>Scaffholding: </p>
+                <div ref="aceEditor" class="h-full">console.log('Hello World!');</div>
             </div>
             <!-- examples -->
             <div>
@@ -159,12 +164,17 @@
     </div>
 </template>
 <script>
+import ace from 'ace-builds';
+import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
+import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/keybinding-vim';
 import { router } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 
 export default {
     data() {
         return {
+            editor: null,
             form: {
                 name: '',
                 description: '',
@@ -211,6 +221,17 @@ export default {
     },
     props: {
         errors: null,
+    },
+    mounted() {
+        this.editor = ace.edit(this.$refs.aceEditor, {
+            minLines: 10,
+            fontSize: 12,
+            showPrintMargin: false,
+            theme: 'ace/theme/cloud_editor_dark',
+            mode: 'ace/mode/javascript',
+            // keyboardHandler: 'ace/keyboard/vim',
+            tabSize: 4
+        });
     },
 }
 </script>
