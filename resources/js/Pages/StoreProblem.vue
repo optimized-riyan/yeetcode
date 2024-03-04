@@ -17,7 +17,7 @@
             <!-- scaffholding -->
             <div class="h-1/2">
                 <p>Scaffholding: </p>
-                <div ref="aceEditor" class="h-full">console.log('Hello World!');</div>
+                <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
             </div>
             <!-- examples -->
             <div>
@@ -184,6 +184,7 @@ export default {
                 description: '',
                 examples: [],
                 constraints: [],
+                scaffholding: '',
                 testcases: [],
                 selected_topics: [],
                 new_topics: [],
@@ -221,6 +222,9 @@ export default {
         },
         pushNewTopic() {
             this.form.new_topics.push(this.$refs.new_topic.value);
+        },
+        syncAceEditor() {
+            this.form.scaffholding = this.editor.getValue();
         }
     },
     props: {
