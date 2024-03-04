@@ -2,7 +2,7 @@
 </script>
 <template lang="">
     <div class="bg-leetcode-background">
-        <form class="text-leetcode-text w-2/5 mx-auto h-screen flex-col" autocomplete="off">
+        <form class="text-leetcode-textdark w-2/3 mx-auto h-screen flex-col overflow-y-auto" autocomplete="off">
             <!-- name -->
             <div>
                 <label for="name">Name: </label>
@@ -15,9 +15,31 @@
                 <textarea id="description" cols="30" rows="10" v-model="form.description"></textarea>
             </div>
             <!-- scaffholding -->
-            <div class="h-1/2">
+            <div class="h-1/2 flex flex-col">
                 <p>Scaffholding: </p>
-                <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
+                <div class="grow">
+                    <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
+                </div>
+            </div>
+            <!-- tc parameters -->
+            <div>
+                <div>
+                    <button type="button" @click="()=>{form.tc_parameters.push({param: ''})}">Add Testcase Parameter</button>
+                </div>
+                <!-- tc params -->
+                <div>
+                    <ul v-for="(param, index) in form.tc_parameters" :key="index">
+                        <li>
+                            <div>
+                                <label :for="'param'+index">Parameter {{ index+1 }}</label>
+                                <input type="text" :id="'param'+index" v-model="form.tc_parameters[index].param">
+                            </div>
+                            <div>
+                                <button type="button" @click="()=>{form.tc_parameters.splice(index, 1)}">Remove</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <!-- examples -->
             <div>
@@ -180,11 +202,12 @@ export default {
         return {
             editor: null,
             form: {
-                name: '',
-                description: '',
-                examples: [],
-                constraints: [],
+                name: 'Prototype',
+                description: 'Its just a test bro',
                 scaffholding: '',
+                tc_parameters: [],
+                examples: ['nothing to see here guys'],
+                constraints: [],
                 testcases: [],
                 selected_topics: [],
                 new_topics: [],
