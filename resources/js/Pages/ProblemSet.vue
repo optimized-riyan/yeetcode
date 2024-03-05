@@ -36,7 +36,7 @@ export default {
         Head,
     },
     props: {
-        problemList: [],
+        problemList: Array,
     }
 }
 </script>
