@@ -9,6 +9,15 @@
                 <input type="text" id="name" v-model="form.name">
                 <p v-if="errors.name">{{ errors.name }}</p>
             </div>
+            <!-- difficulty -->
+            <div>
+                <div>
+                    <button type="button" @click="()=>{form.difficulty = (form.difficulty + 1) % 3}">Cycle Difficulty</button>
+                </div>
+                <div>
+                    <p>{{ difficulty }}</p>
+                </div>
+            </div>
             <!-- description -->
             <div>
                 <label for="description">Description: </label>
@@ -221,6 +230,7 @@ export default {
             editor: null,
             form: {
                 name: 'Sum Of All Elements',
+                difficulty: 0,
                 description: 'Return the sum of all elements in the array.',
                 scaffholding: '// write your code here',
                 tc_parameters: [{ param: 'nums' }],
@@ -266,6 +276,19 @@ export default {
         },
         syncAceEditor() {
             this.form.scaffholding = this.editor.getValue();
+        }
+    },
+    computed: {
+        difficulty() {
+            switch(this.form.difficulty) {
+                case 0: return 'Easy';
+                case 1: return 'Medium';
+                case 2: return 'Hard';
+                default: {
+                    this.form.difficulty = 0;
+                    return 'Easy';
+                }
+            }
         }
     },
     props: {
