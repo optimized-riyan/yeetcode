@@ -69,12 +69,16 @@
             </div>
             <!-- testcases -->
             <div>
-                <button type="button" @click="()=>{form.testcases.push({testcase: ''})}">Add Testcase</button>
+                <button type="button" @click="()=>{form.testcases.push({testcase: '', output: ''})}">Add Testcase</button>
                 <ul v-for="(testcase, index) in form.testcases" :key="index">
                     <li>
                         <div>
                             <label :for="'testcase'+index">Testcase {{ index+1 }}</label>
-                            <textarea :id="'testcase'+index" cols="30" rows="10" v-model="form.testcases[index].testcase"></textarea>
+                            <textarea :id="'testcase'+index" cols="30" rows="10" v-model="testcase.testcase"></textarea>
+                        </div>
+                        <div>
+                            <label :for="'output'+index">Expected Output</label>
+                            <textarea :id="'output'+index" cols="30" rows="10" v-model="testcase.output"></textarea>
                         </div>
                         <div>
                             <button type="button" @click="()=>{form.testcases.splice(index, 1)}">Remove</button>
@@ -140,6 +144,11 @@
                     </div>
                     <!-- selected problems -->
                     <div>
+                        <ul v-for="(problem, index) in form.similar_problems" :key="index">
+                            <li>
+                                {{ problem.name }}
+                            </li>
+                        </ul>
                     </div>
                     <!-- list of problems -->
                     <div>
@@ -202,17 +211,17 @@ export default {
         return {
             editor: null,
             form: {
-                name: 'Prototype',
-                description: 'Its just a test bro',
-                scaffholding: '',
-                tc_parameters: [],
-                examples: ['nothing to see here guys'],
-                constraints: [],
-                testcases: [],
+                name: 'Sum Of All Elements',
+                description: 'Return the sum of all elements in the array.',
+                scaffholding: '// write your code here',
+                tc_parameters: [{ param: 'nums' }],
+                examples: [{ input: '[1, 2, 3]', output: '6', explaination: '' }],
+                constraints: [{ constraint: 'unrestricted' }],
+                testcases: [{ testcase: '[1, 2, 3]', output: '6' }],
                 selected_topics: [],
-                new_topics: [],
+                new_topics: ['Array', 'Math'],
                 similar_problems: [],
-                hints: [],
+                hints: [{ hint: 'Just use the sum() function in python.' }],
             },
             sim_prob_dropdown: false,
             problems_by_title_text: '',
@@ -263,6 +272,7 @@ export default {
             // keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
+        this.editor.setValue(this.form.scaffholding);
     },
 }
 </script>

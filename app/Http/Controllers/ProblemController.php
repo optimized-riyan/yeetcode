@@ -87,7 +87,7 @@ class ProblemController extends Controller
     {
         $input = $request->input('probs');
 
-        $problems = Problem::problemsByTitle($input)->select('name')->get();
+        $problems = Problem::problemsByTitle($input)->select(['id', 'name'])->get();
         return response()->json([
             'problems' => $problems,
         ]);
@@ -96,7 +96,7 @@ class ProblemController extends Controller
     public function getTopicsWithFilter(Request $request) {
         $input = $request->input('topics');
 
-        $topics = Topic::topicsWithFilter($input)->select('name')->get();
+        $topics = Topic::topicsWithFilter($input)->select('id', 'name')->get();
         return response()->json([
             'topics' => $topics,
         ]);
