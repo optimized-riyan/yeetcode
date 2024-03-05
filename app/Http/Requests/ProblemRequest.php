@@ -24,7 +24,7 @@ class ProblemRequest extends FormRequest
         return [
             'name' => 'required|max:127',
             'description' => 'required|max:1023',
-            'examples' => 'min:1|array:input,output,explaination',
+            'examples' => 'min:1',
             'examples.*' => 'required|max:1023',
             'testcases' => 'min:1',
             'topics' => 'min:1',

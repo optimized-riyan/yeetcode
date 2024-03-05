@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProblemRequest;
-use App\Models\Constraint;
-use App\Models\Example;
 use App\Models\Hint;
-use Illuminate\Http\Request;
-use App\Models\Problem;
-use App\Models\Topic;
 use Inertia\Inertia;
+use App\Models\Topic;
+use App\Models\Example;
+use App\Models\Problem;
+use App\Models\Constraint;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ProblemRequest;
 
 class ProblemController extends Controller
 {
@@ -49,22 +50,23 @@ class ProblemController extends Controller
         $form = $request->validated();
 
         $problem = new Problem();
-        $problem->name = $form->name;
-        $problem->description = $form->description;
+        $problem->name = $form['name'];
+        $problem->description = $form['description'];
 
-        foreach ($form->examples as $example) {
+        foreach ($form['examples'] as $example) {
             $exampleModel = new Example();
-            $exampleModel->input = $example->input;
-            $exampleModel->output = $example->output;
-            $exampleModel->explaination = $example->explaination;
+            $exampleModel->input = $example['input'];
+            $exampleModel->output = $example['output'];
+            if ($example['explaination'])
+                $exampleModel->explaination = $example['explaination'];
             $problem->examples()->save($exampleModel);
         }
-        foreach ($form->constraints as $constraint) {
+        foreach ($form['constraints'] as $constraint) {
             $constraintModel = new Constraint();
-            $constraintModel->constraint = $constraint;
+            $constraintModel->constraint = $constraint['constraint'];
             $problem->constraints()->save($constraintModel);
         }
-        foreach ($form->testcases as $testcase) {
+        foreach ($form['testcases'] as $testcase) {
 
         }
         foreach ($form->topics as $topic) {

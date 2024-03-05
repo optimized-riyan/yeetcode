@@ -282,6 +282,7 @@ export default {
             tabSize: 4
         });
         this.editor.setValue(this.form.scaffholding);
+        this.editor.gotoLine(1);
     },
 }
 </script>
