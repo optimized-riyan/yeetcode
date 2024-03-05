@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 127);
             $table->text('description');
             $table->string('tc_parameters', 127);
+            $table->text('scaffholding');
             $table->unsignedBigInteger('difficulty_id');
         });
     }
