@@ -7,12 +7,13 @@
             <div>
                 <label for="name">Name: </label>
                 <input type="text" id="name" v-model="form.name">
-                <p v-if="$page.props.errors.name">{{ $page.props.errors.name }}</p>
+                <p v-if="errors.name">{{ errors.name }}</p>
             </div>
             <!-- description -->
             <div>
                 <label for="description">Description: </label>
                 <textarea id="description" cols="30" rows="10" v-model="form.description"></textarea>
+                <p v-if="errors.description">{{ errors.description }}</p>
             </div>
             <!-- scaffholding -->
             <div class="h-1/2 flex flex-col">
@@ -20,6 +21,7 @@
                 <div class="grow">
                     <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
                 </div>
+                <p v-if="errors.scaffholding">{{ errors.scaffholding }}</p>
             </div>
             <!-- tc parameters -->
             <div>
@@ -40,6 +42,7 @@
                         </li>
                     </ul>
                 </div>
+                <p v-if="errors.tc_parameters">{{ errors.tc_parameters }}</p>
             </div>
             <!-- examples -->
             <div>
@@ -66,6 +69,7 @@
                         </div>
                     </li>
                 </ul>
+                <p v-if="errors.examples">{{ errors.examples }}</p>
             </div>
             <!-- testcases -->
             <div>
@@ -85,6 +89,7 @@
                         </div>
                     </li>
                 </ul>
+                <p v-if="errors.testcases">{{ errors.testcases }}</p>
             </div>
             <!-- topics -->
             <div>
@@ -127,6 +132,7 @@
                         </ul>
                     </div>
                 </div>
+                <p v-if="errors.selected_topics">{{ errors.selected_topics }}</p>
             </div>
             <!-- similar problems -->
             <div>
@@ -159,6 +165,7 @@
                         </ul>
                     </div>
                 </div>
+                <p v-if="errors.similar_problems">{{ errors.similar_problems }}</p>
             </div>
             <!-- constraints -->
             <div>
@@ -174,6 +181,7 @@
                         </div>
                     </li>
                 </ul>
+                <p v-if="errors.constraints">{{ errors.constraints }}</p>
             </div>
             <!-- hints -->
             <div>
@@ -189,6 +197,7 @@
                         </div>
                     </li>
                 </ul>
+                <p v-if="errors.hints">{{ errors.hints }}</p>
             </div>
             <button type="button" @click="submitForm">Submit New Problem</button>
         </form>
