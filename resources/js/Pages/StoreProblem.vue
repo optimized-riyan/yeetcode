@@ -82,7 +82,7 @@
             </div>
             <!-- testcases -->
             <div>
-                <button type="button" @click="()=>{form.testcases.push({testcase: '', output: ''})}">Add Testcase</button>
+                <button type="button" @click="()=>{form.testcases.push({testcase: '', output: '', is_trivial: false})}">Add Testcase</button>
                 <ul v-for="(testcase, index) in form.testcases" :key="index">
                     <li>
                         <div>
@@ -92,6 +92,10 @@
                         <div>
                             <label :for="'output'+index">Expected Output</label>
                             <textarea :id="'output'+index" cols="30" rows="10" v-model="testcase.output"></textarea>
+                        </div>
+                        <div>
+                            <label :for="'checkbox'+index">Testcase is trivial</label>
+                            <input type="checkbox" :id="'checkbox'+index" v-model="testcase.is_trivial">
                         </div>
                         <div>
                             <button type="button" @click="()=>{form.testcases.splice(index, 1)}">Remove</button>

@@ -11,6 +11,7 @@
         <!-- difficulty -->
         <div>
             {{ problem.difficulty.difficulty }}
+            {{ console.log(problem) }}
         </div>
     </div>
 </template>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hint;
+use App\Models\Testcase;
 use Inertia\Inertia;
 use App\Models\Topic;
 use App\Models\Example;
@@ -86,12 +87,20 @@ class ProblemController extends Controller
             }
             $problem->constraints()->saveMany($constraintModels);
 
+            $testcaseModels = [];
             foreach ($form['testcases'] as $testcase) {
-
+                $testcaseModel = new Testcase();
+                $testcaseModel->testcase = $testcase['testcase'];
+                $testcaseModel->expected_output = $testcase['output'];
+                $testcaseModel->is_trivial = $testcase['is_trivial'];
+                array_push($testcaseModels, $testcaseModel);
             }
+            $problem->testcases()->saveMany($testcaseModels);
 
             foreach ($form['similar_problems'] as $sim) {
-
+                $problemModel = Problem::findOrFail($sim['id']);
+                $problemModel->similarProblems()->attach($problem);
+                $problemModel->save();
             }
 
             $hintModels = [];

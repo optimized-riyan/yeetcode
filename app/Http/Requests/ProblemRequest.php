@@ -32,6 +32,7 @@ class ProblemRequest extends FormRequest
             'constraints' => '',
             // 'constraints.*' => 'required|max:255',
             'testcases' => 'min:1',
+            'testcases.*.is_trivial' => 'boolean',
             'selected_topics' => '',
             'new_topics' => '',
             'similar_problems' => '',
