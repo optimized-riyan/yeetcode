@@ -12,7 +12,7 @@
             <!-- difficulty -->
             <div>
                 <div>
-                    <button type="button" @click="()=>{form.difficulty = (form.difficulty + 1) % 3}">Cycle Difficulty</button>
+                    <button type="button" @click="()=>{form.difficulty = (form.difficulty + 1) % 3 + 1}">Cycle Difficulty</button>
                 </div>
                 <div>
                     <p>{{ difficulty }}</p>
@@ -235,13 +235,13 @@ export default {
             editor: null,
             form: {
                 name: 'Sum Of All Elements',
-                difficulty: 0,
+                difficulty: 1,
                 description: 'Return the sum of all elements in the array.',
                 scaffholding: '// write your code here',
                 tc_parameters: [{ param: 'nums' }],
                 examples: [{ input: '[1, 2, 3]', output: '6', explaination: '' }],
                 constraints: [{ constraint: 'unrestricted' }],
-                testcases: [{ testcase: '[1, 2, 3]', output: '6' }],
+                testcases: [{ testcase: '[1, 2, 3]', output: '6', is_trivial: false }],
                 selected_topics: [],
                 new_topics: ['Array', 'Math'],
                 similar_problems: [],

@@ -23,7 +23,7 @@ class ProblemRequest extends FormRequest
     {
         return [
             'name' => 'required|max:127',
-            'difficulty' => 'integer|lte:2|gte:0',
+            'difficulty' => 'integer|lte:3|gte:1',
             'description' => 'required|max:1023',
             'scaffholding' => '',
             'tc_parameters' => 'min:1',
