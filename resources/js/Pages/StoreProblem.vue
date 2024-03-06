@@ -265,7 +265,7 @@ export default {
     },
     methods: {
         submitForm() {
-            router.post(route('problems.store'), this.form);
+            router.post(this.postUrl, this.form);
         },
         async fetchSimilarProblems() {
             try {
@@ -328,8 +328,13 @@ export default {
     },
     props: {
         errors: null,
+        prefilledForm: Object,
+        postUrl: String,
     },
     mounted() {
+        if (this.$props.prefilledForm)
+            this.form = this.prefilledForm;
+
         this.editor = ace.edit(this.$refs.aceEditor, {
             minLines: 10,
             fontSize: 12,

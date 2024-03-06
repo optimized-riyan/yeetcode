@@ -44,7 +44,69 @@ class ProblemController extends Controller
 
     public function create()
     {
-        return Inertia::render('StoreProblem', []);
+        return Inertia::render('StoreProblem', [ 'postUrl' => route('problems.store')]);
+    }
+
+    public function edit(Problem $problem, Request $request)
+    {
+        $form = [
+            'name' => $problem->name,
+            'description' => $problem->description,
+            'scaffholding' => $problem->scaffholding,
+            'tc_parameters' => function() use ($problem) {
+                foreach (explode(' ', $problem->tc_parameters) as $param) {
+                    echo 'param' . ':' . $param;
+                }
+            },
+            'examples' => function() use ($problem) {
+                foreach ($problem->examples()->get() as $example) {
+                    echo 'input'.':'.$example->input;
+                    echo 'output'.':'.$example->output;
+                    if ($example->explaination)
+                        echo 'explaination'.':'.$example->explaination;
+                }
+            },
+            'constraints' => function() use ($problem) {
+                foreach ($problem->constraints()->get() as $constraint) {
+                    echo 'constraint'.':'.$constraint->constraint;
+                }
+            },
+            'testcases' => function() use ($problem) {
+                foreach ($problem->testcases()->get() as $testcase) {
+                    echo 'testcase'.':'.$testcase->testcase;
+                    echo 'output'.':'.$testcase->expected_output;
+                    echo 'is_trivial'.':'.$testcase->is_trivial;
+                }
+            },
+            'new_topics' => [],
+            'selected_topics' => function() use ($problem) {
+                foreach ($problem->topics()->get() as $topic) {
+                    echo 'id'.':'.$topic->id;
+                    echo 'name'.':'.$topic->name;
+                }
+            },
+            'similar_problems' => function() use ($problem) {
+                foreach ($problem->similarProblems()->get() as $sim) {
+                    echo 'id'.':'.$sim->id;
+                    echo 'name'.':'.$sim->name;
+                }
+            },
+            'hints' => function() use ($problem) {
+                foreach ($problem->hints()->orderBy('hint_number')->get() as $hint) {
+                    echo 'hint'.':'.$hint->brief;
+                    echo 'hint_number'.':'.$hint->hint_number;
+                }
+            }
+        ];
+        return Inertia::render('StoreProblem', [
+            'prefilledForm' => $form,
+            Log::channel('debug')->info(json_encode($form)),
+            'postUrl' => route('problems.update', ['problem' => $problem]),
+        ]);
+    }
+
+    public function update() {
+
     }
 
     public function store(ProblemRequest $request)
@@ -128,8 +190,7 @@ class ProblemController extends Controller
             $problem->hints()->saveMany($hintModels);
 
             return to_route('problems.index');
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             // if ($problem->exists())
             //     $problem->delete();
 
