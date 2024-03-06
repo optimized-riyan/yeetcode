@@ -36,8 +36,8 @@ class Problem extends Model
         return $this->hasMany(Hint::class);
     }
 
-    public function topics(): HasMany {
-        return $this->hasMany(Topic::class);
+    public function topics(): BelongsToMany {
+        return $this->belongsToMany(Topic::class);
     }
 
     public function similarProblems(): BelongsToMany {

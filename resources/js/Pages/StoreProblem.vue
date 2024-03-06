@@ -128,18 +128,24 @@
                                 <button type="button" @click="pushNewTopic">Add New Topic</button>
                             </div>
                         </div>
+                        <!-- new -->
                         <ul v-for="(topic, index) in form.new_topics" :key="index">
-                            <div>{{ topic }}</div>
-                            <div><button type="button" @click="()=>{form.new_topics.splice(index, 1)}">Remove</button></div>
+                            <li @click="()=>{form.new_topics.splice(index, 1)}" class="cursor-pointer">
+                                {{ topic }}
+                            </li>
                         </ul>
-                        <ul v-for="(topic, index) in form.selected_topics" :key="index">
-                            {{ topic.name }}
+                        <!-- selected -->
+                        <ul v-for="(topic, index) in form.selected_topics" :key="index" class="cursor-pointer">
+                            <li @click="removeFromSelectedTopics(topic, index)">
+                                {{ topic.name }}
+                            </li>
                         </ul>
                     </div>
+                    <hr>
                     <!-- list of topics -->
                     <div>
                         <ul v-for="(topic, index) in filtered_topics" :key="index">
-                            <li>
+                            <li @click="addToSelectedTopics(topic, index)">
                                 {{ topic.name }}
                             </li>
                         </ul>
@@ -242,8 +248,8 @@ export default {
                 examples: [{ input: '[1, 2, 3]', output: '6', explaination: '' }],
                 constraints: [{ constraint: 'unrestricted' }],
                 testcases: [{ testcase: '[1, 2, 3]', output: '6', is_trivial: false }],
-                selected_topics: [],
                 new_topics: ['Array', 'Math'],
+                selected_topics: [],
                 similar_problems: [],
                 hints: [{ hint: 'Just use the sum() function in python.' }],
             },
@@ -254,6 +260,7 @@ export default {
             topics_dropdown: false,
             topics_text: '',
             filtered_topics: [],
+            selected_topics_set: new Set(),
         }
     },
     methods: {
@@ -273,6 +280,7 @@ export default {
         async fetchTopicsWithFilter() {
             try {
                 const data = await (await fetch(`http://localhost:8000/api/get-topics?topics=${encodeURIComponent(this.topics_text)}`)).json();
+                data.topics.filter(topic => !this.selected_topics_set.has(topic.id));
             }
             catch (err) {
                 console.error(err);
@@ -293,6 +301,16 @@ export default {
             this.form.similar_problems.splice(index, 1);
             this.selected_problems.delete(problem.id);
             this.problems_by_title.unshift(problem);
+        },
+        addToSelectedTopics(topic, index) {
+            this.form.selected_topics.push(topic);
+            this.selected_topics_set.add(topic.id);
+            this.filtered_topics.splice(index, 1);
+        },
+        removeFromSelectedTopics(topic, index) {
+            this.form.selected_topics.splice(index, 1);
+            this.selected_topics_set.delete(topic.id);
+            this.filtered_topics.unshift(topic);
         }
     },
     computed: {

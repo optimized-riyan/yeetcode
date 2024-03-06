@@ -97,6 +97,21 @@ class ProblemController extends Controller
             }
             $problem->testcases()->saveMany($testcaseModels);
 
+            // new and selected topics
+            $topicModels = [];
+            foreach ($form['new_topics'] as $new_topic) {
+                $topicModel = new Topic();
+                $topicModel->name = $new_topic;
+                $topicModel->save();
+                array_push($topicModels, $topicModel->id);
+            }
+
+            $ids = array_map(fn($selected_topic) => $selected_topic['id'], $form['selected_topics']);
+            foreach (Topic::whereIn('id', $ids)->get() as $topicModel) {
+                array_push($topicModels, $topicModel->id);
+            }
+            // Log::channel('debug')->info(json_encode($topicModels));
+
             foreach ($form['similar_problems'] as $sim) {
                 $problemModel = Problem::findOrFail($sim['id']);
                 $problemModel->similarProblems()->attach($problem);

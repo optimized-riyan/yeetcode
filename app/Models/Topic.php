@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Topic extends Model
@@ -12,8 +13,8 @@ class Topic extends Model
 
     public $timestamps = false;
 
-    public function problems(): HasMany {
-        return $this->hasMany(Problem::class);
+    public function problems(): BelongsToMany {
+        return $this->belongsToMany(Problem::class);
     }
 
     public function scopeTopicsWithFilter($query, $title = '') {
