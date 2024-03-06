@@ -160,15 +160,16 @@
                     <!-- selected problems -->
                     <div>
                         <ul v-for="(problem, index) in form.similar_problems" :key="index">
-                            <li>
+                            <li @click="removeFromSimilarProblems(problem, index)" class="cursor-pointer">
                                 {{ problem.name }}
                             </li>
                         </ul>
                     </div>
+                    <hr>
                     <!-- list of problems -->
                     <div>
                         <ul v-for="(problem, index) in problems_by_title" :key="index">
-                            <li>
+                            <li @click="addToSimilarProblems(problem, index)" class="cursor-pointer">
                                 {{ problem.name }}
                             </li>
                         </ul>
@@ -242,9 +243,10 @@ export default {
                 similar_problems: [],
                 hints: [{ hint: 'Just use the sum() function in python.' }],
             },
-            sim_prob_dropdown: false,
+            sim_prob_dropdown: true,
             problems_by_title_text: '',
             problems_by_title: [],
+            selected_problems: new Set(),
             topics_dropdown: false,
             topics_text: '',
             filtered_topics: [],
@@ -257,6 +259,7 @@ export default {
         async fetchSimilarProblems() {
             try {
                 const data = await (await fetch(`http://localhost:8000/api/get-problems?probs=${encodeURIComponent(this.problems_by_title_text)}`)).json();
+                data.problems.filter(problem => !this.selected_problems.has(problem.id));
                 this.problems_by_title = data.problems;
             }
             catch (err) {
@@ -276,11 +279,21 @@ export default {
         },
         syncAceEditor() {
             this.form.scaffholding = this.editor.getValue();
+        },
+        addToSimilarProblems(problem, index) {
+            this.form.similar_problems.push(problem);
+            this.selected_problems.add(problem.id);
+            this.problems_by_title.splice(index, 1);
+        },
+        removeFromSimilarProblems(problem, index) {
+            this.form.similar_problems.splice(index, 1);
+            this.selected_problems.delete(problem.id);
+            this.problems_by_title.unshift(problem);
         }
     },
     computed: {
         difficulty() {
-            switch(this.form.difficulty) {
+            switch (this.form.difficulty) {
                 case 0: return 'Easy';
                 case 1: return 'Medium';
                 case 2: return 'Hard';
@@ -289,7 +302,7 @@ export default {
                     return 'Easy';
                 }
             }
-        }
+        },
     },
     props: {
         errors: null,
