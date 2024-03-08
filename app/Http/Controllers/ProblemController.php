@@ -44,58 +44,87 @@ class ProblemController extends Controller
 
     public function create()
     {
-        return Inertia::render('StoreProblem', [ 'postUrl' => route('problems.store')]);
+        return Inertia::render('StoreProblem', ['postUrl' => route('problems.store')]);
     }
 
-    public function edit(Problem $problem, Request $request)
+    public function edit(Problem $problem)
     {
         $form = [
             'name' => $problem->name,
             'description' => $problem->description,
             'scaffholding' => $problem->scaffholding,
-            'tc_parameters' => function() use ($problem) {
+            'tc_parameters' => function () use ($problem) {
+                $paramArray = [];
                 foreach (explode(' ', $problem->tc_parameters) as $param) {
-                    echo 'param' . ':' . $param;
+                    $paramArray[] = [
+                        'param' => $param,
+                    ];
                 }
+                return $paramArray;
             },
-            'examples' => function() use ($problem) {
+            'examples' => function () use ($problem) {
+                $examplesArray = [];
                 foreach ($problem->examples()->get() as $example) {
-                    echo 'input'.':'.$example->input;
-                    echo 'output'.':'.$example->output;
+                    $data = [
+                        'input' => $example->input,
+                        'output' => $example->output,
+                    ];
                     if ($example->explaination)
-                        echo 'explaination'.':'.$example->explaination;
+                        $data['explaination'] = $example->explaination;
+                    $examplesArray[] = $data;
                 }
+                return $examplesArray;
             },
-            'constraints' => function() use ($problem) {
+            'constraints' => function () use ($problem) {
+                $constraintArray = [];
                 foreach ($problem->constraints()->get() as $constraint) {
-                    echo 'constraint'.':'.$constraint->constraint;
+                    $constraintArray[] = [
+                        'constraint' => $constraint->constraint,
+                    ];
                 }
+                return $constraintArray;
             },
-            'testcases' => function() use ($problem) {
+            'testcases' => function () use ($problem) {
+                $testcaseArray = [];
                 foreach ($problem->testcases()->get() as $testcase) {
-                    echo 'testcase'.':'.$testcase->testcase;
-                    echo 'output'.':'.$testcase->expected_output;
-                    echo 'is_trivial'.':'.$testcase->is_trivial;
+                    $testcaseArray[] = [
+                        'testcase' => $testcase->testcase,
+                        'output' => $testcase->expected_output,
+                        'is_trivial' => $testcase->is_trivial,
+                    ];
                 }
+                return $testcaseArray;
             },
             'new_topics' => [],
-            'selected_topics' => function() use ($problem) {
+            'selected_topics' => function () use ($problem) {
+                $topicArray = [];
                 foreach ($problem->topics()->get() as $topic) {
-                    echo 'id'.':'.$topic->id;
-                    echo 'name'.':'.$topic->name;
+                    $topicArray[] = [
+                        'id' => $topic->id,
+                        'name' => $topic->name,
+                    ];
                 }
+                return $topicArray;
             },
-            'similar_problems' => function() use ($problem) {
+            'similar_problems' => function () use ($problem) {
+                $simProblemArray = [];
                 foreach ($problem->similarProblems()->get() as $sim) {
-                    echo 'id'.':'.$sim->id;
-                    echo 'name'.':'.$sim->name;
+                    $simProblemArray[] = [
+                        'id' => $sim->id,
+                        'name' => $sim->name,
+                    ];
                 }
+                return $simProblemArray;
             },
-            'hints' => function() use ($problem) {
+            'hints' => function () use ($problem) {
+                $hintArray = [];
                 foreach ($problem->hints()->orderBy('hint_number')->get() as $hint) {
-                    echo 'hint'.':'.$hint->brief;
-                    echo 'hint_number'.':'.$hint->hint_number;
+                    $hintArray[] = [
+                        'hint_number' => $hint->hint_number,
+                        'hint' => $hint->brief,
+                    ];
                 }
+                return $hintArray;
             }
         ];
         return Inertia::render('StoreProblem', [
@@ -105,7 +134,8 @@ class ProblemController extends Controller
         ]);
     }
 
-    public function update() {
+    public function update()
+    {
 
     }
 
@@ -126,7 +156,7 @@ class ProblemController extends Controller
             foreach ($form['tc_parameters'] as $tc_param) {
                 $tc_parameters_conc = $tc_parameters_conc . ' ' . $tc_param['param'];
             }
-            $problem->tc_parameters = $tc_parameters_conc;
+            $problem->tc_parameters = trim($tc_parameters_conc);
 
             $problem->save();
 
