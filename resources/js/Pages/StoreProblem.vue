@@ -274,7 +274,7 @@ export default {
         },
         async fetchSimilarProblems() {
             try {
-                const data = await (await fetch(`http://localhost:8000/api/get-problems?probs=${encodeURIComponent(this.problems_by_title_text)}`)).json();
+                const data = await (await fetch(`/api/get-problems?probs=${encodeURIComponent(this.problems_by_title_text)}`)).json();
                 data.problems.filter(problem => !this.selected_problems.has(problem.id));
                 this.problems_by_title = data.problems;
             }
@@ -284,7 +284,7 @@ export default {
         },
         async fetchTopicsWithFilter() {
             try {
-                const data = await (await fetch(`http://localhost:8000/api/get-topics?topics=${encodeURIComponent(this.topics_text)}`)).json();
+                const data = await (await fetch(`/api/get-topics?topics=${encodeURIComponent(this.topics_text)}`)).json();
                 data.topics.filter(topic => !this.selected_topics_set.has(topic.id));
             }
             catch (err) {
