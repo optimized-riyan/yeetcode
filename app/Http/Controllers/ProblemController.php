@@ -72,8 +72,7 @@ class ProblemController extends Controller
                         'input' => $example->input,
                         'output' => $example->output,
                     ];
-                    if ($example->explaination)
-                        $data['explaination'] = $example->explaination;
+                    $data['explaination'] = $example->explaination ? $example->explaination : '';
                     $examplesArray[] = $data;
                 }
                 return $examplesArray;

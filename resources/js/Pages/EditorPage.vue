@@ -33,6 +33,7 @@
                             </ul>
                             <!-- testcase content -->
                             <div>
+                                {{ console.log(problem) }}
                                 <ul>
                                     <li v-for="(tcParam, index) in tcParameters" :key="index">
                                         <TestcaseParam :parameterName="tcParameters[index]" :parameterContent="testcaseArray[currentTestcase].testcase"></TestcaseParam>
@@ -117,6 +118,6 @@ export default {
     props: {
         problem: Object,
         trivialTestcases: Object,
-    }
+    },
 };
 </script>
