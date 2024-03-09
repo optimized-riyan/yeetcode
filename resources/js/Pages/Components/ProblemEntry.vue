@@ -6,7 +6,7 @@
         </div>
         <!-- name -->
         <div>
-            {{ problem.name }}
+            <Link :href="route('problems.show', { problem })">{{ problem.name }}</Link>
         </div>
         <!-- difficulty -->
         <div>
@@ -16,9 +16,13 @@
 </template>
 
 <script>
+import { route } from 'ziggy-js';
 import { Link } from '@inertiajs/vue3';
 
 export default {
+    components: {
+        Link,
+    },
     props: {
         problem: Object
     }

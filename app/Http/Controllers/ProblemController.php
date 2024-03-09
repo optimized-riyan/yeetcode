@@ -34,14 +34,6 @@ class ProblemController extends Controller
         ]);
     }
 
-    public function run(Request $request, Problem $problem)
-    {
-        $result = shell_exec('pwd');
-        return response()->json([
-            'result' => $result,
-        ]);
-    }
-
     public function create()
     {
         return Inertia::render('StoreProblem', [

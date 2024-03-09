@@ -2,8 +2,16 @@
     <!-- entire page -->
     <div class="flex flex-col h-screen">
         <!-- titlebar -->
-        <div class="bg-leetcode-background h-10 shrink-0">
-
+        <div class="bg-leetcode-background text-leetcode-text h-10 shrink-0 flex justify-between">
+            <div>
+                <Link :href="route('problems.index')">Problem List</Link>
+            </div>
+            <div>
+                <button type="button" @click="runTrivial">Run</button>
+            </div>
+            <div>
+                Profile
+            </div>
         </div>
         <!-- left and right panel -->
         <div class="flex grow overflow-auto">
@@ -33,7 +41,6 @@
                             </ul>
                             <!-- testcase content -->
                             <div>
-                                {{ console.log(problem) }}
                                 <ul>
                                     <li v-for="(tcParam, index) in tcParameters" :key="index">
                                         <TestcaseParam :parameterName="tcParameters[index]" :parameterContent="testcaseArray[currentTestcase].testcase"></TestcaseParam>
@@ -78,6 +85,7 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/keybinding-vim';
 import Description from './Components/EditorComponents/Description.vue';
 import TestcaseParam from './Components/EditorComponents/TestcaseParam.vue';
+import { Link } from '@inertiajs/vue3';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
 
@@ -96,12 +104,24 @@ export default {
     components: {
         Description,
         TestcaseParam,
+        Link,
     },
     computed: {
     },
     methods: {
         testcaseChange(index) {
             this.currentTestcase = index
+        },
+        async runTrivial() {
+            console.log(this.$inertia.page.props.onlineCompilerDomain);
+            const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/pycompiler/run`, {
+                method: "post",
+                body: JSON.stringify({
+                    code: this.editor.getValue(),
+                    testcases: this.testcaseArray.map(tc => tc.testcase),
+                }),
+            })).json();
+            console.log(data);
         }
     },
     mounted() {
