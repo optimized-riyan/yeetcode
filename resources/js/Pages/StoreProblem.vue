@@ -265,7 +265,12 @@ export default {
     },
     methods: {
         submitForm() {
-            router.post(this.postUrl, this.form);
+            if (this.method == 'post')
+                router.post(this.url, this.form);
+            else if (this.method == 'put')
+                router.put(this.url, this.form);
+            else
+                console.error('Incorrect verb: ' + this.method);
         },
         async fetchSimilarProblems() {
             try {
@@ -316,11 +321,11 @@ export default {
     computed: {
         difficulty() {
             switch (this.form.difficulty) {
-                case 0: return 'Easy';
-                case 1: return 'Medium';
-                case 2: return 'Hard';
+                case 1: return 'Easy';
+                case 2: return 'Medium';
+                case 3: return 'Hard';
                 default: {
-                    this.form.difficulty = 0;
+                    this.form.difficulty = 1;
                     return 'Easy';
                 }
             }
@@ -329,7 +334,8 @@ export default {
     props: {
         errors: null,
         prefilledForm: Object,
-        postUrl: String,
+        url: String,
+        method: String,
     },
     mounted() {
         if (this.$props.prefilledForm)
@@ -347,5 +353,13 @@ export default {
         this.editor.setValue(this.form.scaffholding);
         this.editor.gotoLine(1);
     },
+    watch: {
+        errors: {
+            handler(newValue, oldValue) {
+                console.log(newValue);
+            },
+            deep: true,
+        }
+    }
 }
 </script>

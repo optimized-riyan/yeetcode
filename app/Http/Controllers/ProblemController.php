@@ -44,7 +44,10 @@ class ProblemController extends Controller
 
     public function create()
     {
-        return Inertia::render('StoreProblem', ['postUrl' => route('problems.store')]);
+        return Inertia::render('StoreProblem', [
+            'url' => route('problems.store'),
+            'method' => 'post',
+        ]);
     }
 
     public function edit(Problem $problem)
@@ -130,102 +133,110 @@ class ProblemController extends Controller
         return Inertia::render('StoreProblem', [
             'prefilledForm' => $form,
             Log::channel('debug')->info(json_encode($form)),
-            'postUrl' => route('problems.update', ['problem' => $problem]),
+            'url' => route('problems.update', [ 'problem' => $problem ]),
+            'method' => 'put',
         ]);
     }
 
-    public function update()
+    public function update(Problem $problem, ProblemRequest $request)
     {
-
+        try {
+            $form = $request->validated();
+            $this->processProblemRequest($form, $problem);
+            return to_route('problems.show', [ 'problem' => $problem ]);
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     public function store(ProblemRequest $request)
     {
-        $problem = null;
         try {
             $form = $request->validated();
-            // Log::channel('debug')->info(json_encode($form));
-
-            $problem = new Problem();
-            $problem->name = $form['name'];
-            $problem->difficulty_id = $form['difficulty'];
-            $problem->description = $form['description'];
-            $problem->scaffholding = $form['scaffholding'];
-
-            $tc_parameters_conc = '';
-            foreach ($form['tc_parameters'] as $tc_param) {
-                $tc_parameters_conc = $tc_parameters_conc . ' ' . $tc_param['param'];
-            }
-            $problem->tc_parameters = trim($tc_parameters_conc);
-
-            $problem->save();
-
-            $exampleModels = [];
-            foreach ($form['examples'] as $example) {
-                $exampleModel = new Example();
-                $exampleModel->input = $example['input'];
-                $exampleModel->output = $example['output'];
-                if ($example['explaination'])
-                    $exampleModel->explaination = $example['explaination'];
-                array_push($exampleModels, $exampleModel);
-            }
-            $problem->examples()->saveMany($exampleModels);
-
-            $constraintModels = [];
-            foreach ($form['constraints'] as $constraint) {
-                $constraintModel = new Constraint();
-                $constraintModel->constraint = $constraint['constraint'];
-                array_push($constraintModels, $constraintModel);
-            }
-            $problem->constraints()->saveMany($constraintModels);
-
-            $testcaseModels = [];
-            foreach ($form['testcases'] as $testcase) {
-                $testcaseModel = new Testcase();
-                $testcaseModel->testcase = $testcase['testcase'];
-                $testcaseModel->expected_output = $testcase['output'];
-                $testcaseModel->is_trivial = $testcase['is_trivial'];
-                array_push($testcaseModels, $testcaseModel);
-            }
-            $problem->testcases()->saveMany($testcaseModels);
-
-            // new and selected topics
-            $topicModels = [];
-            foreach ($form['new_topics'] as $new_topic) {
-                $topicModel = new Topic();
-                $topicModel->name = $new_topic;
-                $topicModel->save();
-                array_push($topicModels, $topicModel->id);
-            }
-
-            $ids = array_map(fn($selected_topic) => $selected_topic['id'], $form['selected_topics']);
-            foreach (Topic::whereIn('id', $ids)->get() as $topicModel) {
-                array_push($topicModels, $topicModel->id);
-            }
-            // Log::channel('debug')->info(json_encode($topicModels));
-
-            foreach ($form['similar_problems'] as $sim) {
-                $problemModel = Problem::findOrFail($sim['id']);
-                $problemModel->similarProblems()->attach($problem);
-                $problemModel->save();
-            }
-
-            $hintModels = [];
-            foreach ($form['hints'] as $index => $hint) {
-                $hintModel = new Hint();
-                $hintModel->hint_number = $index;
-                $hintModel->brief = $hint['hint'];
-                array_push($hintModels, $hintModel);
-            }
-            $problem->hints()->saveMany($hintModels);
-
+            $this->processProblemRequest($form, new Problem());
             return to_route('problems.index');
         } catch (Exception $e) {
-            // if ($problem->exists())
-            //     $problem->delete();
-
             throw $e;
         }
+    }
+
+    private function processProblemRequest(Array $form, Problem $problem)
+    {
+        $problem->name = $form['name'];
+        $problem->difficulty_id = $form['difficulty'];
+        $problem->description = $form['description'];
+        $problem->scaffholding = $form['scaffholding'];
+
+        $tc_parameters_conc = '';
+        foreach ($form['tc_parameters'] as $tc_param) {
+            $tc_parameters_conc = $tc_parameters_conc . ' ' . $tc_param['param'];
+        }
+        $problem->tc_parameters = trim($tc_parameters_conc);
+        $problem->save();
+
+        $problem->examples()->delete();
+        $exampleModels = [];
+        foreach ($form['examples'] as $example) {
+            $exampleModel = new Example();
+            $exampleModel->input = $example['input'];
+            $exampleModel->output = $example['output'];
+            if ($example['explaination'])
+                $exampleModel->explaination = $example['explaination'];
+            array_push($exampleModels, $exampleModel);
+        }
+        $problem->examples()->saveMany($exampleModels);
+
+        $problem->constraints()->delete();
+        $constraintModels = [];
+        foreach ($form['constraints'] as $constraint) {
+            $constraintModel = new Constraint();
+            $constraintModel->constraint = $constraint['constraint'];
+            array_push($constraintModels, $constraintModel);
+        }
+        $problem->constraints()->saveMany($constraintModels);
+
+        $problem->testcases()->delete();
+        $testcaseModels = [];
+        foreach ($form['testcases'] as $testcase) {
+            $testcaseModel = new Testcase();
+            $testcaseModel->testcase = $testcase['testcase'];
+            $testcaseModel->expected_output = $testcase['output'];
+            $testcaseModel->is_trivial = $testcase['is_trivial'];
+            array_push($testcaseModels, $testcaseModel);
+        }
+        $problem->testcases()->saveMany($testcaseModels);
+
+        // new and selected topics
+        $problem->topics()->delete();
+        $topicModels = [];
+        foreach ($form['new_topics'] as $new_topic) {
+            $topicModel = new Topic();
+            $topicModel->name = $new_topic;
+            $topicModel->save();
+            array_push($topicModels, $topicModel->id);
+        }
+
+        $ids = array_map(fn($selected_topic) => $selected_topic['id'], $form['selected_topics']);
+        foreach (Topic::whereIn('id', $ids)->get() as $topicModel) {
+            array_push($topicModels, $topicModel->id);
+        }
+
+        $simProbIds = [];
+        foreach ($form['similar_problems'] as $sim) {
+            $problemModel = Problem::findOrFail($sim['id']);
+            array_push($simProbIds, $problemModel->id);
+        }
+        $problem->similarProblems()->sync($simProbIds);
+
+        $problem->hints()->delete();
+        $hintModels = [];
+        foreach ($form['hints'] as $index => $hint) {
+            $hintModel = new Hint();
+            $hintModel->hint_number = $index;
+            $hintModel->brief = $hint['hint'];
+            array_push($hintModels, $hintModel);
+        }
+        $problem->hints()->saveMany($hintModels);
     }
 
     public function getProblemsByTitle(Request $request)
