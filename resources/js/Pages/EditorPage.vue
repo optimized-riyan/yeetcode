@@ -113,9 +113,11 @@ export default {
             this.currentTestcase = index
         },
         async runTrivial() {
-            console.log(this.$inertia.page.props.onlineCompilerDomain);
-            const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/pycompiler/run`, {
+            const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/pycompiler/runtrivial`, {
                 method: "post",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({
                     code: this.editor.getValue(),
                     testcases: this.testcaseArray.map(tc => tc.testcase),
