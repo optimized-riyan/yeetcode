@@ -43,33 +43,38 @@
                             <div>
                                 <ul>
                                     <li v-for="(tcParam, index) in tcParameters" :key="index">
-                                        <TestcaseParam :parameterName="tcParameters[index]" :parameterContent="testcaseArray[currentTestcase].testcase"></TestcaseParam>
+                                        <TestcaseParam :parameterName="tcParameters[index]" :parameterContent="testcaseArray[currentTestcase].testcase" @sync="(value)=>{this.testcaseArray[currentTestcase].testcase = value}"></TestcaseParam>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div v-else>
-                            <!-- testcases -->
-                            <ul class="flex">
-                                <li v-for="(testcase, index) in testcaseArray" :key="index">
-                                    <button type="button" @click="testcaseChange(index)">Testcase {{index+1}}</button>
-                                </li>
-                            </ul>
-                            <!-- testcase content -->
-                            <div>
-                                <ul>
-                                    <li v-for="(tcParam, index) in tcParameters" :key="index">
-                                        <TestcaseParam :parameterName="tcParameters[index]" :parameterContent="testcaseArray[currentTestcase].testcase"></TestcaseParam>
-                                    </li>
-                                    <li>
-                                        <TestcaseParam parameterName="Your output" :parameterContent="testcaseOutputs[currentTestcase]"></TestcaseParam>
-                                    </li>
-                                    <li>
-                                        <TestcaseParam parameterName="Expected output" :parameterContent="expectedOutputs[currentTestcase]"></TestcaseParam>
+                            <div v-if="runError">
+                                {{ runError }}
+                            </div>
+                            <div v-else>
+                                <!-- testcases -->
+                                <ul class="flex">
+                                    <li v-for="(testcase, index) in testcaseArray" :key="index">
+                                        <button type="button" @click="testcaseChange(index)">Testcase {{index+1}}</button>
                                     </li>
                                 </ul>
+                                <!-- testcase content -->
+                                <div>
+                                    <ul>
+                                        <li v-for="(tcParam, index) in tcParameters" :key="index">
+                                            <TestcaseParam :parameterName="tcParam" :parameterContent="testcaseArray[currentTestcase].testcase"></TestcaseParam>
+                                        </li>
+                                        <li>
+                                            <TestcaseParam parameterName="Your output" :parameterContent="testcaseOutputs[currentTestcase]"></TestcaseParam>
+                                        </li>
+                                        <li>
+                                            <TestcaseParam parameterName="Expected output" :parameterContent="expectedOutputs[currentTestcase]"></TestcaseParam>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                       </div>
                     </div>
                 </div>
             </div>
@@ -99,6 +104,7 @@ export default {
             testcaseOutputs: ['gay1', 'gay2', 'gay3', 'gay4'],
             expectedOutputs: ['straight1', 'straight2', 'straight3', 'straight4'],
             editor: null,
+            runError: null,
         }
     },
     components: {
@@ -113,6 +119,7 @@ export default {
             this.currentTestcase = index
         },
         async runTrivial() {
+            console.log(this.testcaseArray);
             const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/pycompiler/runtrivial`, {
                 method: "post",
                 headers: {
@@ -123,7 +130,14 @@ export default {
                     testcases: this.testcaseArray.map(tc => tc.testcase),
                 }),
             })).json();
-            console.log(data);
+            // console.log(data);
+            this.consolePanel = 'results';
+            if (data.error) {
+                this.runError = data.error;
+            }
+            else {
+                this.testcaseOutputs = data.outputs;
+            }
         }
     },
     mounted() {
