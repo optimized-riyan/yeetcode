@@ -46,7 +46,7 @@
                             <div>
                                 <ul>
                                     <li v-for="(tcParam, index) in tcParameters" :key="index">
-                                        <TestcaseParam :parameterName="tcParameters[index]" :key="currentTestcase" :parameterContent="testcaseArray[currentTestcase].testcase" @sync="(value)=>{this.testcaseArray[currentTestcase].testcase = value}"></TestcaseParam>
+                                        <TestcaseParam :currentTestcase="currentTestcase" :testcaseArray="testcaseArray" @sync="(value)=>{this.testcaseArray[currentTestcase].testcase = value}"></TestcaseParam>
                                     </li>
                                 </ul>
                             </div>

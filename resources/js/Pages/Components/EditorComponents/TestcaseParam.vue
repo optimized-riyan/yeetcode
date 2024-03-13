@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input type="text" :value="parameterContentData" @input="inputChanged">
+        <input type="text" :value="testcaseArray[currentTestcase].testcase" @input="inputChanged">
     </div>
 </template>
 <script>
@@ -12,8 +12,7 @@ export default {
     },
     emits: ['sync'],
     props: {
-        parameterName: String,
-        parameterContent: String,
+        testcaseArray: Array,
         currentTestcase: Number,
     },
     methods: {
