@@ -21,7 +21,7 @@
             <div class="flex flex-col grow">
                 <!-- editor -->
                 <div class="h-2/3 bg-leetcode-green">
-                    <div ref="aceEditor" class="h-full">console.log('Hello World!');</div>
+                    <div ref="aceEditor" class="h-full">print('Hello '+input())</div>
                 </div>
                 <!-- console -->
                 <div class="grow">
@@ -38,12 +38,15 @@
                                 <li v-for="(testcase, index) in testcaseArray" :key="index">
                                     <button type="button" @click="testcaseChange(index)">Testcase {{index+1}}</button>
                                 </li>
+                                <li>
+                                    <button type="button" @click="testcaseArray.push({testcase: ''})">Add</button>
+                                </li>
                             </ul>
                             <!-- testcase content -->
                             <div>
                                 <ul>
                                     <li v-for="(tcParam, index) in tcParameters" :key="index">
-                                        <TestcaseParam :parameterName="tcParameters[index]" :parameterContent="testcaseArray[currentTestcase].testcase" @sync="(value)=>{this.testcaseArray[currentTestcase].testcase = value}"></TestcaseParam>
+                                        <TestcaseParam :parameterName="tcParameters[index]" :key="currentTestcase" :parameterContent="testcaseArray[currentTestcase].testcase" @sync="(value)=>{this.testcaseArray[currentTestcase].testcase = value}"></TestcaseParam>
                                     </li>
                                 </ul>
                             </div>
@@ -51,6 +54,9 @@
                         <div v-else>
                             <div v-if="runError">
                                 {{ runError }}
+                            </div>
+                            <div v-else-if="testcaseOutputs.length == 0">
+                                You need to run the program at least once
                             </div>
                             <div v-else>
                                 <!-- testcases -->
@@ -87,6 +93,7 @@ import 'ace-builds/esm-resolver';
 import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url";
 import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/keybinding-vim';
 import Description from './Components/EditorComponents/Description.vue';
 import TestcaseParam from './Components/EditorComponents/TestcaseParam.vue';
@@ -101,8 +108,8 @@ export default {
             testcaseArray: Object.values(this.problem.testcases),
             tcParameters: this.problem.tc_parameters.split(' '),
             consolePanel: 'testcases',
-            testcaseOutputs: ['gay1', 'gay2', 'gay3', 'gay4'],
-            expectedOutputs: ['straight1', 'straight2', 'straight3', 'straight4'],
+            testcaseOutputs: [],
+            expectedOutputs: [],
             editor: null,
             runError: null,
         }
@@ -116,10 +123,9 @@ export default {
     },
     methods: {
         testcaseChange(index) {
-            this.currentTestcase = index
+            this.currentTestcase = index;
         },
         async runTrivial() {
-            console.log(this.testcaseArray);
             const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/pycompiler/runtrivial`, {
                 method: "post",
                 headers: {
@@ -130,7 +136,6 @@ export default {
                     testcases: this.testcaseArray.map(tc => tc.testcase),
                 }),
             })).json();
-            // console.log(data);
             this.consolePanel = 'results';
             if (data.error) {
                 this.runError = data.error;
@@ -146,8 +151,8 @@ export default {
             fontSize: 12,
             showPrintMargin: false,
             theme: 'ace/theme/cloud_editor_dark',
-            mode: 'ace/mode/javascript',
-            // keyboardHandler: 'ace/keyboard/vim',
+            mode: 'ace/mode/python',
+            keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
     },

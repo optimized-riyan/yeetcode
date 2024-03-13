@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>{{ parameterName }}</p>
         <input type="text" :value="parameterContentData" @input="inputChanged">
     </div>
 </template>
@@ -14,13 +13,14 @@ export default {
     emits: ['sync'],
     props: {
         parameterName: String,
-        parameterContent: String
+        parameterContent: String,
+        currentTestcase: Number,
     },
     methods: {
         inputChanged(event) {
             this.parameterContentData = event.target.value;
             this.$emit('sync', event.target.value);
         }
-    }
+    },
 }
 </script>
