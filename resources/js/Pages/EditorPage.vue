@@ -19,9 +19,23 @@
             <Description :problem="problem"></Description>
             <!-- right panel -->
             <div class="flex flex-col grow">
-                <!-- editor -->
-                <div class="h-2/3 bg-leetcode-green">
-                    <div ref="aceEditor" class="h-full">print('Hello '+input())</div>
+                <div class="h-2/3 bg-leetcode-green flex flex-col">
+                    <!-- editor settings -->
+                    <div class="h-6">
+                        <!-- language dropdown -->
+                        <div class="relative">
+                            <button type="button" @click="languageDropdown = !languageDropdown">{{ selectedLanguage }}</button>
+                            <div class="absolute top-6 z-10 bg-leetcode-background text-leetcode-text" v-if="languageDropdown">
+                                <ul v-for="(language, index) in availableLanguages" :key="index">
+                                    <li @click="()=>{selectedLanguage = language; languageDropdown = false;}" class="cursor-pointer">{{ language }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- editor -->
+                    <div class="grow">
+                        <div ref="aceEditor" class="h-full">print('Hello '+input())</div>
+                    </div>
                 </div>
                 <!-- console -->
                 <div class="grow">
@@ -69,13 +83,15 @@
                                 <div>
                                     <ul>
                                         <li v-for="(tcParam, index) in tcParameters" :key="index">
-                                            <TestcaseParam :parameterName="tcParam" :parameterContent="testcaseArray[currentTestcase].testcase"></TestcaseParam>
+                                            <TestcaseParam :currentTestcase="currentTestcase" :testcaseArray="testcaseArray"></TestcaseParam>
                                         </li>
                                         <li>
-                                            <TestcaseParam parameterName="Your output" :parameterContent="testcaseOutputs[currentTestcase]"></TestcaseParam>
+                                            <p>Your output:</p>
+                                            {{ testcaseOutputs[currentTestcase] }}
                                         </li>
                                         <li>
-                                            <TestcaseParam parameterName="Expected output" :parameterContent="expectedOutputs[currentTestcase]"></TestcaseParam>
+                                            <p>Expected Output:</p>
+                                            {{ expectedOutputs[currentTestcase] }}
                                         </li>
                                     </ul>
                                 </div>
@@ -112,6 +128,17 @@ export default {
             expectedOutputs: [],
             editor: null,
             runError: null,
+            languageDropdown: false,
+            availableLanguages: [ 'python', 'js', 'php', 'c', 'c++', 'java' ],
+            selectedLanguage: 'python',
+            languageUrls: {
+                'python': 'pycompiler',
+                'js': 'jscompiler',
+                'php': 'phpcompiler',
+                'c': 'ccompiler',
+                'c++': 'cppcompiler',
+                'java': 'javacompiler',
+            },
         }
     },
     components: {
@@ -126,7 +153,7 @@ export default {
             this.currentTestcase = index;
         },
         async runTrivial() {
-            const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/pycompiler/runtrivial`, {
+            const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/${this.languageUrls[this.selectedLanguage]}/runtrivial`, {
                 method: "post",
                 headers: {
                     'Content-Type': 'application/json',
