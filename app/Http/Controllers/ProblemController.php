@@ -123,7 +123,6 @@ class ProblemController extends Controller
         ];
         return Inertia::render('StoreProblem', [
             'prefilledForm' => $form,
-            Log::channel('debug')->info(json_encode($form)),
             'url' => route('problems.update', [ 'problem' => $problem ]),
             'method' => 'put',
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProblemRequest extends FormRequest
@@ -22,7 +23,7 @@ class ProblemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:127',
+            'name' => [ 'required', 'max:127', Rule::unique('problems')->ignore($this->problem->id) ],
             'difficulty' => 'integer|lte:3|gte:1',
             'description' => 'required|max:1023',
             'scaffholding' => '',
