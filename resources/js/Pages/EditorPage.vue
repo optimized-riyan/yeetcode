@@ -129,7 +129,7 @@ export default {
             editor: null,
             runError: null,
             languageDropdown: false,
-            availableLanguages: [ 'python', 'js', 'php', 'c', 'c++', 'java' ],
+            availableLanguages: [ 'python', 'js', 'php', 'c', 'c++' ],
             selectedLanguage: 'python',
             languageUrls: {
                 'python': 'pycompiler',
@@ -137,7 +137,7 @@ export default {
                 'php': 'phpcompiler',
                 'c': 'ccompiler',
                 'c++': 'cppcompiler',
-                'java': 'javacompiler',
+                // 'java': 'javacompiler',
             },
         }
     },
@@ -153,6 +153,7 @@ export default {
             this.currentTestcase = index;
         },
         async runTrivial() {
+            this.runError = null;
             const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/${this.languageUrls[this.selectedLanguage]}/runtrivial`, {
                 method: "post",
                 headers: {
@@ -168,7 +169,7 @@ export default {
                 this.runError = data.error;
             }
             else {
-                this.testcaseOutputs = data.outputs;
+                this.testcaseOutputs = data.outputs ? data.outputs : [];
             }
         }
     },
