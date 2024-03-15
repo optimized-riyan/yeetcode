@@ -34,7 +34,7 @@
                     </div>
                     <!-- editor -->
                     <div class="grow">
-                        <div ref="aceEditor" class="h-full">print('Hello '+input())</div>
+                        <div ref="aceEditor" class="h-full"></div>
                     </div>
                 </div>
                 <!-- console -->
@@ -183,6 +183,7 @@ export default {
             keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
+        this.editor.setValue(this.problem.scaffholding);
     },
     props: {
         problem: Object,

@@ -231,7 +231,6 @@ import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/keybinding-vim';
 import { router } from '@inertiajs/vue3';
-import { route } from 'ziggy-js';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
 
