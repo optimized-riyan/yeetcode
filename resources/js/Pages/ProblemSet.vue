@@ -22,24 +22,26 @@
                 lol
             </div>
         </div>
+        <div>
+            <Paginator :links="problemList.links"></Paginator>
+        </div>
     </ProblemSetLayout>
 </template>
 <script>
 import ProblemSetLayout from '../Pages/Layouts/ProblemSetLayout.vue';
 import ProblemEntry from './Components/ProblemEntry.vue';
+import Paginator from './Components/ProblemSetComponents/Paginator.vue';
 import { Head } from '@inertiajs/vue3';
 
 export default {
     components: {
         ProblemEntry,
         ProblemSetLayout,
+        Paginator,
         Head,
     },
     props: {
         problemList: Object,
     },
-    created() {
-        console.log(this.problemList);
-    }
 }
 </script>
