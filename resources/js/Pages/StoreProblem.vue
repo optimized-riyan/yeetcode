@@ -48,6 +48,9 @@
                             <div>
                                 <button type="button" @click="()=>{form.tc_parameters.splice(index, 1)}">Remove</button>
                             </div>
+                            <div v-if="errors[`tc_parameters.${index}.param`]">
+                                {{ errors[`tc_parameters.${index}.param`] }}
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -65,13 +68,22 @@
                             <label :for="'exampleInput'+index">Input</label>
                             <input :id="'exampleInput'+index" type="text" v-model="form.examples[index].input">
                         </div>
+                        <div v-if="errors[`examples.${index}.input`]">
+                            {{ errors[`examples.${index}.input`] }}
+                        </div>
                         <div class="flex">
                             <label :for="'exampleOutput'+index">Output</label>
                             <input :id="'exampleOutput'+index" type="text" v-model="form.examples[index].output">
                         </div>
+                        <div v-if="errors[`examples.${index}.output`]">
+                            {{ errors[`examples.${index}.output`] }}
+                        </div>
                         <div class="flex">
                             <label :for="'exampleExplaination'+index">Explaination</label>
                             <textarea :id="'exampleExplaination'+index" cols="30" rows="5" v-model="form.examples[index].explaination"></textarea>
+                        </div>
+                        <div v-if="errors[`examples.${index}.explaination`]">
+                            {{ errors[`examples.${index}.explaination`] }}
                         </div>
                         <div>
                             <button type="button" @click="()=>{form.examples.splice(index, 1)}">Remove</button>
@@ -89,13 +101,22 @@
                             <label :for="'testcase'+index">Testcase {{ index+1 }}</label>
                             <textarea :id="'testcase'+index" cols="30" rows="10" v-model="testcase.testcase"></textarea>
                         </div>
+                        <div v-if="errors[`testcases.${index}.testcase`]">
+                            {{ errors[`testcases.${index}.testcase`] }}
+                        </div>
                         <div>
                             <label :for="'output'+index">Expected Output</label>
                             <textarea :id="'output'+index" cols="30" rows="10" v-model="testcase.output"></textarea>
                         </div>
+                        <div v-if="errors[`testcases.${index}.output`]">
+                            {{ errors[`testcases.${index}.output`] }}
+                        </div>
                         <div>
                             <label :for="'checkbox'+index">Testcase is trivial</label>
                             <input type="checkbox" :id="'checkbox'+index" v-model="testcase.is_trivial">
+                        </div>
+                        <div v-if="errors[`testcases.${index}.is_trivial`]">
+                            {{ errors[`testcases.${index}.is_trivial`] }}
                         </div>
                         <div>
                             <button type="button" @click="()=>{form.testcases.splice(index, 1)}">Remove</button>
@@ -118,7 +139,7 @@
                             <button type="button" @click="fetchTopicsWithFilter">Find</button>
                         </div>
                     </div>
-                    <!-- selected topics -->
+                    <!-- selected/new topics -->
                     <div>
                         <div>
                             <div>
@@ -131,13 +152,23 @@
                         <!-- new -->
                         <ul v-for="(topic, index) in form.new_topics" :key="index">
                             <li @click="()=>{form.new_topics.splice(index, 1)}" class="cursor-pointer">
-                                {{ topic }}
+                                <div>
+                                    {{ topic }}
+                                </div>
+                                <div v-if="errors[`new_topics.${index}`]">
+                                    {{ errors[`new_topics.${index}`] }}
+                                </div>
                             </li>
                         </ul>
                         <!-- selected -->
                         <ul v-for="(topic, index) in form.selected_topics" :key="index" class="cursor-pointer">
                             <li @click="removeFromSelectedTopics(topic, index)">
-                                {{ topic.name }}
+                                <div>
+                                    {{ topic.name }}
+                                </div>
+                                <div v-if="errors[`selected_topics.${index}.id`] || errors[`selected_topics.${index}.name`]">
+                                    {{ errors[`selected_topics.${index}.id`] ?? errors[`selected_topics.${index}.name`] }}
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -171,7 +202,12 @@
                     <div>
                         <ul v-for="(problem, index) in form.similar_problems" :key="index">
                             <li @click="removeFromSimilarProblems(problem, index)" class="cursor-pointer">
-                                {{ problem.name }}
+                                <div>
+                                    {{ problem.name }}
+                                </div>
+                                <div v-if="errors[`similar_problems.${index}.id`] || errors[`similar_problems.${index}.id`]">
+                                    {{ errors[`similar_problems.${index}.id`] ?? errors[`similar_problems.${index}.id`] }}
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -196,6 +232,9 @@
                             <label :for="'constraint'+index">Constraint {{ index+1 }}</label>
                             <textarea :id="'constraint'+index" cols="30" rows="10" v-model="form.constraints[index].constraint"></textarea>
                         </div>
+                        <div v-if="errors[`constraints.${index}.constraint`]">
+                            {{ errors[`constraints.${index}.constraint`] }}
+                        </div>
                         <div>
                             <button type="button" @click="()=>{form.constraints.splice(index, 1)}">Remove</button>
                         </div>
@@ -211,6 +250,9 @@
                         <div>
                             <label :for="'hint'+index">Hint {{ index+1 }}</label>
                             <textarea :id="'hint'+index" cols="30" rows="10" v-model="form.hints[index].hint"></textarea>
+                        </div>
+                        <div v-if="errors[`hints.${index}.hint`]">
+                            {{ errors[`hints.${index}.hint`] }}
                         </div>
                         <div>
                             <button type="button" @click="()=>{form.hints.splice(index, 1)}">Remove</button>
@@ -291,7 +333,8 @@ export default {
             }
         },
         pushNewTopic() {
-            this.form.new_topics.push(this.$refs.new_topic.value);
+            if (this.$refs.new_topic.value)
+                this.form.new_topics.push(this.$refs.new_topic.value);
         },
         syncAceEditor() {
             this.form.scaffholding = this.editor.getValue();
