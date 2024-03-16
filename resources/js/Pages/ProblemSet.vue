@@ -13,7 +13,7 @@
 
                 </div>
                 <!-- problem list -->
-                <div class="flex flex-col" v-for="problem in problemList" :key="problem.id">
+                <div class="flex flex-col" v-for="problem in problemList.data" :key="problem.id">
                     <ProblemEntry :problem="problem"></ProblemEntry>
                 </div>
             </div>
@@ -36,7 +36,10 @@ export default {
         Head,
     },
     props: {
-        problemList: Array,
+        problemList: Object,
+    },
+    created() {
+        console.log(this.problemList);
     }
 }
 </script>
