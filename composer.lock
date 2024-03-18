@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9aecb5d8b0aeeac90f8b5e2fa05b6d1",
+    "content-hash": "9999d0d7d4b81a0d8aaff0ca52b52a79",
     "packages": [
         {
             "name": "brick/math",
@@ -1460,6 +1460,68 @@
                 }
             ],
             "time": "2023-10-27T10:59:02+00:00"
+        },
+        {
+            "name": "laravel/breeze",
+            "version": "v1.29.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/breeze.git",
+                "reference": "22c53b84b7fff91b01a318d71a10dfc251e92849"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/22c53b84b7fff91b01a318d71a10dfc251e92849",
+                "reference": "22c53b84b7fff91b01a318d71a10dfc251e92849",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^10.17",
+                "illuminate/filesystem": "^10.17",
+                "illuminate/support": "^10.17",
+                "illuminate/validation": "^10.17",
+                "php": "^8.1.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan": "^1.10"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Breeze\\BreezeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Breeze\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Minimal Laravel authentication scaffolding with Blade and Tailwind.",
+            "keywords": [
+                "auth",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/breeze/issues",
+                "source": "https://github.com/laravel/breeze"
+            },
+            "time": "2024-03-04T14:35:21+00:00"
         },
         {
             "name": "laravel/framework",
@@ -5881,16 +5943,16 @@
         },
         {
             "name": "tightenco/ziggy",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tighten/ziggy.git",
-                "reference": "3600edd4c5f788efcfbbfef726809ea929bb7a44"
+                "reference": "a89c8b68575613a67fed1b20b41f576c40a7d94b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tighten/ziggy/zipball/3600edd4c5f788efcfbbfef726809ea929bb7a44",
-                "reference": "3600edd4c5f788efcfbbfef726809ea929bb7a44",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/a89c8b68575613a67fed1b20b41f576c40a7d94b",
+                "reference": "a89c8b68575613a67fed1b20b41f576c40a7d94b",
                 "shasum": ""
             },
             "require": {
@@ -5943,9 +6005,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tighten/ziggy/issues",
-                "source": "https://github.com/tighten/ziggy/tree/v2.0.3"
+                "source": "https://github.com/tighten/ziggy/tree/v2.0.4"
             },
-            "time": "2024-02-21T00:07:20+00:00"
+            "time": "2024-03-05T15:21:49+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
