@@ -111,8 +111,8 @@ import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/keybinding-vim';
-import Description from './Components/EditorComponents/Description.vue';
-import TestcaseParam from './Components/EditorComponents/TestcaseParam.vue';
+import Description from '@/Pages/Components/EditorComponents/Description.vue';
+import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
 import { Link } from '@inertiajs/vue3';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);

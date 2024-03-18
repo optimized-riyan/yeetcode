@@ -28,9 +28,9 @@
     </ProblemSetLayout>
 </template>
 <script>
-import ProblemSetLayout from '../Pages/Layouts/ProblemSetLayout.vue';
-import ProblemEntry from './Components/ProblemEntry.vue';
-import Paginator from './Components/ProblemSetComponents/Paginator.vue';
+import ProblemSetLayout from '@/Pages/Layouts/ProblemSetLayout.vue';
+import ProblemEntry from '@/Pages/Components/ProblemEntry.vue';
+import Paginator from '@/Pages/Components/ProblemSetComponents/Paginator.vue';
 import { Head } from '@inertiajs/vue3';
 
 export default {
