@@ -38,6 +38,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('problems', ProblemController::class);
-Route::get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
-Route::get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');
+Route::middleware('auth')->resource('problems', ProblemController::class);
+Route::middleware('auth')->get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
+Route::middleware('auth')->get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');
