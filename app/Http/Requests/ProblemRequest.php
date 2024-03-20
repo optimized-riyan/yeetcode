@@ -23,7 +23,7 @@ class ProblemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [ 'required', 'max:127', Rule::unique('problems')->ignore($this->problem->id) ],
+            'name' => [ 'required', 'max:127', $this->problem ? Rule::unique('problems')->ignore($this->problem->id) : Rule::unique('problems') ],
             'difficulty' => 'integer|lte:3|gte:1',
             'description' => 'required|max:1023',
             'scaffholding' => 'max:2047',
