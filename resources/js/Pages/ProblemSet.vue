@@ -1,5 +1,5 @@
 <template>
-    <Head title="Yeetcode - Problems"></Head>
+    <Head title="Problems"></Head>
     <ProblemSetLayout>
         <div class="flex">
             <!-- left panel -->

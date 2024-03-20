@@ -148,3 +148,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# the placeholder image
+public/placeholder.jpg
