@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,6 +22,7 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'avatarUrl' => $request->user()->avatar_image,
         ]);
     }
 
@@ -33,6 +35,12 @@ class ProfileController extends Controller
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
+        }
+
+        if ($request->user()->avatar_image) {
+            $newImageUrl = fake()->unique()->imageUrl();
+            Storage::set($newImageUrl, $request['avatar']);
+            $request->user()->avatar_image = $newImageUrl;
         }
 
         $request->user()->save();

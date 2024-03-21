@@ -30,14 +30,16 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::middleware('auth')->resource('problems', ProblemController::class);
-Route::middleware('auth')->get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
-Route::middleware('auth')->get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('problems', ProblemController::class);
+    Route::get('problems/{problem}/run', [ProblemController::class, 'run'])->name('problems.run');
+    Route::get('problems/{problem}/submit', [ProblemController::class, 'submit'])->name('problems.submit');
+});

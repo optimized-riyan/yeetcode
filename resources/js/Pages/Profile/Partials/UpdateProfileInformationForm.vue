@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 
 defineProps({
     mustVerifyEmail: {
@@ -12,6 +13,10 @@ defineProps({
     status: {
         type: String,
     },
+    avatarUrl: {
+        type: String,
+        default: 'placeholder.jpg',
+    }
 });
 
 const user = usePage().props.auth.user;
@@ -19,6 +24,7 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
+    avatar: user.avatar,
 });
 </script>
 
@@ -33,6 +39,16 @@ const form = useForm({
         </header>
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+            <div>
+                <InputLabel for="avatar" value="Avatar" />
+
+                <input type="file" name="Avatar" id="avatar">
+
+                <img :src="avatarUrl" alt="Placeholder">
+
+                <InputError class="mt-2" :message="form.errors.avatar" />
+            </div>
+
             <div>
                 <InputLabel for="name" value="Name" />
 
