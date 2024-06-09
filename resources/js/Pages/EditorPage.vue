@@ -185,10 +185,12 @@ export default {
             };
             axios.post(url, data, config)
                 .then(response => {
-                    if (response.stdout)
-                        this.testcaseOutputs = [response.stdout];
-                    else
-                        this.runError = response.stderr;
+                    if (response.data.stdout) {
+                        this.testcaseOutputs = [response.data.stdout];
+                    }
+                    else {
+                        this.runError = response.data.stderr;
+                    }
                 })
                 .catch(err => {
                     console.error(err);
