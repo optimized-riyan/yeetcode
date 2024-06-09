@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'onlineCompilerDomain' => env('ONLINE_COMPILER_DOMAIN'),
+            'judge0Domain' => env('JUDGE0_DOMAIN'),
         ];
     }
 }

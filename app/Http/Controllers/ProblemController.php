@@ -130,13 +130,9 @@ class ProblemController extends Controller
 
     public function update(Problem $problem, ProblemRequest $request)
     {
-        try {
-            $form = $request->validated();
-            $this->processProblemRequest($form, $problem);
-            return to_route('problems.show', [ 'problem' => $problem ]);
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $form = $request->validated();
+        $this->processProblemRequest($form, $problem);
+        return to_route('problems.show', [ 'problem' => $problem ]);
     }
 
     public function store(ProblemRequest $request)

@@ -114,6 +114,7 @@ import 'ace-builds/src-noconflict/keybinding-vim';
 import Description from '@/Pages/Components/EditorComponents/Description.vue';
 import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
 import { Link } from '@inertiajs/vue3';
+import axios from 'axios';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
 
@@ -131,12 +132,12 @@ export default {
             languageDropdown: false,
             availableLanguages: [ 'python', 'js', 'php', 'c', 'c++' ],
             selectedLanguage: 'python',
-            languageUrls: {
-                'python': 'pycompiler',
-                'js': 'jscompiler',
-                'php': 'phpcompiler',
-                'c': 'ccompiler',
-                'c++': 'cppcompiler',
+            languageIds: {
+                'python': 71,
+                'js': 63,
+                'php': 68,
+                'c': 50,
+                'c++': 54,
                 // 'java': 'javacompiler',
             },
         }
@@ -153,24 +154,48 @@ export default {
             this.currentTestcase = index;
         },
         async runTrivial() {
-            this.runError = null;
-            const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/${this.languageUrls[this.selectedLanguage]}/runtrivial`, {
-                method: "post",
+            // this.runError = null;
+            // const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/${this.languageUrls[this.selectedLanguage]}/runtrivial`, {
+            //     method: "post",
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         code: this.editor.getValue(),
+            //         testcases: this.testcaseArray.map(tc => tc.testcase),
+            //     }),
+            // })).json();
+            // this.consolePanel = 'results';
+            // if (data.error) {
+            //     this.runError = data.error;
+            // }
+            // else {
+            //     this.testcaseOutputs = data.outputs ? data.outputs : [];
+            // }
+            const url = `http://${this.$inertia.page.props.judge0Domain}/submissions/?wait=true`;
+            const data = {
+                source_code : this.editor.getValue(),
+                stdin : this.testcaseArray[this.currentTestcase],
+                language_id: this.languageIds[this.selectedLanguage],
+            };
+            const config = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    code: this.editor.getValue(),
-                    testcases: this.testcaseArray.map(tc => tc.testcase),
-                }),
-            })).json();
-            this.consolePanel = 'results';
-            if (data.error) {
-                this.runError = data.error;
-            }
-            else {
-                this.testcaseOutputs = data.outputs ? data.outputs : [];
-            }
+            };
+            axios.post(url, data, config)
+                .then(response => {
+                    if (response.stdout)
+                        this.testcaseOutputs = [response.stdout];
+                    else
+                        this.runError = response.stderr;
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+                .finally(() => {
+                    this.consolePanel = 'results';
+                });
         }
     },
     mounted() {
