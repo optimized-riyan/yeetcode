@@ -173,27 +173,25 @@ export default {
             };
 
             try {
-                let response = await axios.post(postUrl, data, config)
+                let response = await axios.post(postUrl, data, config);
 
-                let tokens = response.data.map(token => token.token).join(',');
-                let getUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch?tokens=${tokens}`;
+                let tokens = response.data.map(token => token.token);
+                let getUrl = (token) => `http://${this.$inertia.page.props.judge0Domain}/submissions/${token}`;
 
-                response = await axios.get(getUrl);
 
-                let runError = '';
-                let submissions = response.data.submissions;
-                for (let i = 0; i < submissions.length; i++) {
-                    if (submissions[i].stderr) {
-                        runError = stderr;
+                this.testcaseOutputs = [];
+                for (let i = 0; i < tokens.length; i++) {
+                    do {
+                        response = await axios.get(getUrl(tokens[i]) + '?fields=status_id');
+                    } while (response.data.status_id == 2 || response.data.status_id == 1)
+                    response = await axios.get(getUrl(tokens[i]));
+                    if (response.data.stderr) {
+                        this.runError = response.data.stderr;
                         break;
                     }
-                }
-
-                if (runError) {
-                    this.runError = runError;
-                }
-                else {
-                    this.testcaseOutputs = submissions.map(subm => subm.stdout);
+                    else {
+                        this.testcaseOutputs.push(response.data.stdout);
+                    }
                 }
             }
             catch (err) {
@@ -202,22 +200,22 @@ export default {
             finally {
                 this.consolePanel = 'results';
             }
-    }
-},
-mounted() {
-    this.editor = ace.edit(this.$refs.aceEditor, {
-        minLines: 10,
-        fontSize: 12,
-        showPrintMargin: false,
-        theme: 'ace/theme/cloud_editor_dark',
-        mode: 'ace/mode/python',
-        keyboardHandler: 'ace/keyboard/vim',
-        tabSize: 4
-    });
-    this.editor.setValue(this.problem.scaffholding);
-},
-props: {
-    problem: Object,
+        }
+    },
+    mounted() {
+        this.editor = ace.edit(this.$refs.aceEditor, {
+            minLines: 10,
+            fontSize: 12,
+            showPrintMargin: false,
+            theme: 'ace/theme/cloud_editor_dark',
+            mode: 'ace/mode/python',
+            keyboardHandler: 'ace/keyboard/vim',
+            tabSize: 4
+        });
+        this.editor.setValue(this.problem.scaffholding);
+    },
+    props: {
+        problem: Object,
         trivialTestcases: Object,
     },
 };
