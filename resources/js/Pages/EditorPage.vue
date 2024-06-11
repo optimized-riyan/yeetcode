@@ -53,7 +53,8 @@
                                     <button type="button" @click="testcaseChange(index)">Testcase {{index+1}}</button>
                                 </li>
                                 <li>
-                                    <button type="button" @click="testcaseArray.push({testcase: ''})">Add</button>
+                                    <!-- <button type="button" @click="testcaseArray.push({testcase: ''})">Add</button> -->
+                                    <button type="button" @click="addTestcase">Add</button>
                                 </li>
                             </ul>
                             <!-- testcase content -->
@@ -187,7 +188,7 @@ export default {
                     response = await axios.get(getUrl(tokens[i]));
                     if (response.data.stderr) {
                         this.runError = response.data.stderr;
-                        break;
+                        break
                     }
                     else {
                         this.testcaseOutputs.push(response.data.stdout);
@@ -200,6 +201,13 @@ export default {
             finally {
                 this.consolePanel = 'results';
             }
+        },
+        addTestcase() {
+            this.testcaseArray.push({testcase: ''});
+            if (this.testcaseArray.length > 1) {
+                this.testcaseArray.at(-1).testcase = this.testcaseArray.at(-2).testcase;
+            }
+            this.currentTestcase = this.testcaseArray.length - 1;
         }
     },
     mounted() {
