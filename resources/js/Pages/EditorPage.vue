@@ -130,7 +130,7 @@ export default {
             editor: null,
             runError: null,
             languageDropdown: false,
-            availableLanguages: [ 'python', 'js', 'php', 'c', 'c++' ],
+            availableLanguages: ['python', 'js', 'php', 'c', 'c++'],
             selectedLanguage: 'python',
             languageIds: {
                 'python': 71,
@@ -154,66 +154,70 @@ export default {
             this.currentTestcase = index;
         },
         async runTrivial() {
-            // this.runError = null;
-            // const data = await (await fetch(`${this.$inertia.page.props.onlineCompilerDomain}/${this.languageUrls[this.selectedLanguage]}/runtrivial`, {
-            //     method: "post",
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         code: this.editor.getValue(),
-            //         testcases: this.testcaseArray.map(tc => tc.testcase),
-            //     }),
-            // })).json();
-            // this.consolePanel = 'results';
-            // if (data.error) {
-            //     this.runError = data.error;
-            // }
-            // else {
-            //     this.testcaseOutputs = data.outputs ? data.outputs : [];
-            // }
-            const url = `http://${this.$inertia.page.props.judge0Domain}/submissions/?wait=true`;
-            const data = {
-                source_code : this.editor.getValue(),
-                stdin : this.testcaseArray[this.currentTestcase],
-                language_id: this.languageIds[this.selectedLanguage],
-            };
+            const postUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch`;
+
+            const submissions = [];
+            for (let i = 0; i < this.testcaseArray.length; i++) {
+                submissions.push({
+                    source_code: this.editor.getValue(),
+                    stdin: this.testcaseArray[i].testcase,
+                    language_id: this.languageIds[this.selectedLanguage],
+                });
+            }
+
+            const data = { submissions };
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             };
-            axios.post(url, data, config)
-                .then(response => {
-                    if (response.data.stdout) {
-                        this.testcaseOutputs = [response.data.stdout];
+
+            try {
+                let response = await axios.post(postUrl, data, config)
+
+                let tokens = response.data.map(token => token.token).join(',');
+                let getUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch?tokens=${tokens}`;
+
+                response = await axios.get(getUrl);
+
+                let runError = '';
+                let submissions = response.data.submissions;
+                for (let i = 0; i < submissions.length; i++) {
+                    if (submissions[i].stderr) {
+                        runError = stderr;
+                        break;
                     }
-                    else {
-                        this.runError = response.data.stderr;
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-                .finally(() => {
-                    this.consolePanel = 'results';
-                });
-        }
-    },
-    mounted() {
-        this.editor = ace.edit(this.$refs.aceEditor, {
-            minLines: 10,
-            fontSize: 12,
-            showPrintMargin: false,
-            theme: 'ace/theme/cloud_editor_dark',
-            mode: 'ace/mode/python',
-            keyboardHandler: 'ace/keyboard/vim',
-            tabSize: 4
-        });
-        this.editor.setValue(this.problem.scaffholding);
-    },
-    props: {
-        problem: Object,
+                }
+
+                if (runError) {
+                    this.runError = runError;
+                }
+                else {
+                    this.testcaseOutputs = submissions.map(subm => subm.stdout);
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
+            finally {
+                this.consolePanel = 'results';
+            }
+    }
+},
+mounted() {
+    this.editor = ace.edit(this.$refs.aceEditor, {
+        minLines: 10,
+        fontSize: 12,
+        showPrintMargin: false,
+        theme: 'ace/theme/cloud_editor_dark',
+        mode: 'ace/mode/python',
+        keyboardHandler: 'ace/keyboard/vim',
+        tabSize: 4
+    });
+    this.editor.setValue(this.problem.scaffholding);
+},
+props: {
+    problem: Object,
         trivialTestcases: Object,
     },
 };
