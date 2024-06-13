@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Constraint;
 use App\Models\Problem;
-use App\Models\Description;
-use App\Models\Difficulty;
 use App\Models\Example;
+use App\Models\Scaffholding;
 use App\Models\Testcase;
 use Illuminate\Database\Seeder;
 
@@ -22,7 +21,6 @@ class ProblemSeeder extends Seeder
                 $testcase->is_trivial = true;
                 $testcase->save();
             });
-
             Constraint::factory(3)->make()->each(function (Constraint $constraint) use ($problem) {
                 $problem->constraints()->save($constraint);
                 $constraint->save();
@@ -31,6 +29,14 @@ class ProblemSeeder extends Seeder
                 $problem->examples()->save($example);
                 $example->save();
             });
+            $scaffs = Scaffholding::factory(3)->make();
+            $languageIds = [71, 63, 54];
+            foreach ($scaffs as $key => $scaff)
+            {
+                $scaff->language_id = $languageIds[$key];
+                $problem->scaffholdings()->save($scaff);
+                $scaff->save();
+            }
         })->hasHints(fake()->numberBetween(1, 3))
         ->hasTestcases(20)
         ->create();

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('problems', function (Blueprint $table) {
+        Schema::create('scaffholdings', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 127);
-            $table->text('description');
-            $table->string('tc_parameters', 127);
-            $table->unsignedBigInteger('difficulty_id');
+            $table->unsignedTinyInteger('language_id');
+            $table->text('scaffholding');
+            $table->unsignedBigInteger('problem_id');
+            $table->foreign('problem_id')->references('id')->on('problems');
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('problems');
+        Schema::dropIfExists('scaffholdings');
     }
 };

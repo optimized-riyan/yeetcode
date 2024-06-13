@@ -47,7 +47,7 @@ class ProblemController extends Controller
         $form = [
             'name' => $problem->name,
             'description' => $problem->description,
-            'scaffholding' => $problem->scaffholding,
+            'scaffholdings' => $problem->scaffholdings,
             'tc_parameters' => function () use ($problem) {
                 $paramArray = [];
                 foreach (explode(' ', $problem->tc_parameters) as $param) {

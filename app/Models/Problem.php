@@ -36,6 +36,10 @@ class Problem extends Model
         return $this->hasMany(Hint::class);
     }
 
+    public function scaffholdings(): HasMany {
+        return $this->hasMany(Scaffholding::class);
+    }
+
     public function topics(): BelongsToMany {
         return $this->belongsToMany(Topic::class);
     }

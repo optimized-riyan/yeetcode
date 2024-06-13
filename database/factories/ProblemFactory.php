@@ -22,7 +22,6 @@ class ProblemFactory extends Factory
             'description' => fake()->paragraph(100),
             'tc_parameters' => 'length nums',
             'difficulty_id' => fake()->numberBetween(1, Difficulty::count()),
-            'scaffholding' => fake()->paragraph(),
         ];
     }
 }

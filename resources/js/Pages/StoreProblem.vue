@@ -25,6 +25,15 @@
                 <p v-if="errors.description">{{ errors.description }}</p>
             </div>
             <!-- scaffholding -->
+            <div class="relative">
+                <button type="button" @click="scaffholdingDropdown = !scaffholdingDropdown">{{ selectedLanguage }}</button>
+                <div class="absolute top-6 z-10 bg-leetcode-background text-leetcode-text" v-if="scaffholdingDropdown">
+                    <ul v-for="(language, index) in availableLanguages" :key="index">
+                        <!-- <li @click="()=>{selectedLanguage = language; scaffholdingDropdown = false;}" class="cursor-pointer">{{ language }}</li> -->
+                        <li @click="scaffholdingChange(language)" class="cursor-pointer">{{ language }}</li>
+                    </ul>
+                </div>
+            </div>
             <div class="h-1/2 flex flex-col">
                 <p>Scaffholding: </p>
                 <div class="grow">
@@ -284,7 +293,7 @@ export default {
                 name: 'Sum Of All Elements',
                 difficulty: 1,
                 description: 'Return the sum of all elements in the array.',
-                scaffholding: '// write your code here',
+                scaffholdings: {},
                 tc_parameters: [{ param: 'nums' }],
                 examples: [{ input: '[1, 2, 3]', output: '6', explaination: '' }],
                 constraints: [{ constraint: 'unrestricted' }],
@@ -293,6 +302,16 @@ export default {
                 selected_topics: [],
                 similar_problems: [],
                 hints: [{ hint: 'Just use the sum() function in python.' }],
+            },
+            scaffholdingDropdown: false,
+            availableLanguages: ['python', 'js', 'php', 'c', 'c++'],
+            selectedLanguage: 'python',
+            languageIds: {
+                'python': 71,
+                'js': 63,
+                'php': 68,
+                'c': 50,
+                'c++': 54,
             },
             sim_prob_dropdown: true,
             problems_by_title_text: '',
@@ -337,7 +356,8 @@ export default {
                 this.form.new_topics.push(this.$refs.new_topic.value);
         },
         syncAceEditor() {
-            this.form.scaffholding = this.editor.getValue();
+            this.form.scaffholdings[this.languageIds[this.selectedLanguage]] = this.editor.getValue();
+            this.editor.setValue(this.form.scaffholdings[this.languageIds[this.selectedLanguage]]);
         },
         addToSimilarProblems(problem, index) {
             this.form.similar_problems.push(problem);
@@ -358,6 +378,11 @@ export default {
             this.form.selected_topics.splice(index, 1);
             this.selected_topics_set.delete(topic.id);
             this.filtered_topics.unshift(topic);
+        },
+        scaffholdingChange(language) {
+            this.selectedLanguage = language;
+            this.scaffholdingDropdown = false;
+            this.syncAceEditor();
         }
     },
     computed: {
@@ -380,16 +405,24 @@ export default {
         method: String,
     },
     mounted() {
-        if (this.$props.prefilledForm)
+        // form
+        if (this.$props.prefilledForm) {
             this.form = this.prefilledForm;
+            const receivedScaffs = this.form.scaffholdings;
+            this.form.scaffholdings = {}
+            receivedScaffs.forEach(scaff => {
+                this.form.scaffholdings[scaff.language_id] = scaff.scaffholding;
+            });
+        }
 
+        // editor
         this.editor = ace.edit(this.$refs.aceEditor, {
             minLines: 10,
             fontSize: 12,
             showPrintMargin: false,
             theme: 'ace/theme/cloud_editor_dark',
             mode: 'ace/mode/javascript',
-            // keyboardHandler: 'ace/keyboard/vim',
+            keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
         this.editor.setValue(this.form.scaffholding);

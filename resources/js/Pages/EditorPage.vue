@@ -139,7 +139,6 @@ export default {
                 'php': 68,
                 'c': 50,
                 'c++': 54,
-                // 'java': 'javacompiler',
             },
         }
     },
