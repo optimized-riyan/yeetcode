@@ -48,7 +48,14 @@ class ProblemController extends Controller
         $form = [
             'name' => $problem->name,
             'description' => $problem->description,
-            'scaffholdings' => $problem->scaffholdings,
+            // 'scaffholdings' => $problem->scaffholdings,
+            "scaffholdings" => function () use ($problem) {
+                $scaffArray = [];
+                foreach ($problem->scaffholdings()->get() as $scaff) {
+                    $scaffArray[$scaff->language_id] = $scaff->scaffholding;
+                }
+                return $scaffArray;
+            },
             'tc_parameters' => function () use ($problem) {
                 $paramArray = [];
                 foreach (explode(' ', $problem->tc_parameters) as $param) {
@@ -132,6 +139,7 @@ class ProblemController extends Controller
     public function update(Problem $problem, ProblemRequest $request)
     {
         $form = $request->validated();
+        // Log::channel("debug")->info($form["scaffholdings"]);
         $this->processProblemRequest($form, $problem);
         return to_route('problems.show', [ 'problem' => $problem ]);
     }
@@ -154,7 +162,7 @@ class ProblemController extends Controller
         foreach ($form["scaffholdings"] as $languageId => $scaff) {
             $scaffModel = new Scaffholding();
             $scaffModel->language_id = $languageId;
-            if ($scaffModel->scaffholding)
+            if ($scaff)
                 $scaffModel->scaffholding = $scaff;
             array_push($scaffModels, $scaffModel);
         }

@@ -359,7 +359,7 @@ export default {
             if (this.form.scaffholdings[languageId] === undefined)
                 this.form.scaffholdings[languageId] = "";
             this.form.scaffholdings[languageId] = this.editor.getValue();
-            this.editor.setValue(this.form.scaffholdings[languageId]);
+            // this.editor.setValue(this.form.scaffholdings[languageId]);
         },
         addToSimilarProblems(problem, index) {
             this.form.similar_problems.push(problem);
@@ -384,7 +384,7 @@ export default {
         scaffholdingChange(language) {
             this.selectedLanguage = language;
             this.scaffholdingDropdown = false;
-            this.syncAceEditor();
+            this.editor.setValue(this.form.scaffholdings[this.languageIds[this.selectedLanguage]]);
         }
     },
     computed: {
@@ -427,7 +427,7 @@ export default {
             keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
-        this.syncAceEditor();
+        this.editor.setValue(this.form.scaffholdings[this.languageIds[this.selectedLanguage]]);
         this.editor.gotoLine(1);
     },
     watch: {
