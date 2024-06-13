@@ -358,8 +358,8 @@ export default {
             let languageId = this.languageIds[this.selectedLanguage];
             if (this.form.scaffholdings[languageId] === undefined)
                 this.form.scaffholdings[languageId] = "";
-            this.editor.setValue(this.form.scaffholdings[languageId]);
             this.form.scaffholdings[languageId] = this.editor.getValue();
+            this.editor.setValue(this.form.scaffholdings[languageId]);
         },
         addToSimilarProblems(problem, index) {
             this.form.similar_problems.push(problem);
@@ -411,7 +411,7 @@ export default {
         if (this.$props.prefilledForm) {
             this.form = this.prefilledForm;
             const receivedScaffs = this.prefilledForm.scaffholdings;
-            this.form.scaffholdings = {}
+            this.form.scaffholdings = {};
             receivedScaffs.forEach(scaff => {
                 this.form.scaffholdings[scaff.language_id] = scaff.scaffholding;
             });

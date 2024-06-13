@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('scaffholdings', function (Blueprint $table) {
             $table->id();
             $table->unsignedTinyInteger('language_id');
-            $table->text('scaffholding');
+            $table->text('scaffholding')->nullable();
             $table->unsignedBigInteger('problem_id');
             $table->foreign('problem_id')->references('id')->on('problems');
         });

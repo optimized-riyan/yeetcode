@@ -12,6 +12,12 @@ class Scaffholding extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        "language_id",
+        "scaffholding",
+        "problem_id"
+    ];
+
     public function problem(): BelongsTo {
         return $this->belongsTo(Problem::class);
     }

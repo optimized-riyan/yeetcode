@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hint;
+use App\Models\Scaffholding;
 use App\Models\Testcase;
 use Inertia\Inertia;
 use App\Models\Topic;
@@ -137,13 +138,9 @@ class ProblemController extends Controller
 
     public function store(ProblemRequest $request)
     {
-        try {
-            $form = $request->validated();
-            $this->processProblemRequest($form, new Problem());
-            return to_route('problems.index');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $form = $request->validated();
+        $this->processProblemRequest($form, new Problem());
+        return to_route('problems.index');
     }
 
     private function processProblemRequest(Array $form, Problem $problem)
@@ -151,7 +148,18 @@ class ProblemController extends Controller
         $problem->name = $form['name'];
         $problem->difficulty_id = $form['difficulty'];
         $problem->description = $form['description'];
-        $problem->scaffholding = $form['scaffholding'];
+
+        $problem->scaffholdings()->delete();
+        $scaffModels = [];
+        foreach ($form["scaffholdings"] as $languageId => $scaff) {
+            $scaffModel = new Scaffholding();
+            $scaffModel->language_id = $languageId;
+            if ($scaffModel->scaffholding)
+                $scaffModel->scaffholding = $scaff;
+            array_push($scaffModels, $scaffModel);
+        }
+        $problem->scaffholdings()->saveMany($scaffModels);
+        $this->saveModelsWithArray($scaffModels);
 
         $tc_parameters_conc = '';
         foreach ($form['tc_parameters'] as $tc_param) {
@@ -243,5 +251,12 @@ class ProblemController extends Controller
         return response()->json([
             'topics' => $topics,
         ]);
+    }
+
+    private function saveModelsWithArray(Array $models)
+    {
+        foreach ($models as $model) {
+            $model->save();
+        }
     }
 }
