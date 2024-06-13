@@ -29,7 +29,6 @@
                 <button type="button" @click="scaffholdingDropdown = !scaffholdingDropdown">{{ selectedLanguage }}</button>
                 <div class="absolute top-6 z-10 bg-leetcode-background text-leetcode-text" v-if="scaffholdingDropdown">
                     <ul v-for="(language, index) in availableLanguages" :key="index">
-                        <!-- <li @click="()=>{selectedLanguage = language; scaffholdingDropdown = false;}" class="cursor-pointer">{{ language }}</li> -->
                         <li @click="scaffholdingChange(language)" class="cursor-pointer">{{ language }}</li>
                     </ul>
                 </div>
@@ -356,8 +355,11 @@ export default {
                 this.form.new_topics.push(this.$refs.new_topic.value);
         },
         syncAceEditor() {
-            this.form.scaffholdings[this.languageIds[this.selectedLanguage]] = this.editor.getValue();
-            this.editor.setValue(this.form.scaffholdings[this.languageIds[this.selectedLanguage]]);
+            let languageId = this.languageIds[this.selectedLanguage];
+            if (this.form.scaffholdings[languageId] === undefined)
+                this.form.scaffholdings[languageId] = "";
+            this.editor.setValue(this.form.scaffholdings[languageId]);
+            this.form.scaffholdings[languageId] = this.editor.getValue();
         },
         addToSimilarProblems(problem, index) {
             this.form.similar_problems.push(problem);
@@ -408,7 +410,7 @@ export default {
         // form
         if (this.$props.prefilledForm) {
             this.form = this.prefilledForm;
-            const receivedScaffs = this.form.scaffholdings;
+            const receivedScaffs = this.prefilledForm.scaffholdings;
             this.form.scaffholdings = {}
             receivedScaffs.forEach(scaff => {
                 this.form.scaffholdings[scaff.language_id] = scaff.scaffholding;
@@ -425,7 +427,7 @@ export default {
             keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
-        this.editor.setValue(this.form.scaffholding);
+        this.syncAceEditor();
         this.editor.gotoLine(1);
     },
     watch: {
