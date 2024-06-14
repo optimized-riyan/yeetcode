@@ -111,6 +111,8 @@ import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url
 import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-php";
 import 'ace-builds/src-noconflict/keybinding-vim';
 import Description from '@/Pages/Components/EditorComponents/Description.vue';
 import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
@@ -140,6 +142,13 @@ export default {
                 'c': 50,
                 'c++': 54,
             },
+            editorModes: {
+                "python": "python",
+                "js": "javascript",
+                "php": "php",
+                "c": "c_cpp",
+                "c++": "c_cpp",
+            }
         }
     },
     components: {
@@ -210,7 +219,9 @@ export default {
             this.currentTestcase = this.testcaseArray.length - 1;
         },
         languageChange(language) {
+            const modeUrl = "ace/mode/";
             this.selectedLanguage = language;
+            this.editor.session.setMode(modeUrl + this.editorModes[language]);
             this.languageDropdown = false;
             this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
         },
@@ -223,7 +234,7 @@ export default {
     mounted() {
         this.editor = ace.edit(this.$refs.aceEditor, {
             minLines: 10,
-            fontSize: 12,
+            fontSize: 14,
             showPrintMargin: false,
             theme: 'ace/theme/cloud_editor_dark',
             mode: 'ace/mode/python',
