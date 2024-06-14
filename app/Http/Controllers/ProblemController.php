@@ -52,6 +52,10 @@ class ProblemController extends Controller
             "scaffholdings" => function () use ($problem) {
                 $scaffArray = [];
                 foreach ($problem->scaffholdings()->get() as $scaff) {
+                    // $data = [
+                    //     $scaff->language_id => $scaff->scaffholding
+                    // ];
+                    // $scaffArray[] = $data;
                     $scaffArray[$scaff->language_id] = $scaff->scaffholding;
                 }
                 return $scaffArray;

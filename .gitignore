@@ -151,3 +151,6 @@ dist
 
 # the placeholder image
 public/placeholder.jpg
+
+# todo notes & info
+todo_info.txt

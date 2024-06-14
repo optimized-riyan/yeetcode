@@ -412,8 +412,8 @@ export default {
             this.form = this.prefilledForm;
             const receivedScaffs = this.prefilledForm.scaffholdings;
             this.form.scaffholdings = {};
-            receivedScaffs.forEach(scaff => {
-                this.form.scaffholdings[scaff.language_id] = scaff.scaffholding;
+            Object.keys(receivedScaffs).forEach(languageId => {
+                this.form.scaffholdings[languageId] = receivedScaffs[languageId];
             });
         }
 
