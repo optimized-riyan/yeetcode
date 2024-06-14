@@ -23,21 +23,7 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
-    avatar: user.avatar,
 });
-
-const previewImage = ref('placeholder.jpg');
-
-const handleFileInputChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            previewImage.value = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-};
 </script>
 
 <template>
@@ -54,9 +40,7 @@ const handleFileInputChange = (event) => {
             <div>
                 <InputLabel for="avatar" value="Avatar" />
 
-                <input type="file" @change="handleFileInputChange" name="Avatar" id="avatar">
-
-                <img :src="previewImage" alt="Avatar">
+                <img :src="avatarUrl" alt="Avatar" width="130" height="130" class="rounded-xl">
 
                 <InputError class="mt-2" :message="form.errors.avatar" />
             </div>
