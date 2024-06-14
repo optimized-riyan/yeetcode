@@ -27,14 +27,14 @@
                             <button type="button" @click="languageDropdown = !languageDropdown">{{ selectedLanguage }}</button>
                             <div class="absolute top-6 z-10 bg-leetcode-background text-leetcode-text" v-if="languageDropdown">
                                 <ul v-for="(language, index) in availableLanguages" :key="index">
-                                    <li @click="()=>{selectedLanguage = language; languageDropdown = false;}" class="cursor-pointer">{{ language }}</li>
+                                    <li @click="languageChange(language)" class="cursor-pointer">{{ language }}</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- editor -->
                     <div class="grow">
-                        <div ref="aceEditor" class="h-full"></div>
+                        <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
                     </div>
                 </div>
                 <!-- console -->
@@ -154,6 +154,7 @@ export default {
             this.currentTestcase = index;
         },
         async runTrivial() {
+            this.runError = "";
             const postUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch`;
 
             const submissions = [];
@@ -207,7 +208,17 @@ export default {
                 this.testcaseArray.at(-1).testcase = this.testcaseArray.at(-2).testcase;
             }
             this.currentTestcase = this.testcaseArray.length - 1;
-        }
+        },
+        languageChange(language) {
+            this.selectedLanguage = language;
+            this.languageDropdown = false;
+            this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+        },
+        syncAceEditor() {
+            let languageId = this.languageIds[this.selectedLanguage];
+            if (this.scaffholdings[languageId] === undefined) this.scaffholdings[languageId] = "";
+            this.scaffholdings[languageId] = this.editor.getValue();
+        },
     },
     mounted() {
         this.editor = ace.edit(this.$refs.aceEditor, {
@@ -219,11 +230,11 @@ export default {
             keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
-        this.editor.setValue(this.problem.scaffholding);
+        this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
     },
     props: {
         problem: Object,
-        trivialTestcases: Object,
+        scaffholdings: Object,
     },
 };
 </script>

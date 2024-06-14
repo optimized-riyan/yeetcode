@@ -16,7 +16,7 @@ class ProblemSeeder extends Seeder
      */
     public function run(): void
     {
-        $problems = Problem::factory(10)->afterCreating(function (Problem $problem) {
+        $problems = Problem::factory(20)->afterCreating(function (Problem $problem) {
             $problem->testcases()->take(3)->get()->each(function (Testcase $testcase) {
                 $testcase->is_trivial = true;
                 $testcase->save();
@@ -38,7 +38,7 @@ class ProblemSeeder extends Seeder
                 $scaff->save();
             }
         })->hasHints(fake()->numberBetween(1, 3))
-        ->hasTestcases(20)
+        ->hasTestcases(6)
         ->create();
 
         foreach ($problems as $problem) {

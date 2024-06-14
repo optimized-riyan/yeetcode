@@ -13,7 +13,6 @@ use App\Models\Constraint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ProblemRequest;
-use Exception;
 
 class ProblemController extends Controller
 {
@@ -31,7 +30,14 @@ class ProblemController extends Controller
                 'testcases' => function ($query) {
                     $query->where('is_trivial', 1);
                 },
-            ])
+            ]),
+            "scaffholdings" => function () use ($problem) {
+                $scaffArray = [];
+                foreach ($problem->scaffholdings()->get() as $scaff) {
+                    $scaffArray[$scaff->language_id] = $scaff->scaffholding;
+                }
+                return $scaffArray;
+            },
         ]);
     }
 
@@ -52,10 +58,6 @@ class ProblemController extends Controller
             "scaffholdings" => function () use ($problem) {
                 $scaffArray = [];
                 foreach ($problem->scaffholdings()->get() as $scaff) {
-                    // $data = [
-                    //     $scaff->language_id => $scaff->scaffholding
-                    // ];
-                    // $scaffArray[] = $data;
                     $scaffArray[$scaff->language_id] = $scaff->scaffholding;
                 }
                 return $scaffArray;
