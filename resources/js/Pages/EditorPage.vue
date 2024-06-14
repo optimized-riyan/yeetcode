@@ -108,6 +108,7 @@
 import ace from 'ace-builds';
 import 'ace-builds/esm-resolver';
 import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url";
+import workerPhpUrl from "ace-builds/src-noconflict/worker-php?url";
 import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
@@ -120,6 +121,7 @@ import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
+ace.config.setModuleUrl("ace/mode/php_worker", workerPhpUrl);
 
 export default {
     data() {
