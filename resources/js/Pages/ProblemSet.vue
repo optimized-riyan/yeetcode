@@ -1,6 +1,6 @@
 <template>
     <Head title="Problems"></Head>
-    <ProblemSetLayout>
+    <ProblemSetLayout :avatarImage="avatarImage">
         <div class="flex">
             <!-- left panel -->
             <div class="flex flex-col w-3/4">
@@ -42,6 +42,7 @@ export default {
     },
     props: {
         problemList: Object,
+        avatarImage: String,
     },
 }
 </script>

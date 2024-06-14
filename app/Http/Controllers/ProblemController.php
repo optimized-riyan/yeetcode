@@ -19,7 +19,8 @@ class ProblemController extends Controller
     public function index()
     {
         return Inertia::render('ProblemSet', [
-            'problemList' => Problem::with('difficulty')->paginate(10)
+            'problemList' => Problem::with('difficulty')->paginate(10),
+            'avatarImage' => auth()->user()->avatar_image,
         ]);
     }
 
