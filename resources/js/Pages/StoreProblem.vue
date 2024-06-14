@@ -277,12 +277,17 @@
 import ace from 'ace-builds';
 import 'ace-builds/esm-resolver';
 import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url";
+import workerPhpUrl from "ace-builds/src-noconflict/worker-php?url";
 import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
 import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/mode-python';
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-php";
 import 'ace-builds/src-noconflict/keybinding-vim';
 import { router } from '@inertiajs/vue3';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
+ace.config.setModuleUrl("ace/mode/php_worker", workerPhpUrl);
 
 export default {
     data() {
@@ -311,6 +316,13 @@ export default {
                 'php': 68,
                 'c': 50,
                 'c++': 54,
+            },
+            editorModes: {
+                "python": "python",
+                "js": "javascript",
+                "php": "php",
+                "c": "c_cpp",
+                "c++": "c_cpp",
             },
             sim_prob_dropdown: true,
             problems_by_title_text: '',
@@ -382,7 +394,9 @@ export default {
             this.filtered_topics.unshift(topic);
         },
         scaffholdingChange(language) {
+            const modeUrl = "ace/mode/";
             this.selectedLanguage = language;
+            this.editor.session.setMode(modeUrl + this.editorModes[language]);
             this.scaffholdingDropdown = false;
             this.editor.setValue(this.form.scaffholdings[this.languageIds[this.selectedLanguage]]);
         }
