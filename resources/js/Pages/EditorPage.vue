@@ -25,9 +25,9 @@
             <div class="flex flex-col grow">
                 <div class="h-2/3 bg-leetcode-green flex flex-col" ref="pEditorAndSettings">
                     <!-- editor settings -->
-                    <div class="h-6">
+                    <div class="h-6 flex justify-between">
                         <!-- language dropdown -->
-                        <div class="relative">
+                        <div class="relative flex">
                             <button type="button" @click="languageDropdown = !languageDropdown">{{ selectedLanguage }}</button>
                             <div class="absolute top-6 z-10 bg-leetcode-background text-leetcode-text" v-if="languageDropdown">
                                 <ul v-for="(language, index) in availableLanguages" :key="index">
@@ -35,6 +35,10 @@
                                 </ul>
                             </div>
                         </div>
+                        <!-- code reset button -->
+                        <!-- <div class="flex">
+                            <button type="button" @click="resetCode">Reset</button>
+                        </div> -->
                     </div>
                     <!-- editor -->
                     <div class="grow">
@@ -156,7 +160,8 @@ export default {
                 "php": "php",
                 "c": "c_cpp",
                 "c++": "c_cpp",
-            }
+            },
+            originalScaffholdings: null,
         }
     },
     components: {
@@ -270,9 +275,29 @@ export default {
                 window.removeEventListener('mousemove', mousemove);
                 window.removeEventListener('mouseup', mouseup);
             }
-        }
+        },
+        storeCode() {
+            localStorage.setItem([this.languageIds[this.selectedLanguage], this.problem.id], this.editor.getValue());
+        },
+        retrieveCode(language) {
+            return localStorage.getItem([this.languageIds[language], this.problem.id]);
+        },
+        // resetCode() {
+        //     this.scaffholdings[this.languageIds[this.selectedLanguage]] = this.originalScaffholdings[this.languageIds[this.selectedLanguage]];
+        //     this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+        // },
     },
     mounted() {
+        // this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));
+
+        this.availableLanguages.forEach(language => {
+            const code = this.retrieveCode(language);
+            if (code !== undefined) this.scaffholdings[this.languageIds[language]] = code;
+        });
+
+        // local storage timer
+        setInterval(this.storeCode, 100);
+
         this.editor = ace.edit(this.$refs.aceEditor, {
             minLines: 10,
             fontSize: 14,
