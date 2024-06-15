@@ -16,7 +16,9 @@
         <!-- left and right panel -->
         <div class="flex grow overflow-auto">
             <!-- left panel -->
-            <Description :problem="problem" ref="pLeftPanel" class="w-1/3"></Description>
+            <div class="w-1/3" ref="pLeftPanel">
+                <LeftPanel :problem="problem"></LeftPanel>
+            </div>
             <div ref="pGutterLR" class="h-full w-2 top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
             <div class="flex flex-col grow" ref="pRightPanel">
@@ -116,7 +118,7 @@ import 'ace-builds/src-noconflict/mode-python';
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-php";
 import 'ace-builds/src-noconflict/keybinding-vim';
-import Description from '@/Pages/Components/EditorComponents/Description.vue';
+import LeftPanel from "@/Pages/Components/EditorComponents/LeftPanel.vue";
 import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -155,7 +157,7 @@ export default {
         }
     },
     components: {
-        Description,
+        LeftPanel,
         TestcaseParam,
         Link,
     },
@@ -236,11 +238,10 @@ export default {
         resizer(e, leftPane) {
             window.addEventListener('mousemove', mousemove);
             window.addEventListener('mouseup', mouseup);
-            console.log("Moving");
 
+            console.log(this.$refs);
             let prevX = e.x;
             const leftPanel = leftPane.getBoundingClientRect();
-
 
             function mousemove(e) {
                 let newX = prevX - e.x;
