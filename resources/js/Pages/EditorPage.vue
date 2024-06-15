@@ -19,10 +19,11 @@
             <div class="w-1/3" ref="pLeftPanel">
                 <LeftPanel :problem="problem"></LeftPanel>
             </div>
+            <!-- gutter b/w left & right panels -->
             <div ref="pGutterLR" class="h-full w-2 top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
-            <div class="flex flex-col grow" ref="pRightPanel">
-                <div class="h-2/3 bg-leetcode-green flex flex-col">
+            <div class="flex flex-col grow">
+                <div class="h-2/3 bg-leetcode-green flex flex-col" ref="pEditorAndSettings">
                     <!-- editor settings -->
                     <div class="h-6">
                         <!-- language dropdown -->
@@ -40,6 +41,8 @@
                         <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
                     </div>
                 </div>
+                <!-- gutter b/w editor+settings & console -->
+                <div ref="pGutterEC" class="w-full h-2 top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
                 <!-- console -->
                 <div class="grow">
                     <!-- panel change buttons -->
@@ -193,7 +196,6 @@ export default {
                 let tokens = response.data.map(token => token.token);
                 let getUrl = (token) => `http://${this.$inertia.page.props.judge0Domain}/submissions/${token}`;
 
-
                 this.testcaseOutputs = [];
                 for (let i = 0; i < tokens.length; i++) {
                     do {
@@ -235,17 +237,33 @@ export default {
             if (this.scaffholdings[languageId] === undefined) this.scaffholdings[languageId] = "";
             this.scaffholdings[languageId] = this.editor.getValue();
         },
-        resizer(e, leftPane) {
+        resizerWidth(e, leftPane) {
             window.addEventListener('mousemove', mousemove);
             window.addEventListener('mouseup', mouseup);
 
-            console.log(this.$refs);
             let prevX = e.x;
             const leftPanel = leftPane.getBoundingClientRect();
 
             function mousemove(e) {
                 let newX = prevX - e.x;
                 leftPane.style.width = leftPanel.width - newX + "px";
+            }
+
+            function mouseup() {
+                window.removeEventListener('mousemove', mousemove);
+                window.removeEventListener('mouseup', mouseup);
+            }
+        },
+        resizerHeight(e, upperPane) {
+            window.addEventListener('mousemove', mousemove);
+            window.addEventListener('mouseup', mouseup);
+
+            let prevY = e.y;
+            const upperPanel = upperPane.getBoundingClientRect();
+
+            function mousemove(e) {
+                let newY = prevY - e.y;
+                upperPane.style.height = upperPanel.height - newY + "px";
             }
 
             function mouseup() {
@@ -267,7 +285,8 @@ export default {
         this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
 
         // resizers
-        this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizer(e, this.$refs.pLeftPanel));
+        this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizerWidth(e, this.$refs.pLeftPanel));
+        this.$refs.pGutterEC.addEventListener('mousedown', e => this.resizerHeight(e, this.$refs.pEditorAndSettings));
     },
     props: {
         problem: Object,
