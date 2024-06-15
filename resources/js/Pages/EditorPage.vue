@@ -16,9 +16,10 @@
         <!-- left and right panel -->
         <div class="flex grow overflow-auto">
             <!-- left panel -->
-            <Description :problem="problem"></Description>
+            <Description :problem="problem" ref="pLeftPanel" class="w-1/3"></Description>
+            <div ref="pGutterLR" class="h-full w-2 top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
-            <div class="flex flex-col grow">
+            <div class="flex flex-col grow" ref="pRightPanel">
                 <div class="h-2/3 bg-leetcode-green flex flex-col">
                     <!-- editor settings -->
                     <div class="h-6">
@@ -214,7 +215,7 @@ export default {
             }
         },
         addTestcase() {
-            this.testcaseArray.push({testcase: ''});
+            this.testcaseArray.push({ testcase: '' });
             if (this.testcaseArray.length > 1) {
                 this.testcaseArray.at(-1).testcase = this.testcaseArray.at(-2).testcase;
             }
@@ -232,6 +233,25 @@ export default {
             if (this.scaffholdings[languageId] === undefined) this.scaffholdings[languageId] = "";
             this.scaffholdings[languageId] = this.editor.getValue();
         },
+        resizer(e, leftPane) {
+            window.addEventListener('mousemove', mousemove);
+            window.addEventListener('mouseup', mouseup);
+            console.log("Moving");
+
+            let prevX = e.x;
+            const leftPanel = leftPane.getBoundingClientRect();
+
+
+            function mousemove(e) {
+                let newX = prevX - e.x;
+                leftPane.style.width = leftPanel.width - newX + "px";
+            }
+
+            function mouseup() {
+                window.removeEventListener('mousemove', mousemove);
+                window.removeEventListener('mouseup', mouseup);
+            }
+        }
     },
     mounted() {
         this.editor = ace.edit(this.$refs.aceEditor, {
@@ -244,6 +264,9 @@ export default {
             tabSize: 4
         });
         this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+
+        // resizers
+        this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizer(e, this.$refs.pLeftPanel));
     },
     props: {
         problem: Object,
