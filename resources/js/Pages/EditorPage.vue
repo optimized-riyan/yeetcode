@@ -36,9 +36,9 @@
                             </div>
                         </div>
                         <!-- code reset button -->
-                        <!-- <div class="flex">
+                        <div class="flex">
                             <button type="button" @click="resetCode">Reset</button>
-                        </div> -->
+                        </div>
                     </div>
                     <!-- editor -->
                     <div class="grow">
@@ -282,13 +282,13 @@ export default {
         retrieveCode(language) {
             return localStorage.getItem([this.languageIds[language], this.problem.id]);
         },
-        // resetCode() {
-        //     this.scaffholdings[this.languageIds[this.selectedLanguage]] = this.originalScaffholdings[this.languageIds[this.selectedLanguage]];
-        //     this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
-        // },
+        resetCode() {
+            this.scaffholdings[this.languageIds[this.selectedLanguage]] = this.originalScaffholdings[this.languageIds[this.selectedLanguage]];
+            this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+        },
     },
     mounted() {
-        // this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));
+        this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));
 
         this.availableLanguages.forEach(language => {
             const code = this.retrieveCode(language);
