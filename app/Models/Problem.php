@@ -52,6 +52,11 @@ class Problem extends Model
         return $this->hasMany(Testcase::class);
     }
 
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
+    }
+
     public function tcParameters(): HasOne {
         return $this->hasOne(TcParameter::class, 'problem_id', 'id');
     }

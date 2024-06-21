@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('problem_id');
             $table->tinyText('status');
             $table->text('error')->nullable();
             $table->text('errorneous_tc');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('problem_id')->references('id')->on('problems');
         });
     }
 
