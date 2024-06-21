@@ -7,7 +7,8 @@
                 <Link :href="route('problems.index')">Problem List</Link>
             </div>
             <div>
-                <button type="button" @click="runTrivial">Run</button>
+                <button type="button" @click="runTrivial" class="px-2">Run</button>
+                <button type="button" @click="submitCode">Submit</button>
             </div>
             <div>
                 Profile
@@ -221,6 +222,24 @@ export default {
             }
             finally {
                 this.consolePanel = 'results';
+            }
+        },
+        async submitCode() {
+            const submissionCreationUrl = "/api/submitCode";
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+            const data = { problem_id: this.problem_id };
+
+            try {
+                const submissionId = (await axios.post(submissionCreationUrl, data, config))["submission_id"];
+                console.log(submissionId);
+            }
+            catch (err) {
+                console.error(err);
             }
         },
         addTestcase() {

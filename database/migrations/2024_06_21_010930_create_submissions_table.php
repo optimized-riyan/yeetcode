@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('problem_id');
             $table->tinyText('status');
             $table->text('error')->nullable();
-            $table->text('errorneous_tc');
+            $table->text('errorneous_tc')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('problem_id')->references('id')->on('problems');
         });
