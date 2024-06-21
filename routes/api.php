@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProblemController;
+use App\Http\Controllers\SubmissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/get-problems', [ProblemController::class, 'getProblemsByTitle']);
 
 Route::get('/get-topics', [ProblemController::class, 'getTopicsWithFilter']);
+
+Route::post('/submitCode', [SubmissionController::class, 'submitCode']);
+
+Route::get('/getSubmittedResult', [SubmissionController::class, 'getSubmittedResult']);
