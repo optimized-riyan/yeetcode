@@ -232,10 +232,13 @@ export default {
                     'Content-Type': 'application/json',
                 },
             };
-            const data = { problem_id: this.problem_id };
+            const data = {
+                problem_id: this.problem.id,
+                user_id: this.userId,
+            };
 
             try {
-                const submissionId = (await axios.post(submissionCreationUrl, data, config))["submission_id"];
+                const submissionId = (await axios.post(submissionCreationUrl, data, config))["data"]["submission_id"];
                 console.log(submissionId);
             }
             catch (err) {
@@ -335,6 +338,7 @@ export default {
     props: {
         problem: Object,
         scaffholdings: Object,
+        userId: Number,
     },
 };
 </script>

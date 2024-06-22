@@ -11,7 +11,7 @@ class SubmissionController extends Controller
     public function submitCode(Request $request)
     {
         $submission = Submission::make();
-        $submission->user_id = auth()->user()->id;
+        $submission->user_id = $request->input("user_id");
         $submission->status = "processing";
         $submission->problem_id = $request->input("problem_id");
         $submission->save();

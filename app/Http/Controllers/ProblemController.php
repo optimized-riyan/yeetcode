@@ -39,6 +39,7 @@ class ProblemController extends Controller
                 }
                 return $scaffArray;
             },
+            "userId" => auth()->user()->id,
         ]);
     }
 
