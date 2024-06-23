@@ -233,8 +233,10 @@ export default {
                 },
             };
             const data = {
+                code: this.editor.getValue(),
                 problem_id: this.problem.id,
                 user_id: this.userId,
+                language_id: this.languageIds[this.selectedLanguage],
             };
 
             try {

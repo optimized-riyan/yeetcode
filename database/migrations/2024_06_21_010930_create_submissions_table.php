@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('problem_id');
+            $table->text('code')->nullable();
+            $table->unsignedTinyInteger('language_id');
             $table->tinyText('status');
             $table->text('error')->nullable();
             $table->text('errorneous_tc')->nullable();
