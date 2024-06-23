@@ -19,7 +19,7 @@ class SubmissionController extends Controller
         $submission->language_id = $request->input("language_id");
         $submission->save();
 
-        SubmitAndCheckAllTestcasesJob::dispatch($request->input("code"), $request->input("problem_id"), $request->input("language_id"));
+        SubmitAndCheckAllTestcasesJob::dispatch($request->input("code"), $request->input("problem_id"), $request->input("language_id"), $submission->id);
 
         return response()->json(["submission_id" => $submission->id]);
     }
