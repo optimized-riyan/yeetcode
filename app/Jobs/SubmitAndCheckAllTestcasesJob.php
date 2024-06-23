@@ -35,18 +35,20 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
     public function handle(): void
     {
         $testcases = $this->getAllTestcases();
-        Log::channel("debug")->info(print_r($testcases));
         $submissionsUrl = "http://".env("JUDGE0_DOMAIN")."/submissions/batch";
         $reqData = [];
 
         foreach ($testcases as $testcase) {
-            $reqData["source_code"] = $this->code;
-            $reqData["language_id"] = $this->languageId;
-            $reqData["stdin"] = $testcase;
+            $data = [
+                "source_code" => $this->code,
+                "language_id" => $this->languageId,
+                "stdin" => $testcase["testcase"],
+            ];
+            $reqData[] = $data;
         }
 
         $res = Http::post($submissionsUrl, $reqData);
-        Log::channel("debug")->info($res);
+        // dd($res);
     }
 
     private function getAllTestcases(): Array

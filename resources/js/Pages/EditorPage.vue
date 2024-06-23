@@ -240,8 +240,9 @@ export default {
             };
 
             try {
-                const submissionId = (await axios.post(submissionCreationUrl, data, config))["data"]["submission_id"];
-                console.log(submissionId);
+                const response = await axios.post(submissionCreationUrl, data, config);
+                const submissionId = response["data"]["submission_id"];
+                // console.log(submissionId);
             }
             catch (err) {
                 console.error(err);
