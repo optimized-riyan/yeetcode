@@ -37,6 +37,7 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
         $testcases = $this->getAllTestcases();
         $submissionsUrl = "http://".env("JUDGE0_DOMAIN")."/submissions/batch";
         $reqData = [];
+        $submissions = [];
 
         foreach ($testcases as $testcase) {
             $data = [
@@ -44,11 +45,11 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
                 "language_id" => $this->languageId,
                 "stdin" => $testcase["testcase"],
             ];
-            $reqData[] = $data;
+            $submissions[] = $data;
         }
+        $reqData["submissions"] = $submissions;
 
         $res = Http::post($submissionsUrl, $reqData);
-        // dd($res);
     }
 
     private function getAllTestcases(): Array
