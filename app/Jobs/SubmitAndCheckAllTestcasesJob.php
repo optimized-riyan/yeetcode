@@ -61,7 +61,7 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
         $getUrl = "http://".env("JUDGE0_DOMAIN")."/submissions";
         $stderr = "";
         $errorneousTc = "";
-        $status = "";
+        $status = "right";
         foreach ($tokens as $index => $token) {
             do {
                 $res = Http::get($getUrl."/".$token."?fields=status_id");
@@ -70,12 +70,12 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
             $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time");
             $body = $res->json();
             if ($body["stderr"]) {
+                $status = "error";
                 $stderr = $body["stderr"];
                 $errorneousTc = $testcases[$index]["testcase"];
-                $status = "error";
                 break;
             }
-            else if ($body["stdout"] != $testcases[$index]["testcase"]) {
+            else if (trim($body["stdout"]) != trim($testcases[$index]["expected_output"])) {
                 $status = "wrong";
                 $errorneousTc = $testcases[$index]["testcase"];
                 break;
@@ -83,10 +83,7 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
         }
 
         $submission = Submission::find($this->submissionId);
-        if (!$status) {
-            $status = "right";
-        }
-        else if ($stderr) {
+        if ($status == "wrong" || $status == "error") {
             $submission->error = $stderr;
             $submission->errorneous_tc = $errorneousTc;
         }
@@ -97,6 +94,6 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
     private function getAllTestcases(): Array
     {
         $problem = Problem::find($this->problemId);
-        return $problem->testcases()->get(['testcase'])->toArray();
+        return $problem->testcases()->get(["testcase", "expected_output"])->toArray();
     }
 }
