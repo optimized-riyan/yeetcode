@@ -67,12 +67,16 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
                 $res = Http::get($getUrl."/".$token."?fields=status_id");
             } while ($res->json()["status_id"] == 1 || $res->json()["status_id"] == 2);
 
-            $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time");
+            $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time,status_id");
             $body = $res->json();
             if ($body["stderr"]) {
                 $status = "error";
                 $stderr = $body["stderr"];
                 $errorneousTc = $testcases[$index]["testcase"];
+                break;
+            }
+            else if ($body["status_id"] == 5) {
+                $status = "tle";
                 break;
             }
             else if (trim($body["stdout"]) != trim($testcases[$index]["expected_output"])) {
