@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedTinyInteger('language_id');
             $table->text('scaffholding')->nullable();
-            $table->unsignedBigInteger('problem_id');
-            $table->foreign('problem_id')->references('id')->on('problems');
+            $table->foreignId('problem_id')->constrained()->cascadeOnDelete();
         });
     }
 

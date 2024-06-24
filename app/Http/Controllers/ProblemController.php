@@ -165,18 +165,6 @@ class ProblemController extends Controller
         $problem->difficulty_id = $form['difficulty'];
         $problem->description = $form['description'];
 
-        $problem->scaffholdings()->delete();
-        $scaffModels = [];
-        foreach ($form["scaffholdings"] as $languageId => $scaff) {
-            $scaffModel = new Scaffholding();
-            $scaffModel->language_id = $languageId;
-            if ($scaff)
-                $scaffModel->scaffholding = $scaff;
-            array_push($scaffModels, $scaffModel);
-        }
-        $problem->scaffholdings()->saveMany($scaffModels);
-        $this->saveModelsWithArray($scaffModels);
-
         $tc_parameters_conc = '';
         foreach ($form['tc_parameters'] as $tc_param) {
             $tc_parameters_conc = $tc_parameters_conc . ' ' . $tc_param['param'];
@@ -195,6 +183,17 @@ class ProblemController extends Controller
             array_push($exampleModels, $exampleModel);
         }
         $problem->examples()->saveMany($exampleModels);
+
+        $problem->scaffholdings()->delete();
+        $scaffModels = [];
+        foreach ($form["scaffholdings"] as $languageId => $scaff) {
+            $scaffModel = new Scaffholding();
+            $scaffModel->language_id = $languageId;
+            if ($scaff)
+                $scaffModel->scaffholding = $scaff;
+            array_push($scaffModels, $scaffModel);
+        }
+        $problem->scaffholdings()->saveMany($scaffModels);
 
         $problem->constraints()->delete();
         $constraintModels = [];
