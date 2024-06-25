@@ -70,11 +70,12 @@
                             </ul>
                             <!-- testcase content -->
                             <div>
-                                <ul>
+                                <!-- <ul>
                                     <li v-for="(tcParam, index) in tcParameters" :key="index">
                                         <TestcaseParam :currentTestcase="currentTestcase" :testcaseArray="testcaseArray" @sync="(value)=>{this.testcaseArray[currentTestcase].testcase = value}"></TestcaseParam>
                                     </li>
-                                </ul>
+                                </ul> -->
+                                <textarea cols="30" rows="10" v-model="testcaseArray[currentTestcase].testcase"></textarea>
                             </div>
                         </div>
                         <div v-else>
@@ -94,9 +95,6 @@
                                 <!-- testcase content -->
                                 <div>
                                     <ul>
-                                        <li v-for="(tcParam, index) in tcParameters" :key="index">
-                                            <TestcaseParam :currentTestcase="currentTestcase" :testcaseArray="testcaseArray"></TestcaseParam>
-                                        </li>
                                         <li>
                                             <p>Your output:</p>
                                             {{ testcaseOutputs[currentTestcase] }}
@@ -241,8 +239,7 @@ export default {
 
             try {
                 const response = await axios.post(submissionCreationUrl, data, config);
-                const submissionId = response["data"]["submission_id"];
-                // console.log(submissionId);
+                console.log(response);
             }
             catch (err) {
                 console.error(err);
@@ -333,6 +330,7 @@ export default {
             tabSize: 4
         });
         this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+        this.editor.clearSelection();
 
         // resizers
         this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizerWidth(e, this.$refs.pLeftPanel));

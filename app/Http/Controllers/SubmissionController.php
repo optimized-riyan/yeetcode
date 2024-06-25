@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SubmitAndCheckAllTestcasesJob;
+use App\Models\User;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Jobs\SubmitAndCheckAllTestcasesJob;
 
 class SubmissionController extends Controller
 {
@@ -19,12 +20,12 @@ class SubmissionController extends Controller
         $submission->language_id = $request->input("language_id");
         $submission->save();
 
-        SubmitAndCheckAllTestcasesJob::dispatch($request->input("code"), $request->input("problem_id"), $request->input("language_id"), $submission->id);
+        SubmitAndCheckAllTestcasesJob::dispatchSync($request->input("code"), $request->input("problem_id"), $request->input("language_id"), $submission->id);
 
-        return response()->json(["submission_id" => $submission->id]);
+        return response()->json($submission->fresh());
     }
 
-    public function getSubmissionResult(Request $request)
+    public function getSubmissions(User $user)
     {
 
     }

@@ -25,5 +25,3 @@ Route::get('/get-problems', [ProblemController::class, 'getProblemsByTitle']);
 Route::get('/get-topics', [ProblemController::class, 'getTopicsWithFilter']);
 
 Route::post('/submitCode', [SubmissionController::class, 'submitCode']);
-
-Route::get('/getSubmittedResult', [SubmissionController::class, 'getSubmittedResult']);
