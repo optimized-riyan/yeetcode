@@ -177,13 +177,13 @@ export default {
         async runTrivial() {
             this.runError = "";
             this.consolePanel = "testcases";
-            const postUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch`;
+            const postUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch?base64_encoded=true`;
 
             const submissions = [];
             for (let i = 0; i < this.testcaseArray.length; i++) {
                 submissions.push({
-                    source_code: this.editor.getValue(),
-                    stdin: this.testcaseArray[i].testcase,
+                    source_code: btoa(this.editor.getValue()),
+                    stdin: btoa(this.testcaseArray[i].testcase),
                     language_id: this.languageIds[this.selectedLanguage],
                 });
             }
@@ -199,20 +199,24 @@ export default {
                 let response = await axios.post(postUrl, data, config);
 
                 let tokens = response.data.map(token => token.token);
-                let getUrl = (token) => `http://${this.$inertia.page.props.judge0Domain}/submissions/${token}`;
+                let getUrl = (token) => `http://${this.$inertia.page.props.judge0Domain}/submissions/${token}?`;
 
                 this.testcaseOutputs = [];
                 for (let i = 0; i < tokens.length; i++) {
                     do {
-                        response = await axios.get(getUrl(tokens[i]) + '?fields=status_id');
+                        response = await axios.get(getUrl(tokens[i]) + "fields=status_id");
                     } while (response.data.status_id == 2 || response.data.status_id == 1)
-                    response = await axios.get(getUrl(tokens[i]));
-                    if (response.data.stderr) {
-                        this.runError = response.data.stderr;
-                        break
+                    response = await axios.get(getUrl(tokens[i]) + "base64_encoded=true");
+                    console.log(response);
+                    if (response.data.stderr || response.data.compile_output) {
+                        if (response.data.stderr)
+                            this.runError = this.base64decode(response.data.stderr);
+                        else
+                            this.runError = this.base64decode(response.data.compile_output);
+                        break;
                     }
                     else {
-                        this.testcaseOutputs.push(response.data.stdout);
+                        this.testcaseOutputs.push(this.base64decode(response.data.stdout));
                     }
                 }
             }
@@ -313,6 +317,20 @@ export default {
         changeEditorValueNoSelection(value) {
             this.editor.setValue(value);
             this.editor.clearSelection();
+        },
+        base64decode(base64str) {
+            // Decode base64str to binary string
+            const binaryString = atob(base64str);
+
+            // Convert binary string to a Uint8Array
+            const binaryArray = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                binaryArray[i] = binaryString.charCodeAt(i);
+            }
+
+            // Convert Uint8Array to a UTF-8 string
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(binaryArray);
         }
     },
     mounted() {
