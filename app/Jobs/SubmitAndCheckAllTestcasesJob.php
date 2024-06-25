@@ -67,8 +67,17 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
                 $res = Http::get($getUrl."/".$token."?fields=status_id");
             } while ($res->json()["status_id"] == 1 || $res->json()["status_id"] == 2);
 
-            $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time,status_id");
+            $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time,status_id&base64_encoded=true");
             $body = $res->json();
+
+            foreach ($body as $param => $value) {
+                if ($value) {
+                    $binaryData = base64_decode($value);
+                    $utf8String = mb_convert_encoding($binaryData, "UTF-8", "UTF-8");
+                    $body[$param] = $utf8String;
+                }
+            }
+
             if ($body["stderr"]) {
                 $status = "error";
                 $stderr = $body["stderr"];
