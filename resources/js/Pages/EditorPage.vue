@@ -99,10 +99,6 @@
                                             <p>Your output:</p>
                                             {{ testcaseOutputs[currentTestcase] }}
                                         </li>
-                                        <li>
-                                            <p>Expected Output:</p>
-                                            {{ expectedOutputs[currentTestcase] }}
-                                        </li>
                                     </ul>
                                 </div>
                             </div>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyText('status');
             $table->text('error')->nullable();
             $table->text('errorneous_tc')->nullable();
+            $table->text('expected_output')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('problem_id')->references('id')->on('problems');
         });

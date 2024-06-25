@@ -61,6 +61,7 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
         $getUrl = "http://".env("JUDGE0_DOMAIN")."/submissions";
         $stderr = "";
         $errorneousTc = "";
+        $expectedOutputOnErrorTc = "";
         $status = "right";
         foreach ($tokens as $index => $token) {
             do {
@@ -69,6 +70,7 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
 
             $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time,status_id&base64_encoded=true");
             $body = $res->json();
+            if (!isset($body["compile_output"])) $body["compile_output"] = "";
 
             foreach ($body as $param => $value) {
                 if ($value) {
@@ -78,10 +80,11 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
                 }
             }
 
-            if ($body["stderr"]) {
+            if ($body["stderr"] || $body["compile_output"]) {
                 $status = "error";
                 $stderr = $body["stderr"];
                 $errorneousTc = $testcases[$index]["testcase"];
+                $expectedOutputOnErrorTc = $testcases[$index]["expected_output"];
                 break;
             }
             else if ($body["status_id"] == 5) {
@@ -91,6 +94,7 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
             else if (trim($body["stdout"]) != trim($testcases[$index]["expected_output"])) {
                 $status = "wrong";
                 $errorneousTc = $testcases[$index]["testcase"];
+                $expectedOutputOnErrorTc = $testcases[$index]["expected_output"];
                 break;
             }
         }
@@ -99,6 +103,9 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
         if ($status == "wrong" || $status == "error") {
             $submission->error = $stderr;
             $submission->errorneous_tc = $errorneousTc;
+        }
+        if ($expectedOutputOnErrorTc) {
+            $submission->expected_output = $expectedOutputOnErrorTc;
         }
         $submission->status = $status;
         $submission->save();
