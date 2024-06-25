@@ -138,7 +138,7 @@ export default {
             currentTestcase: 0,
             testcaseArray: Object.values(this.problem.testcases),
             tcParameters: this.problem.tc_parameters.split(' '),
-            consolePanel: 'testcases',
+            consolePanel: 'testcases', // testcases, results, submissions
             testcaseOutputs: [],
             expectedOutputs: [],
             editor: null,
@@ -176,6 +176,7 @@ export default {
         },
         async runTrivial() {
             this.runError = "";
+            this.consolePanel = "testcases";
             const postUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch`;
 
             const submissions = [];
@@ -257,7 +258,8 @@ export default {
             this.selectedLanguage = language;
             this.editor.session.setMode(modeUrl + this.editorModes[language]);
             this.languageDropdown = false;
-            this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+            this.changeEditorValueNoSelection(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+            localStorage.setItem(`[${this.problem.id},selectedLanguage]`, this.selectedLanguage);
         },
         syncAceEditor() {
             let languageId = this.languageIds[this.selectedLanguage];
@@ -306,8 +308,12 @@ export default {
         },
         resetCode() {
             this.scaffholdings[this.languageIds[this.selectedLanguage]] = this.originalScaffholdings[this.languageIds[this.selectedLanguage]];
-            this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+            this.changeEditorValueNoSelection(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
         },
+        changeEditorValueNoSelection(value) {
+            this.editor.setValue(value);
+            this.editor.clearSelection();
+        }
     },
     mounted() {
         this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));
@@ -329,8 +335,12 @@ export default {
             keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
-        this.editor.setValue(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
-        this.editor.clearSelection();
+        this.changeEditorValueNoSelection(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+
+        const storedLanguage = localStorage.getItem(`[${this.problem.id},selectedLanguage]`);
+        if (storedLanguage) {
+            this.languageChange(storedLanguage);
+        }
 
         // resizers
         this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizerWidth(e, this.$refs.pLeftPanel));
