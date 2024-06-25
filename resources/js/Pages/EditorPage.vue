@@ -54,6 +54,7 @@
                     <div>
                         <button type="button" @click="()=>this.consolePanel='testcases'">Testcases</button>
                         <button type="button" @click="()=>this.consolePanel='results'">Test Results</button>
+                        <button type="button" @click="()=>this.consolePanel='submissions'">Submissions</button>
                     </div>
                     <!-- panel contents -->
                     <div>
@@ -70,15 +71,10 @@
                             </ul>
                             <!-- testcase content -->
                             <div>
-                                <!-- <ul>
-                                    <li v-for="(tcParam, index) in tcParameters" :key="index">
-                                        <TestcaseParam :currentTestcase="currentTestcase" :testcaseArray="testcaseArray" @sync="(value)=>{this.testcaseArray[currentTestcase].testcase = value}"></TestcaseParam>
-                                    </li>
-                                </ul> -->
-                                <textarea cols="30" rows="10" v-model="testcaseArray[currentTestcase].testcase"></textarea>
+                                <textarea cols="30" rows="7" v-model="testcaseArray[currentTestcase].testcase"></textarea>
                             </div>
                         </div>
-                        <div v-else>
+                        <div v-else-if="consolePanel == 'results'">
                             <div v-if="runError">
                                 {{ runError }}
                             </div>
@@ -96,13 +92,17 @@
                                 <div>
                                     <ul>
                                         <li>
-                                            <p>Your output:</p>
-                                            {{ testcaseOutputs[currentTestcase] }}
+                                            <p>Your output:</p>index
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                       </div>
+                        </div>
+                        <div v-else>
+                            <ul v-for="(submission, index) in fetchSumbissions" :key="index">
+                                <li>Submission {{ index+1 }}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,6 +157,7 @@ export default {
                 "c++": "c_cpp",
             },
             originalScaffholdings: null,
+            fetchedSubmissions: null,
         }
     },
     components: {
@@ -165,6 +166,15 @@ export default {
         Link,
     },
     computed: {
+        async fetchSumbissions() {
+            if (this.fetchedSubmissions) return this.fetchedSubmissions;
+
+            const getUrl = `/api/getSubmissions/${this.problem.id}/${this.userId}`;
+            const res = await axios.get(getUrl);
+            console.log(res);
+            this.fetchedSubmissions = [];
+            return this.fetchedSubmissions;
+        }
     },
     methods: {
         testcaseChange(index) {
@@ -327,7 +337,8 @@ export default {
             // Convert Uint8Array to a UTF-8 string
             const decoder = new TextDecoder('utf-8');
             return decoder.decode(binaryArray);
-        }
+        },
+
     },
     mounted() {
         this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));

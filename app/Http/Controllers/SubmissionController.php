@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Submission;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Jobs\SubmitAndCheckAllTestcasesJob;
 
 class SubmissionController extends Controller
@@ -25,8 +23,8 @@ class SubmissionController extends Controller
         return response()->json($submission->fresh());
     }
 
-    public function getSubmissions(User $user)
+    public function getSubmissions(string $problemId, string $userId)
     {
-
+        return response()->json("this is the get submissions endpoint. Problem id is".$problemId." and User id is ".$userId);
     }
 }
