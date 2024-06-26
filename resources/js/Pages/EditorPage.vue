@@ -54,7 +54,7 @@
                     <div>
                         <button type="button" @click="()=>this.consolePanel='testcases'">Testcases</button>
                         <button type="button" @click="()=>this.consolePanel='results'">Test Results</button>
-                        <button type="button" @click="()=>this.consolePanel='submissions'">Submissions</button>
+                        <button type="button" @click="changeConsoleToSubmissionsAndFetch">Submissions</button>
                     </div>
                     <!-- panel contents -->
                     <div>
@@ -99,9 +99,14 @@
                             </div>
                         </div>
                         <div v-else>
-                            <ul v-for="(submission, index) in fetchSumbissions" :key="index">
-                                <li>Submission {{ index+1 }}</li>
-                            </ul>
+                            <div v-if="isSubmissionsFetched">
+                                <ul v-for="(submission, index) in fetchedSubmissions" :key="index">
+                                    <Submission :title="getSubmissionStatusString(submission.status)" />
+                                </ul>
+                            </div>
+                            <div v-else>
+                                Submissions are being fetched
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,6 +127,7 @@ import "ace-builds/src-noconflict/mode-php";
 import 'ace-builds/src-noconflict/keybinding-vim';
 import LeftPanel from "@/Pages/Components/EditorComponents/LeftPanel.vue";
 import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
+import Submission from './Components/EditorComponents/Submission.vue';
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -158,23 +164,16 @@ export default {
             },
             originalScaffholdings: null,
             fetchedSubmissions: null,
+            isSubmissionsFetched: false,
         }
     },
     components: {
         LeftPanel,
         TestcaseParam,
         Link,
+        Submission,
     },
     computed: {
-        async fetchSumbissions() {
-            if (this.fetchedSubmissions) return this.fetchedSubmissions;
-
-            const getUrl = `/api/getSubmissions/${this.problem.id}/${this.userId}`;
-            const res = await axios.get(getUrl);
-            console.log(res);
-            this.fetchedSubmissions = [];
-            return this.fetchedSubmissions;
-        }
     },
     methods: {
         testcaseChange(index) {
@@ -234,6 +233,8 @@ export default {
             }
         },
         async submitCode() {
+            this.isSubmissionsFetched = false;
+            this.consolePanel = "submissions";
             const submissionCreationUrl = "/api/submitCode";
 
             const config = {
@@ -249,8 +250,8 @@ export default {
             };
 
             try {
-                const response = await axios.post(submissionCreationUrl, data, config);
-                console.log(response);
+                await axios.post(submissionCreationUrl, data, config);
+                this.changeConsoleToSubmissionsAndFetch();
             }
             catch (err) {
                 console.error(err);
@@ -338,7 +339,36 @@ export default {
             const decoder = new TextDecoder('utf-8');
             return decoder.decode(binaryArray);
         },
+        async changeConsoleToSubmissionsAndFetch() {
+            this.consolePanel = "submissions";
+            if (this.isSubmissionsFetched) return;
 
+            const getUrl = `/api/getSubmissions/${this.problem.id}/${this.userId}`;
+            const res = await axios.get(getUrl);
+            this.fetchedSubmissions = res.data;
+            this.isSubmissionsFetched = true;
+        },
+        getSubmissionStatusString(status) {
+            let res = "";
+            switch (status) {
+                case "wrong":
+                    res = "Wrong Answer";
+                    break;
+                case "error":
+                    res = "Error";
+                    break;
+                case "right":
+                    res = "Accepted";
+                    break;
+                case "tle":
+                    res = "Time Limit Exceeded";
+                    break;
+                default:
+                    console.error("Invalid submission status");
+                    break;
+            }
+            return res;
+        },
     },
     mounted() {
         this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));
