@@ -26,7 +26,7 @@ class SubmissionController extends Controller
 
     public function getSubmissions(string $problemId, string $userId)
     {
-        $submissions = User::find($userId)->submissions()->where('problem_id', $problemId)->get();
+        $submissions = User::find($userId)->submissions()->where('problem_id', $problemId)->orderByDesc("created_at")->get();
         return response()->json($submissions);
     }
 }

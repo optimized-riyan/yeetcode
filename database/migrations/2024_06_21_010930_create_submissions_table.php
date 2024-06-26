@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('expected_output')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('problem_id')->references('id')->on('problems');
+            $table->timestamps();
         });
     }
 
