@@ -92,7 +92,8 @@
                                 <div>
                                     <ul>
                                         <li>
-                                            <p>Your output:</p>index
+                                            <p>Your output:</p>
+                                            {{ testcaseOutputs[currentTestcase] }}
                                         </li>
                                     </ul>
                                 </div>
