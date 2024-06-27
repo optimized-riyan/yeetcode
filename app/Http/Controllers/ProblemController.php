@@ -13,6 +13,7 @@ use App\Models\Constraint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ProblemRequest;
+use Illuminate\Support\Facades\Gate;
 
 class ProblemController extends Controller
 {
@@ -45,6 +46,8 @@ class ProblemController extends Controller
 
     public function create()
     {
+        Gate::authorize("upsert-problem");
+
         return Inertia::render('StoreProblem', [
             'url' => route('problems.store'),
             'method' => 'post',
@@ -53,6 +56,8 @@ class ProblemController extends Controller
 
     public function edit(Problem $problem)
     {
+        Gate::authorize("upsert-problem");
+
         $form = [
             'name' => $problem->name,
             'description' => $problem->description,
@@ -146,6 +151,8 @@ class ProblemController extends Controller
 
     public function update(Problem $problem, ProblemRequest $request)
     {
+        Gate::authorize("upsert-problem");
+
         $form = $request->validated();
         // Log::channel("debug")->info($form["scaffholdings"]);
         $this->processProblemRequest($form, $problem);
@@ -154,6 +161,8 @@ class ProblemController extends Controller
 
     public function store(ProblemRequest $request)
     {
+        Gate::authorize("upsert-problem");
+
         $form = $request->validated();
         $this->processProblemRequest($form, new Problem());
         return to_route('problems.index');
@@ -266,12 +275,5 @@ class ProblemController extends Controller
         return response()->json([
             'topics' => $topics,
         ]);
-    }
-
-    private function saveModelsWithArray(Array $models)
-    {
-        foreach ($models as $model) {
-            $model->save();
-        }
     }
 }
