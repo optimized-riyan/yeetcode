@@ -1,13 +1,14 @@
 <template>
-    <div class="flex">
+    <div class="flex bg-leetcode-backgroundlight p-3 my-1 rounded-lg
+        hover:bg-leetcode-backgroundlighter">
         <!-- status -->
-        <div>
-            <i class="fa-solid fa-question"></i>
+        <div class="ml-2 mr-4">
+            <i :class="icon"></i>
         </div>
         <div class="flex justify-between flex-grow">
             <!-- name -->
             <div>
-                <Link :href="route('problems.show', { problem })">{{ problem.name }}</Link>
+                <Link :href="route('problems.show', { problem })" name="problem-link">{{ problem.name }}</Link>
             </div>
             <!-- difficulty -->
             <div>
@@ -27,7 +28,10 @@ export default {
     },
     props: {
         problem: Object,
-        icon: String,
+        icon: {
+            type: String,
+            default: "fa-solid fa-question",
+        },
     }
 }
 </script>

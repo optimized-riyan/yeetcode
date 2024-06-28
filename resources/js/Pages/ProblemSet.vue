@@ -4,26 +4,24 @@
         <div class="flex">
             <!-- left panel -->
             <div class="flex flex-col w-3/4">
-                <!-- study plan -->
-                <div>
-
+                <!-- problem list -->
+                <div class="flex flex-col my-1">
+                    <ul v-for="problem in problemList.data" :key="problem.id">
+                        <ProblemEntry :problem="problem"></ProblemEntry>
+                    </ul>
                 </div>
                 <!-- filters -->
                 <div>
 
                 </div>
-                <!-- problem list -->
-                <div class="flex flex-col" v-for="problem in problemList.data" :key="problem.id">
-                    <ProblemEntry :problem="problem"></ProblemEntry>
+                <div>
+                    <Paginator :links="problemList.links"></Paginator>
                 </div>
             </div>
             <!-- right panel -->
             <div class="flex flex-col grow">
                 lol
             </div>
-        </div>
-        <div>
-            <Paginator :links="problemList.links"></Paginator>
         </div>
     </ProblemSetLayout>
 </template>
