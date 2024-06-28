@@ -278,7 +278,7 @@ import ace from 'ace-builds';
 import 'ace-builds/esm-resolver';
 import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url";
 import workerPhpUrl from "ace-builds/src-noconflict/worker-php?url";
-import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
+import 'ace-builds/src-noconflict/theme-chaos';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
 import "ace-builds/src-noconflict/mode-c_cpp";
@@ -436,7 +436,7 @@ export default {
             minLines: 10,
             fontSize: 12,
             showPrintMargin: false,
-            theme: 'ace/theme/cloud_editor_dark',
+            theme: 'ace/theme/chaos',
             mode: 'ace/mode/javascript',
             keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4

@@ -1,8 +1,8 @@
 <template lang="">
     <!-- entire page -->
-    <div class="flex flex-col h-screen">
+    <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text">
         <!-- titlebar -->
-        <div class="bg-leetcode-background text-leetcode-text h-10 shrink-0 flex justify-between">
+        <div class="h-10 shrink-0 flex justify-between">
             <div>
                 <Link :href="route('problems.index')">Problem List</Link>
             </div>
@@ -51,29 +51,29 @@
                 <!-- gutter b/w editor+settings & console -->
                 <div ref="pGutterEC" class="w-full h-2 top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
                 <!-- console -->
-                <div class="grow">
+                <div class="grow m-3">
                     <!-- panel change buttons -->
-                    <div>
-                        <button type="button" @click="()=>this.consolePanel='testcases'">Testcases</button>
-                        <button type="button" @click="()=>this.consolePanel='results'">Test Results</button>
-                        <button type="button" @click="changeConsoleToSubmissionsAndFetch">Submissions</button>
+                    <div class="flex gap-2 mb-2">
+                        <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" />
+                        <SlabButton @click="()=>this.consolePanel='results'" value="Results" />
+                        <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" />
                     </div>
+                    <hr class="text-leetcode-green">
                     <!-- panel contents -->
-                    <div>
+                    <div class="mt-1">
                         <div v-if="consolePanel == 'testcases'">
                             <!-- testcases -->
-                            <ul class="flex">
-                                <li v-for="(testcase, index) in testcaseArray" :key="index">
-                                    <button type="button" @click="testcaseChange(index)">Testcase {{index+1}}</button>
+                            <ul class="flex my-2">
+                                <li v-for="(testcase, index) in testcaseArray" :key="index" class="mx-1 my-auto">
+                                    <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
                                 </li>
-                                <li>
-                                    <!-- <button type="button" @click="testcaseArray.push({testcase: ''})">Add</button> -->
-                                    <button type="button" @click="addTestcase">Add</button>
+                                <li class="my-auto ml-2 px-2 py-1 bg-leetcode-backgroundlight rounded-full border-2 border-leetcode-text border-opacity-0 hover:border-opacity-80">
+                                    <button type="button" @click="addTestcase"><i class="fa-solid fa-plus"></i></button>
                                 </li>
                             </ul>
                             <!-- testcase content -->
                             <div>
-                                <textarea cols="30" rows="7" v-model="testcaseArray[currentTestcase].testcase"></textarea>
+                                <textarea cols="30" rows="7" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight"></textarea>
                             </div>
                         </div>
                         <div v-else-if="consolePanel == 'results'">
@@ -87,7 +87,7 @@
                                 <!-- testcases -->
                                 <ul class="flex">
                                     <li v-for="(testcase, index) in testcaseArray" :key="index">
-                                        <button type="button" @click="testcaseChange(index)">Testcase {{index+1}}</button>
+                                        <SlabButton @click="testcaseChange(index)" />
                                     </li>
                                 </ul>
                                 <!-- testcase content -->
@@ -103,10 +103,15 @@
                         </div>
                         <div v-else>
                             <div v-if="isSubmissionsFetched">
-                                <ul v-for="(submission, index) in fetchedSubmissions" :key="index">
-                                    <Submission :title="getSubmissionStatusString(submission.status)" />
-                                </ul>
-                            </div>
+                                <div v-if="fetchedSubmissions.length == 0">
+                                    No submissions yet
+                                </div>
+                                <div v-else>
+                                    <ul v-for="(submission, index) in fetchedSubmissions" :key="index">
+                                        <Submission :title="getSubmissionStatusString(submission.status)" />
+                                    </ul>
+                                </div>
+                           </div>
                             <div v-else>
                                 Submissions are being fetched
                             </div>
@@ -122,7 +127,7 @@ import ace from 'ace-builds';
 import 'ace-builds/esm-resolver';
 import workerJavascriptUrl from "ace-builds/src-noconflict/worker-javascript?url";
 import workerPhpUrl from "ace-builds/src-noconflict/worker-php?url";
-import 'ace-builds/src-noconflict/theme-cloud_editor_dark';
+import "ace-builds/src-noconflict/theme-chaos";
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
 import "ace-builds/src-noconflict/mode-c_cpp";
@@ -131,6 +136,7 @@ import 'ace-builds/src-noconflict/keybinding-vim';
 import LeftPanel from "@/Pages/Components/EditorComponents/LeftPanel.vue";
 import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
 import Submission from './Components/EditorComponents/Submission.vue';
+import SlabButton from '@/Pages/Components/EditorComponents/SlabButton.vue';
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -176,6 +182,7 @@ export default {
         TestcaseParam,
         Link,
         Submission,
+        SlabButton,
     },
     computed: {
     },
@@ -291,12 +298,12 @@ export default {
             function mousemove(e) {
                 let newX = prevX - e.x;
                 leftPane.style.width = leftPanel.width - newX + "px";
-            }
+            };
 
             function mouseup() {
                 window.removeEventListener('mousemove', mousemove);
                 window.removeEventListener('mouseup', mouseup);
-            }
+            };
         },
         resizerHeight(e, upperPane) {
             window.addEventListener('mousemove', mousemove);
@@ -389,7 +396,7 @@ export default {
             minLines: 10,
             fontSize: 14,
             showPrintMargin: false,
-            theme: 'ace/theme/cloud_editor_dark',
+            theme: 'ace/theme/chaos',
             mode: 'ace/mode/python',
             keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
