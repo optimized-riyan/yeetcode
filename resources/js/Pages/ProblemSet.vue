@@ -3,13 +3,13 @@
     <ProblemSetLayout :avatarImage="avatarImage">
         <div class="flex">
             <!-- left panel -->
-            <div class="flex flex-col w-3/4">
+            <div class="flex flex-col w-4/5">
                 <!-- problem list -->
-                <div class="flex flex-col my-1">
-                    <ul v-for="problem in problemList.data" :key="problem.id">
+                <ul class="flex flex-col my-2">
+                    <li v-for="problem in problemList.data" :key="problem.id">
                         <ProblemEntry :problem="problem"></ProblemEntry>
-                    </ul>
-                </div>
+                    </li>
+                </ul>
                 <!-- filters -->
                 <div>
 

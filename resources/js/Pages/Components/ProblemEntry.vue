@@ -1,6 +1,5 @@
 <template>
-    <div class="flex bg-leetcode-backgroundlight p-3 my-1 rounded-lg
-        hover:bg-leetcode-backgroundlighter">
+    <div class="flex bg-leetcode-backgroundlight p-3 my-1 rounded-lg">
         <!-- status -->
         <div class="ml-2 mr-4">
             <i :class="icon"></i>
@@ -8,7 +7,7 @@
         <div class="flex justify-between flex-grow">
             <!-- name -->
             <div>
-                <Link :href="route('problems.show', { problem })" name="problem-link">{{ problem.name }}</Link>
+                <Link :href="route('problems.show', { problem })" class="hover:text-leetcode-green-light">{{ problem.name }}</Link>
             </div>
             <!-- difficulty -->
             <div>
@@ -30,7 +29,7 @@ export default {
         problem: Object,
         icon: {
             type: String,
-            default: "fa-solid fa-question",
+            default: "fa-solid fa-minus",
         },
     }
 }

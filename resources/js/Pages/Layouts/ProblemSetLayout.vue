@@ -1,20 +1,11 @@
 <template>
     <div class="flex flex-col w-screen min-h-screen bg-leetcode-background text-leetcode-text">
         <!-- entire top navbar -->
-        <nav class="flex justify-between w-3/4 mx-auto bg-leetcode-navbar">
+        <nav class="flex justify-between w-full mx-auto bg-leetcode-navbar">
             <div>
                 <ul class="flex">
-                    <li>Icon</li>
-                    <li>Explore</li>
                     <li>Problems</li>
-                    <li>Content</li>
-                    <li>Discuss</li>
-                    <li>
-                        <Dropdown>Interview</Dropdown>
-                    </li>
-                    <li>
-                        <Dropdown>Store</Dropdown>
-                    </li>
+                    <li>About</li>
                 </ul>
             </div>
             <div>
