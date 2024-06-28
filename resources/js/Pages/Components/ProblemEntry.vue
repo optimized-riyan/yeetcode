@@ -2,15 +2,17 @@
     <div class="flex">
         <!-- status -->
         <div>
-            haiyah
+            <i class="fa-solid fa-question"></i>
         </div>
-        <!-- name -->
-        <div>
-            <Link :href="route('problems.show', { problem })">{{ problem.name }}</Link>
-        </div>
-        <!-- difficulty -->
-        <div>
-            {{ problem.difficulty.difficulty }}
+        <div class="flex justify-between flex-grow">
+            <!-- name -->
+            <div>
+                <Link :href="route('problems.show', { problem })">{{ problem.name }}</Link>
+            </div>
+            <!-- difficulty -->
+            <div>
+                {{ problem.difficulty.difficulty }}
+            </div>
         </div>
     </div>
 </template>
@@ -24,7 +26,8 @@ export default {
         Link,
     },
     props: {
-        problem: Object
+        problem: Object,
+        icon: String,
     }
 }
 </script>
