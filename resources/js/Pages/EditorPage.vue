@@ -11,7 +11,9 @@
                 <button type="button" @click="submitCode">Submit</button>
             </div>
             <div>
-                Profile
+                <Link :href="route('profile.edit')">
+                    <img :src="user.avatarImage" alt="avatar" width="30" height="30" class="rounded-lg" />
+                </Link>
             </div>
         </div>
         <!-- left and right panel -->
@@ -166,6 +168,7 @@ export default {
             originalScaffholdings: null,
             fetchedSubmissions: null,
             isSubmissionsFetched: false,
+            userId: 0,
         }
     },
     components: {
@@ -402,10 +405,13 @@ export default {
         this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizerWidth(e, this.$refs.pLeftPanel));
         this.$refs.pGutterEC.addEventListener('mousedown', e => this.resizerHeight(e, this.$refs.pEditorAndSettings));
     },
+    created() {
+        this.userId = this.user.id;
+    },
     props: {
         problem: Object,
         scaffholdings: Object,
-        userId: Number,
+        user: Object,
     },
 };
 </script>

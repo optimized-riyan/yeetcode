@@ -40,7 +40,12 @@ class ProblemController extends Controller
                 }
                 return $scaffArray;
             },
-            "userId" => auth()->user()->id,
+            "user" => function () {
+                $user = auth()->user();
+                $newArr["id"] = $user["id"];
+                $newArr["avatarImage"] = $user["avatar_image"];
+                return $newArr;
+            }
         ]);
     }
 
@@ -144,7 +149,7 @@ class ProblemController extends Controller
         ];
         return Inertia::render('StoreProblem', [
             'prefilledForm' => $form,
-            'url' => route('problems.update', [ 'problem' => $problem ]),
+            'url' => route('problems.update', ['problem' => $problem]),
             'method' => 'put',
         ]);
     }
@@ -156,7 +161,7 @@ class ProblemController extends Controller
         $form = $request->validated();
         // Log::channel("debug")->info($form["scaffholdings"]);
         $this->processProblemRequest($form, $problem);
-        return to_route('problems.show', [ 'problem' => $problem ]);
+        return to_route('problems.show', ['problem' => $problem]);
     }
 
     public function store(ProblemRequest $request)
@@ -168,7 +173,7 @@ class ProblemController extends Controller
         return to_route('problems.index');
     }
 
-    private function processProblemRequest(Array $form, Problem $problem)
+    private function processProblemRequest(array $form, Problem $problem)
     {
         $problem->name = $form['name'];
         $problem->difficulty_id = $form['difficulty'];

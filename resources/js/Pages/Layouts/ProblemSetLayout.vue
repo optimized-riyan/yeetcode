@@ -11,9 +11,10 @@
             <div>
                 <ul class="flex">
                     <li>
-                        <img :src="avatarImage" alt="avatar" width="30" height="30" class="rounded-lg"/>
+                        <Link :href="route('profile.edit')">
+                            <img :src="avatarImage" alt="avatar" width="30" height="30" class="rounded-lg" />
+                        </Link>
                     </li>
-                    <li>Notification</li>
                 </ul>
             </div>
         </nav>
@@ -25,10 +26,13 @@
 </template>
 <script>
 import Dropdown from '../Components/Dropdown.vue';
+import { Link } from '@inertiajs/vue3';
+import { route } from "ziggy-js";
 
 export default {
     components: {
         Dropdown,
+        Link,
     },
     props: {
         avatarImage: String
