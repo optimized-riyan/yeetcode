@@ -54,9 +54,9 @@
                 <div class="grow m-3">
                     <!-- panel change buttons -->
                     <div class="flex gap-2 mb-2">
-                        <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" />
-                        <SlabButton @click="()=>this.consolePanel='results'" value="Results" />
-                        <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" />
+                        <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
+                        <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
+                        <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
                     </div>
                     <hr class="border-leetcode-green">
                     <!-- panel contents -->
@@ -365,6 +365,9 @@ export default {
             const res = await axios.get(getUrl);
             this.fetchedSubmissions = res.data;
             this.isSubmissionsFetched = true;
+        },
+        getIsActive(consolePanel) {
+            return consolePanel == this.consolePanel;
         },
     },
     mounted() {

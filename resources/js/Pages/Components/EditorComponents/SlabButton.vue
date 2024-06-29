@@ -1,7 +1,7 @@
 <template lang="">
-    <button type="button" class="
-    bg-leetcode-backgroundlight px-2 py-1 border-2 border-opacity-0 border-leetcode-text rounded-xl
-    hover:border-opacity-80">
+    <button type="button" :class="
+    `bg-leetcode-backgroundlight px-2 py-1 border-2 border-opacity-0 border-leetcode-text rounded-xl
+    ${classAttributesIfActive}`">
         {{ value }}
     </button>
 </template>
@@ -9,6 +9,15 @@
 export default {
     props: {
         value: String,
+        isActive: {
+            type: Boolean,
+            default: false,
+        },
     },
+    computed: {
+        classAttributesIfActive() {
+            return (this.isActive) ? "border-opacity-80" : "hover:border-opacity-80";
+        }
+    }
 }
 </script>
