@@ -30,14 +30,7 @@
                     <!-- editor settings -->
                     <div class="h-6 flex justify-between">
                         <!-- language dropdown -->
-                        <div class="relative flex">
-                            <button type="button" @click="languageDropdown = !languageDropdown">{{ selectedLanguage }}</button>
-                            <div class="absolute top-6 z-10 bg-leetcode-background text-leetcode-text" v-if="languageDropdown">
-                                <ul v-for="(language, index) in availableLanguages" :key="index">
-                                    <li @click="languageChange(language)" class="cursor-pointer">{{ language }}</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <Dropdown :available-languages="availableLanguages" :default-language="selectedLanguage" @lang-change="(language) => languageChange(language)"/>
                         <!-- code reset button -->
                         <div class="flex">
                             <button type="button" @click="resetCode">Reset</button>
@@ -143,6 +136,7 @@ import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue
 import Submission from './Components/EditorComponents/Submission.vue';
 import SlabButton from '@/Pages/Components/EditorComponents/SlabButton.vue';
 import SolidButton from "@/Pages/Components/EditorComponents/SolidButton.vue";
+import Dropdown from '@/Pages/Components/Dropdown.vue';
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -160,7 +154,6 @@ export default {
             expectedOutputs: [],
             editor: null,
             runError: null,
-            languageDropdown: false,
             availableLanguages: ['python', 'js', 'php', 'c', 'c++'],
             selectedLanguage: 'python',
             languageIds: {
@@ -190,6 +183,7 @@ export default {
         Submission,
         SlabButton,
         SolidButton,
+        Dropdown,
     },
     computed: {
     },
@@ -286,7 +280,6 @@ export default {
             const modeUrl = "ace/mode/";
             this.selectedLanguage = language;
             this.editor.session.setMode(modeUrl + this.editorModes[language]);
-            this.languageDropdown = false;
             this.changeEditorValueNoSelection(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
             localStorage.setItem(`[${this.problem.id},selectedLanguage]`, this.selectedLanguage);
         },
