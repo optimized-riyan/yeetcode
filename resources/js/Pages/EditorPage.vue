@@ -28,7 +28,7 @@
             <div class="flex flex-col grow">
                 <div class="h-2/3 bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
                     <!-- editor settings -->
-                    <div class="h-6 flex justify-between">
+                    <div class="flex justify-between">
                         <!-- language dropdown -->
                         <Dropdown :available-languages="availableLanguages" :default-language="selectedLanguage" @lang-change="(language) => languageChange(language)"/>
                         <!-- code reset button -->
