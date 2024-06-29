@@ -24,7 +24,7 @@ export default {
                     text: "#C2C4C7",
                     textlight: "#FFFFFF",
                     green: "#28934D",
-                    "green-light": "#38CE6D",
+                    "green-light": "#00D04A",
                     purple: "#8748A7",
                     blue: "#124F8C",
                     red: "#F5365C",

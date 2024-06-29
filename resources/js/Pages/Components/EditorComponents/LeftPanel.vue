@@ -1,7 +1,7 @@
 <template lang="">
-    <div class="flex flex-col bg-slate-400 overflow-auto">
+    <div class="flex flex-col overflow-auto">
         <!-- problem name and number -->
-        <div class="text-red-700">
+        <div class="text-leetcode-red">
             <span>{{ problem.id }}</span>. {{ problem.name }}
         </div>
         <p>

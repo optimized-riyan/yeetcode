@@ -2,17 +2,17 @@
     <!-- entire page -->
     <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text">
         <!-- titlebar -->
-        <div class="h-10 shrink-0 flex justify-between">
+        <div class="h-10 shrink-0 flex justify-between items-center">
             <div>
-                <Link :href="route('problems.index')">Problem List</Link>
+                <Link :href="route('problems.index')"><i class="fa-solid fa-less-than text-xs"></i> Problem List</Link>
             </div>
-            <div>
-                <button type="button" @click="runTrivial" class="px-2">Run</button>
-                <button type="button" @click="submitCode">Submit</button>
+            <div class="flex gap-2">
+                <SolidButton @click="runTrivial" class="hover:bg-leetcode-backgroundlighter bg-leetcode-backgroundlight">Run</SolidButton>
+                <SolidButton @click="submitCode" class="hover:bg-leetcode-backgroundlighter bg-leetcode-backgroundlight text-leetcode-green-light">Submit</SolidButton>
             </div>
             <div>
                 <Link :href="route('profile.edit')">
-                    <img :src="user.avatarImage" alt="avatar" width="30" height="30" class="rounded-lg" />
+                    <img :src="user.avatarImage" alt="avatar" width="30" height="30" class="rounded-full m-2" />
                 </Link>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div ref="pGutterLR" class="h-full w-2 top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
             <div class="flex flex-col grow">
-                <div class="h-2/3 bg-leetcode-green flex flex-col" ref="pEditorAndSettings">
+                <div class="h-2/3 bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
                     <!-- editor settings -->
                     <div class="h-6 flex justify-between">
                         <!-- language dropdown -->
@@ -63,11 +63,11 @@
                     <div class="mt-1">
                         <div v-if="consolePanel == 'testcases'">
                             <!-- testcases -->
-                            <ul class="flex my-2">
-                                <li v-for="(testcase, index) in testcaseArray" :key="index" class="mx-1 my-auto">
+                            <ul class="flex my-2 gap-2">
+                                <li v-for="(testcase, index) in testcaseArray" :key="index" class="my-auto">
                                     <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
                                 </li>
-                                <li class="my-auto ml-2 px-2 py-1 bg-leetcode-backgroundlight rounded-full border-2 border-leetcode-text border-opacity-0 hover:border-opacity-80">
+                                <li class="my-auto px-2 py-1 bg-leetcode-backgroundlight rounded-full border-2 border-leetcode-text border-opacity-0 hover:border-opacity-80">
                                     <button type="button" @click="addTestcase"><i class="fa-solid fa-plus"></i></button>
                                 </li>
                             </ul>
@@ -137,6 +137,7 @@ import LeftPanel from "@/Pages/Components/EditorComponents/LeftPanel.vue";
 import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
 import Submission from './Components/EditorComponents/Submission.vue';
 import SlabButton from '@/Pages/Components/EditorComponents/SlabButton.vue';
+import SolidButton from "@/Pages/Components/EditorComponents/SolidButton.vue";
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -183,6 +184,7 @@ export default {
         Link,
         Submission,
         SlabButton,
+        SolidButton,
     },
     computed: {
     },

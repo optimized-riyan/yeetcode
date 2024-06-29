@@ -12,7 +12,7 @@
                 <ul class="flex">
                     <li>
                         <Link :href="route('profile.edit')">
-                            <img :src="avatarImage" alt="avatar" width="30" height="30" class="rounded-lg" />
+                            <img :src="avatarImage" alt="avatar" width="30" height="30" class="rounded-full" />
                         </Link>
                     </li>
                 </ul>
