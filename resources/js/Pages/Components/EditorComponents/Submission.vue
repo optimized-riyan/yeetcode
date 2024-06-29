@@ -5,7 +5,7 @@
 export default {
     data() {
         return {
-            messageColor: "text-white",
+            messageColor: "text-red-600",
         }
     },
     props: {
@@ -17,15 +17,12 @@ export default {
             switch (this.status) {
                 case "wrong":
                     res = "Wrong Answer";
-                    this.messageColor = "text-red-600";
                     break;
                 case "error":
                     res = "Error";
-                    this.messageColor = "text-red-600";
                     break;
                 case "tle":
                     res = "Time Limit Exceeded";
-                    this.messageColor = "text-red-600";
                     break;
                 case "right":
                     res = "Accepted";
