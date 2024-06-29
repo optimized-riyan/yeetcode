@@ -58,9 +58,10 @@
                         <SlabButton @click="()=>this.consolePanel='results'" value="Results" />
                         <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" />
                     </div>
-                    <hr class="text-leetcode-green">
+                    <hr class="border-leetcode-green">
                     <!-- panel contents -->
                     <div class="mt-1">
+                        <!-- testcases tab -->
                         <div v-if="consolePanel == 'testcases'">
                             <!-- testcases -->
                             <ul class="flex my-2 gap-2">
@@ -76,6 +77,7 @@
                                 <textarea cols="30" rows="7" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight"></textarea>
                             </div>
                         </div>
+                        <!-- results tab -->
                         <div v-else-if="consolePanel == 'results'">
                             <div v-if="runError">
                                 {{ runError }}
@@ -85,9 +87,9 @@
                             </div>
                             <div v-else>
                                 <!-- testcases -->
-                                <ul class="flex">
+                                <ul class="flex my-2 gap-2">
                                     <li v-for="(testcase, index) in testcaseArray" :key="index">
-                                        <SlabButton @click="testcaseChange(index)" />
+                                        <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
                                     </li>
                                 </ul>
                                 <!-- testcase content -->
@@ -101,6 +103,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- submissions tab -->
                         <div v-else>
                             <div v-if="isSubmissionsFetched">
                                 <div v-if="fetchedSubmissions.length == 0">
