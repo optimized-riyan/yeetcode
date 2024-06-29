@@ -110,8 +110,10 @@
                                     No submissions yet
                                 </div>
                                 <div v-else>
-                                    <ul v-for="(submission, index) in fetchedSubmissions" :key="index">
-                                        <Submission :title="getSubmissionStatusString(submission.status)" />
+                                    <ul class="flex flex-col mt-3 gap-2">
+                                        <li v-for="(submission, index) in fetchedSubmissions" :key="index">
+                                            <Submission :status="submission.status" />
+                                        </li>
                                     </ul>
                                 </div>
                            </div>
@@ -363,27 +365,6 @@ export default {
             const res = await axios.get(getUrl);
             this.fetchedSubmissions = res.data;
             this.isSubmissionsFetched = true;
-        },
-        getSubmissionStatusString(status) {
-            let res = "";
-            switch (status) {
-                case "wrong":
-                    res = "Wrong Answer";
-                    break;
-                case "error":
-                    res = "Error";
-                    break;
-                case "right":
-                    res = "Accepted";
-                    break;
-                case "tle":
-                    res = "Time Limit Exceeded";
-                    break;
-                default:
-                    console.error("Invalid submission status");
-                    break;
-            }
-            return res;
         },
     },
     mounted() {
