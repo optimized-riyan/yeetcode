@@ -54,9 +54,7 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
 
         $res = Http::post($submissionsUrl, $reqData);
 
-        $tokens = array_map(function ($token) {
-            return $token["token"];
-        }, $res->collect()->toArray());
+        $tokens = $res->collect()->toArray();
 
         $getUrl = "http://".env("JUDGE0_DOMAIN")."/submissions";
         $stderr = "";
@@ -64,37 +62,45 @@ class SubmitAndCheckAllTestcasesJob implements ShouldQueue
         $expectedOutputOnErrorTc = "";
         $status = "right";
         foreach ($tokens as $index => $token) {
-            do {
-                $res = Http::get($getUrl."/".$token."?fields=status_id");
-            } while ($res->json()["status_id"] == 1 || $res->json()["status_id"] == 2);
+            if (isset($token["token"])) {
+                $token = $token["token"];
+                do {
+                    $res = Http::get($getUrl."/".$token."?fields=status_id");
+                } while ($res->json()["status_id"] == 1 || $res->json()["status_id"] == 2);
 
-            $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time,status_id&base64_encoded=true");
-            $body = $res->json();
-            if (!isset($body["compile_output"])) $body["compile_output"] = "";
+                $res = Http::get($getUrl."/".$token."?fields=stdout,stderr,time,status_id&base64_encoded=true");
+                $body = $res->json();
+                if (!isset($body["compile_output"])) $body["compile_output"] = "";
 
-            foreach ($body as $param => $value) {
-                if ($value) {
-                    $binaryData = base64_decode($value);
-                    $utf8String = mb_convert_encoding($binaryData, "UTF-8", "UTF-8");
-                    $body[$param] = $utf8String;
+                foreach ($body as $param => $value) {
+                    if ($value) {
+                        $binaryData = base64_decode($value);
+                        $utf8String = mb_convert_encoding($binaryData, "UTF-8", "UTF-8");
+                        $body[$param] = $utf8String;
+                    }
+                }
+
+                if ($body["stderr"] || $body["compile_output"]) {
+                    $status = "error";
+                    $stderr = $body["stderr"];
+                    $errorneousTc = $testcases[$index]["testcase"];
+                    $expectedOutputOnErrorTc = $testcases[$index]["expected_output"];
+                    break;
+                }
+                else if ($body["status_id"] == 5) {
+                    $status = "tle";
+                    break;
+                }
+                else if (trim($body["stdout"]) != trim($testcases[$index]["expected_output"])) {
+                    $status = "wrong";
+                    $errorneousTc = $testcases[$index]["testcase"];
+                    $expectedOutputOnErrorTc = $testcases[$index]["expected_output"];
+                    break;
                 }
             }
-
-            if ($body["stderr"] || $body["compile_output"]) {
+            else {
                 $status = "error";
-                $stderr = $body["stderr"];
-                $errorneousTc = $testcases[$index]["testcase"];
-                $expectedOutputOnErrorTc = $testcases[$index]["expected_output"];
-                break;
-            }
-            else if ($body["status_id"] == 5) {
-                $status = "tle";
-                break;
-            }
-            else if (trim($body["stdout"]) != trim($testcases[$index]["expected_output"])) {
-                $status = "wrong";
-                $errorneousTc = $testcases[$index]["testcase"];
-                $expectedOutputOnErrorTc = $testcases[$index]["expected_output"];
+                $stderr = $token["source_code"][0];
                 break;
             }
         }
