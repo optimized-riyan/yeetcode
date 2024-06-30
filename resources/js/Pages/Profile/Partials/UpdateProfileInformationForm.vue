@@ -40,7 +40,7 @@ const form = useForm({
             <div>
                 <InputLabel for="avatar" value="Avatar" />
 
-                <img :src="avatarUrl" alt="Avatar" width="130" height="130" class="rounded-xl">
+                <img :src="avatarUrl" alt="Avatar" width="130" height="130" class="rounded-full">
 
                 <InputError class="mt-2" :message="form.errors.avatar" />
             </div>

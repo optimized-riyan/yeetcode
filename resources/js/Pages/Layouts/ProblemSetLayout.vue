@@ -1,18 +1,17 @@
 <template>
     <div class="flex flex-col w-screen min-h-screen bg-leetcode-background text-leetcode-text">
         <!-- entire top navbar -->
-        <nav class="flex justify-between w-full mx-auto bg-leetcode-navbar">
+        <nav class="flex justify-between items-center w-full bg-leetcode-navbar">
             <div>
                 <ul class="flex">
-                    <li>Problems</li>
-                    <li>About</li>
+                    <li class="mx-2">Contact Me</li>
                 </ul>
             </div>
             <div>
                 <ul class="flex">
                     <li>
                         <Link :href="route('profile.edit')">
-                            <img :src="avatarImage" alt="avatar" width="30" height="30" class="rounded-full" />
+                            <img :src="avatarImage" alt="avatar" width="30" height="30" class="rounded-full mx-3 my-2" />
                         </Link>
                     </li>
                 </ul>

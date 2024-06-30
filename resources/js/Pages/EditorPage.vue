@@ -28,12 +28,12 @@
             <div class="flex flex-col grow">
                 <div class="h-2/3 bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
                     <!-- editor settings -->
-                    <div class="flex justify-between">
+                    <div class="flex justify-between items-center">
                         <!-- language dropdown -->
                         <Dropdown :available-languages="availableLanguages" :default-language="selectedLanguage" @lang-change="(language) => languageChange(language)"/>
                         <!-- code reset button -->
                         <div class="flex">
-                            <button type="button" @click="resetCode">Reset</button>
+                            <button type="button" @click="resetCode"><i class="fa-solid fa-rotate-left hover:text-leetcode-green-light text-lg mx-4"></i></button>
                         </div>
                     </div>
                     <!-- editor -->
