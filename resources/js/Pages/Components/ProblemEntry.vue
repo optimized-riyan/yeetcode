@@ -10,7 +10,7 @@
                 <Link :href="route('problems.show', { problem })" class="hover:text-leetcode-green-light">{{ problem.name }}</Link>
             </div>
             <!-- difficulty -->
-            <div>
+            <div :class="`${getDifficultyColor}`">
                 {{ problem.difficulty.difficulty }}
             </div>
         </div>
@@ -31,6 +31,20 @@ export default {
             type: String,
             default: "fa-solid fa-minus",
         },
-    }
+    },
+    computed: {
+        getDifficultyColor() {
+            switch (this.problem.difficulty.difficulty) {
+                case "Easy":
+                    return "text-leetcode-green-light";
+                case "Medium":
+                    return "text-leetcode-yellow";
+                case "Hard":
+                    return "text-leetcode-red";
+                default:
+                    return "text-white";
+            }
+        }
+    },
 }
 </script>
