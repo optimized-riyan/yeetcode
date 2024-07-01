@@ -58,11 +58,19 @@
             </ContentDropdown>
         </div>
         <!-- hints -->
-        <div>
-
+        <div v-if="problem.hints && problem.hints.length > 0">
+            <ul class="flex flex-col mr-4 py-2 border-y-2 border-leetcode-backgroundlight">
+                <li v-for="(hint, index) in problem.hints" :key="hint.hint_number">
+                    <ContentDropdown :title="`Hint ${index+1}`">
+                        <div class="ml-3 mt-2">
+                            {{ hint.brief }}
+                        </div>
+                    </ContentDropdown>
+                </li>
+            </ul>
         </div>
         <!-- similar problems -->
-        <div class="mt-9 mr-4 mb-16 py-2 border-y-2 border-inherit">
+        <div class="mr-4 mb-16 py-2 border-y-2 border-inherit">
             <ContentDropdown title="Similar Problems">
                 <ul class="flex ml-2 mt-2 gap-2">
                     <li>
