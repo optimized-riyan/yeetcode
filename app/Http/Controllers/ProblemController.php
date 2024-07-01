@@ -32,6 +32,11 @@ class ProblemController extends Controller
                 'testcases' => function ($query) {
                     $query->where('is_trivial', 1);
                 },
+                "examples",
+                "constraints",
+                "topics",
+                "hints",
+                "similarProblems",
             ]),
             "scaffholdings" => function () use ($problem) {
                 $scaffArray = [];
@@ -45,7 +50,7 @@ class ProblemController extends Controller
                 $newArr["id"] = $user["id"];
                 $newArr["avatarImage"] = $user["avatar_image"];
                 return $newArr;
-            }
+            },
         ]);
     }
 
