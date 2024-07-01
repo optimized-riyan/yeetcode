@@ -44,8 +44,10 @@
                 </li>
             </ul>
         </div>
+        <!-- gap between constraints and dropdowns -->
+        <div class="mt-9"></div>
         <!-- topics -->
-        <div class="mt-9 mr-4 py-2 border-y-2 border-inherit">
+        <div v-if="problem.topics && problem.topics.length > 0" class="mr-4 py-2 border-y-2 border-inherit">
             <ContentDropdown title="Topics">
                 <ul class="flex ml-2 mt-2 gap-2">
                     <li>
@@ -70,7 +72,7 @@
             </ul>
         </div>
         <!-- similar problems -->
-        <div class="mr-4 mb-16 py-2 border-y-2 border-inherit">
+        <div v-if="problem.similarProblems && problem.similarProblems.length > 0" class="mr-4 py-2 border-y-2 border-inherit">
             <ContentDropdown title="Similar Problems">
                 <ul class="flex ml-2 mt-2 gap-2">
                     <li>
@@ -82,6 +84,8 @@
                 </ul>
             </ContentDropdown>
         </div>
+        <!-- gap after dropdowns -->
+        <div class="mb-16"></div>
     </div>
 </template>
 <script>
