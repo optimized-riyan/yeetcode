@@ -19,7 +19,7 @@
         <!-- left and right panel -->
         <div class="flex grow overflow-auto">
             <!-- left panel -->
-            <div class="w-1/3" ref="pLeftPanel">
+            <div class="w-1/3 overflow-y-auto" ref="pLeftPanel">
                 <LeftPanel :problem="problem"></LeftPanel>
             </div>
             <!-- gutter b/w left & right panels -->
