@@ -11,8 +11,8 @@
                     </li>
                 </ul>
                 <!-- filters -->
-                <div>
-
+                <div class="mb-3">
+                    <ProblemFilter></ProblemFilter>
                 </div>
                 <div>
                     <Paginator :links="problemList.links"></Paginator>
@@ -28,6 +28,7 @@
 <script>
 import ProblemSetLayout from '@/Pages/Layouts/ProblemSetLayout.vue';
 import ProblemEntry from '@/Pages/Components/ProblemEntry.vue';
+import ProblemFilter from './Components/ProblemFilter.vue';
 import Paginator from '@/Pages/Components/ProblemSetComponents/Paginator.vue';
 import { Head } from '@inertiajs/vue3';
 
@@ -35,6 +36,7 @@ export default {
     components: {
         ProblemEntry,
         ProblemSetLayout,
+        ProblemFilter,
         Paginator,
         Head,
     },
