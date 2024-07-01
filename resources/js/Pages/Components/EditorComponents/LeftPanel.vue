@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="flex flex-col ml-4">
+    <div class="flex flex-col ml-4 border-leetcode-backgroundlight">
         <!-- problem name and number -->
         <div class="text-leetcode-red">
             <span>{{ problem.id }}</span>. {{ problem.name }}
@@ -14,7 +14,7 @@
                 <li v-for="(example, index) in problem.examples" :key="index">
                     <p class="font-bold text-md">Example {{ index+1 }}:</p>
                     <!-- extra div for border -->
-                    <div class="my-4 border-l-2">
+                    <div class="my-4 border-l-2 border-leetcode-backgroundlight">
                         <!-- example info -->
                         <div class="ml-3">
                             <!-- input -->
@@ -45,8 +45,17 @@
             </ul>
         </div>
         <!-- topics -->
-        <div class="mt-9">
-            <ContentDropdown title="Topics"></ContentDropdown>
+        <div class="mt-9 mr-4 py-2 border-y-2 border-inherit">
+            <ContentDropdown title="Topics">
+                <ul class="flex ml-2 mt-2 gap-2">
+                    <li>
+                        <Tile>Array</Tile>
+                    </li>
+                    <li>
+                        <Tile>Math</Tile>
+                    </li>
+                </ul>
+            </ContentDropdown>
         </div>
         <!-- hints -->
         <div>
@@ -60,6 +69,7 @@
 </template>
 <script>
 import ContentDropdown from './ContentDropdown.vue';
+import Tile from '@/Pages/Components/Tile.vue';
 
 export default {
     props: {
@@ -67,6 +77,7 @@ export default {
     },
     components: {
         ContentDropdown,
+        Tile,
     },
 }
 </script>

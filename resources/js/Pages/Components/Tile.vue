@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="px-2 py-1 bg-leetcode-backgroundlight text-leetcode-textlight">
+    <div class="px-3 py-1 bg-leetcode-backgroundlight text-leetcode-text rounded-2xl">
         <slot />
     </div>
 </template>
