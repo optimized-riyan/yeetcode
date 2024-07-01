@@ -62,8 +62,17 @@
 
         </div>
         <!-- similar problems -->
-        <div>
-
+        <div class="mt-9 mr-4 mb-16 py-2 border-y-2 border-inherit">
+            <ContentDropdown title="Similar Problems">
+                <ul class="flex ml-2 mt-2 gap-2">
+                    <li>
+                        <Tile>Sum of Array</Tile>
+                    </li>
+                    <li>
+                        <Tile>Elements</Tile>
+                    </li>
+                </ul>
+            </ContentDropdown>
         </div>
     </div>
 </template>
