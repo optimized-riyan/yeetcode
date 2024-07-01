@@ -45,8 +45,8 @@
             </ul>
         </div>
         <!-- topics -->
-        <div>
-
+        <div class="mt-9">
+            <ContentDropdown title="Topics"></ContentDropdown>
         </div>
         <!-- hints -->
         <div>
@@ -59,9 +59,14 @@
     </div>
 </template>
 <script>
+import ContentDropdown from './ContentDropdown.vue';
+
 export default {
     props: {
         problem: Object,
-    }
+    },
+    components: {
+        ContentDropdown,
+    },
 }
 </script>
