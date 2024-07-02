@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Gate;
 
 class ProblemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('ProblemSet', [
-            'problemList' => Problem::with('difficulty')->paginate(10),
+            'problemList' => Problem::where("name", "like", "%".$request->input("name")."%")->with('difficulty')->paginate(10),
             'avatarImage' => auth()->user()->avatar_image,
         ]);
     }
