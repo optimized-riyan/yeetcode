@@ -61,6 +61,11 @@ class Problem extends Model
         return $this->hasOne(TcParameter::class, 'problem_id', 'id');
     }
 
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function scopeProblemsByTitle($query, $title = '') {
         if ($title)
             return $query->where('name', 'like', '%'.$title.'%');
