@@ -1,6 +1,7 @@
 <template lang="">
     <input type="text" placeholder="Problem name . . ." v-model="name"
     class="rounded-lg bg-leetcode-backgroundlight border-none text-leetcode-text focus:outline-none h-10"
+    @keydown.enter="redirectToFilteredProblems"
     >
     <button type="button" @click="redirectToFilteredProblems" class="ml-2 hover:text-leetcode-green-light"><i class="fa-solid fa-magnifying-glass"></i></button>
 </template>
