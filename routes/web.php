@@ -27,6 +27,12 @@ Route::get('/', function () {
     return to_route("register");
 });
 
+Route::middleware('auth')->get('/contactme', function() {
+    return Inertia::render('ContactMe', [
+        'avatarImage' => auth()->user()->avatar_image,
+    ]);
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

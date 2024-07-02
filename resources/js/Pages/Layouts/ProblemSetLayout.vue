@@ -1,10 +1,10 @@
 <template>
-    <div class="flex flex-col w-screen min-h-screen bg-leetcode-background text-leetcode-text">
+    <div class="flex flex-col w-screen h-screen bg-leetcode-background text-leetcode-text">
         <!-- entire top navbar -->
         <nav class="flex justify-between items-center w-full bg-leetcode-navbar">
             <div>
                 <ul class="flex">
-                    <li class="mx-2">Contact Me</li>
+                    <li class="mx-4">Contact Me</li>
                 </ul>
             </div>
             <div>
@@ -18,7 +18,7 @@
             </div>
         </nav>
         <!-- content -->
-        <div class="w-3/4 mx-auto">
+        <div class="w-3/4 mx-auto flex-grow">
             <slot></slot>
         </div>
     </div>
