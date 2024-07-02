@@ -31,7 +31,7 @@ Route::middleware('auth')->get('/contactme', function() {
     return Inertia::render('ContactMe', [
         'avatarImage' => auth()->user()->avatar_image,
     ]);
-});
+})->name('contactme');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

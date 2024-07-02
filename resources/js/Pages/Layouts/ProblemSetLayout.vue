@@ -3,8 +3,17 @@
         <!-- entire top navbar -->
         <nav class="flex justify-between items-center w-full bg-leetcode-navbar">
             <div>
-                <ul class="flex">
-                    <li class="mx-4">Contact Me</li>
+                <ul class="flex mx-4 gap-3">
+                    <li>
+                        <Link :href="route('problems.index')">
+                            Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link :href="route('contactme')">
+                            Contact Me
+                        </Link>
+                    </li>
                 </ul>
             </div>
             <div>
