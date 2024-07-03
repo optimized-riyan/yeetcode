@@ -43,7 +43,7 @@ class ProblemRequest extends FormRequest
             'selected_topics.*.id' => 'required|exists:topics,id',
             'selected_topics.*.name' => 'required|max:127',
             'new_topics' => '',
-            'new_topics.*' => 'required',
+            'new_topics.*' => 'required|unique:topics,name',
             'similar_problems' => '',
             'similar_problems.*.id' => 'required|exists:problems,id',
             'similar_problems.*.name' => 'required|max:127',
