@@ -26,7 +26,7 @@ export default {
                     green: "#28934D",
                     "green-light": "#00D04A",
                     purple: "#8748A7",
-                    blue: "#124F8C",
+                    blue: "#1174D8",
                     red: "#FF5B5B",
                     yellow: "#FFC01E",
                     navbar: "#282828",

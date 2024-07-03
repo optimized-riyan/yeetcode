@@ -11,7 +11,7 @@
                     using Laravel, Vue and MySQL and more technologies by yours truly, Riyan Gonsalves!
                 </div>
             </div>
-            <div class="flex justify-between">
+            <div class="flex justify-between text-leetcode-blue">
                 <div class="flex gap-8">
                     <Link :href="route('login')">
                         <u>Login</u>
@@ -53,7 +53,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.$page.props);
     },
 }
 </script>
