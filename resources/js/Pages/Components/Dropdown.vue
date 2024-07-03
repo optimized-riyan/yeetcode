@@ -54,14 +54,23 @@ export default {
                     break;
             }
             return displayed;
-        }
+        },
+        closeDropdown(e) {
+            if (!this.$el.contains(e.target)) {
+                this.languageDropdown = false;
+            }
+        },
     },
     created() {
         this.selectedLanguage = this.defaultLanguage;
     },
     emits: ["langChange"],
-    computed: {
-    }
+    mounted() {
+        document.addEventListener("click", this.closeDropdown);
+    },
+    beforeDestroy() {
+        document.removeEventListener("click", this.closeDropdown);
+    },
 }
 
 </script>
