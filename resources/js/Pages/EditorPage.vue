@@ -53,7 +53,7 @@
                     </div>
                     <hr class="border-leetcode-green">
                     <!-- panel contents -->
-                    <div class="mt-1">
+                    <div class="mt-1 whitespace-pre-wrap">
                         <!-- testcases tab -->
                         <div v-if="consolePanel == 'testcases'">
                             <!-- testcases -->
@@ -90,7 +90,7 @@
                                     <ul>
                                         <li>
                                             <p>Your output:</p>
-                                            {{ testcaseOutputs[currentTestcase] }}
+                                            <p>{{ testcaseOutputs[currentTestcase] }}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -224,7 +224,7 @@ export default {
                         response = await axios.get(getUrl(tokens[i]) + "fields=status_id");
                     } while (response.data.status_id == 2 || response.data.status_id == 1)
                     response = await axios.get(getUrl(tokens[i]) + "base64_encoded=true");
-                    console.log(response);
+
                     if (response.data.stderr || response.data.compile_output) {
                         if (response.data.stderr)
                             this.runError = this.base64decode(response.data.stderr);
