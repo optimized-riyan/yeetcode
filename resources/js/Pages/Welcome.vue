@@ -28,6 +28,10 @@
             </div>
         </div>
     </div>
+    <!-- version number -->
+    <div class="absolute bottom-0 text-leetcode-textdark text-lg px-2 py-1">
+        {{ appVersionNumber }}
+    </div>
 </template>
 <script>
 import { Link } from "@inertiajs/vue3";
@@ -52,7 +56,8 @@ export default {
             this.emojiIndex = (this.emojiIndex + 1) % this.emojis.length;
         }
     },
-    mounted() {
-    },
+    props: {
+        appVersionNumber: String,
+    }
 }
 </script>

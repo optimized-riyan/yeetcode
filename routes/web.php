@@ -18,7 +18,9 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Welcome', [
+        "appVersionNumber" => config("app.version"),
+    ]);
 });
 
 Route::middleware('auth')->get('/contactme', function() {

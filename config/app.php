@@ -186,4 +186,13 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Version Number
+    |--------------------------------------------------------------------------
+    |
+    | This key represents the version of the app.
+    */
+
+    'version' => 'v1.0',
 ];
