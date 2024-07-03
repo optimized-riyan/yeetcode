@@ -2,8 +2,8 @@
     <!-- entire page -->
     <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text">
         <!-- titlebar -->
-        <div class="h-10 shrink-0 flex justify-between items-center">
-            <div>
+        <div class="h-10 mt-1 shrink-0 flex justify-between items-center">
+            <div class="ml-2">
                 <Link :href="route('problems.index')"><i class="fa-solid fa-less-than text-xs"></i> Problem List</Link>
             </div>
             <div class="flex gap-2">
