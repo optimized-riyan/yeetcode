@@ -25,7 +25,7 @@
             <!-- gutter b/w left & right panels -->
             <div ref="pGutterLR" class="h-full w-2 top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
-            <div class="flex flex-col grow">
+            <div class="flex flex-col flex-grow">
                 <div class="h-2/3 bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
                     <!-- editor settings -->
                     <div class="flex justify-between items-center">
@@ -44,7 +44,7 @@
                 <!-- gutter b/w editor+settings & console -->
                 <div ref="pGutterEC" class="w-full h-2 top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
                 <!-- console -->
-                <div class="grow m-3">
+                <div class="overflow-auto m-3">
                     <!-- panel change buttons -->
                     <div class="flex gap-2 mb-2">
                         <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
@@ -67,7 +67,7 @@
                             </ul>
                             <!-- testcase content -->
                             <div>
-                                <textarea cols="30" rows="7" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight"></textarea>
+                                <textarea cols="30" rows="7" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight resize-none"></textarea>
                             </div>
                         </div>
                         <!-- results tab -->

@@ -19,9 +19,9 @@
                 </div>
             </div>
             <!-- right panel -->
-            <div class="flex flex-col grow">
+            <!-- <div class="flex flex-col grow">
                 lol
-            </div>
+            </div> -->
         </div>
     </ProblemSetLayout>
 </template>
