@@ -1,7 +1,7 @@
 <template lang="">
     <div class="flex flex-col ml-4 border-leetcode-backgroundlight">
         <!-- problem name and number -->
-        <div class="text-leetcode-red">
+        <div :class="`${getTitleColor}`">
             <span>{{ problem.id }}</span>. {{ problem.name }}
         </div>
         <!-- description -->
@@ -100,5 +100,19 @@ export default {
         ContentDropdown,
         Tile,
     },
+    computed: {
+        getTitleColor() {
+            switch (this.problem.difficulty_id) {
+                case 1:
+                    return "text-leetcode-green-light";
+                case 2:
+                    return "text-leetcode-yellow";
+                case 3:
+                    return "text-leetcode-red";
+                default:
+                    return "text-red-500";
+            }
+        }
+    }
 }
 </script>

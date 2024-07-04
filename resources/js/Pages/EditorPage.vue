@@ -67,7 +67,7 @@
                             </ul>
                             <!-- testcase content -->
                             <div>
-                                <textarea cols="30" rows="7" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight resize-none"></textarea>
+                                <textarea cols="30" rows="6" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight resize-none"></textarea>
                             </div>
                         </div>
                         <!-- results tab -->
