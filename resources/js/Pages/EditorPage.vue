@@ -57,12 +57,15 @@
                         <!-- testcases tab -->
                         <div v-if="consolePanel == 'testcases'">
                             <!-- testcases -->
-                            <ul class="flex my-2 gap-2">
-                                <li v-for="(testcase, index) in testcaseArray" :key="index" class="my-auto">
+                            <ul class="flex mt-3 mb-2 gap-2">
+                                <li v-for="(testcase, index) in testcaseArray" :key="index" class="my-auto relative">
                                     <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
+                                    <div class="absolute -top-2.5 -right-1" @click="removeTestcase(index)">
+                                        <i class="fa-solid fa-xmark text-leetcode-text"></i>
+                                    </div>
                                 </li>
-                                <li class="my-auto px-2 py-1 bg-leetcode-backgroundlight rounded-full border-2 border-leetcode-text border-opacity-0 hover:border-opacity-80">
-                                    <button type="button" @click="addTestcase"><i class="fa-solid fa-plus"></i></button>
+                                <li class="my-auto px-2 py-1 bg-leetcode-backgroundlight rounded-full border-2 border-leetcode-text border-opacity-0 hover:border-opacity-80" @click="addTestcase">
+                                    <button type="button"><i class="fa-solid fa-plus"></i></button>
                                 </li>
                             </ul>
                             <!-- testcase content -->
@@ -283,6 +286,11 @@ export default {
                 this.testcaseArray.at(-1).testcase = this.testcaseArray.at(-2).testcase;
             }
             this.currentTestcase = this.testcaseArray.length - 1;
+        },
+        removeTestcase(index) {
+            if (this.testcaseArray.length <= 1) return;
+            this.testcaseArray.splice(index, 1);
+            this.currentTestcase = this.testcaseArray.length-1;
         },
         languageChange(language) {
             const modeUrl = "ace/mode/";
