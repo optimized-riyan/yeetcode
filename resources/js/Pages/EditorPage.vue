@@ -59,7 +59,7 @@
                             <!-- testcases -->
                             <ul class="flex mt-3 mb-2 gap-2">
                                 <li v-for="(testcase, index) in testcaseArray" :key="index" class="my-auto relative">
-                                    <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
+                                    <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" :is-active="index == currentTestcase"/>
                                     <div class="absolute -top-2.5 -right-1" @click="removeTestcase(index)">
                                         <i class="fa-solid fa-xmark text-leetcode-text"></i>
                                     </div>
@@ -347,6 +347,7 @@ export default {
         resetCode() {
             this.scaffholdings[this.languageIds[this.selectedLanguage]] = this.originalScaffholdings[this.languageIds[this.selectedLanguage]];
             this.changeEditorValueNoSelection(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
+            this.storeCode();
         },
         changeEditorValueNoSelection(value) {
             this.editor.setValue(value);
@@ -384,11 +385,12 @@ export default {
 
         this.availableLanguages.forEach(language => {
             const code = this.retrieveCode(language);
-            if (code !== undefined) this.scaffholdings[this.languageIds[language]] = code;
+            if (code !== null)
+                this.scaffholdings[this.languageIds[language]] = code;
         });
 
         // local storage timer
-        setInterval(this.storeCode, 100);
+        setInterval(this.storeCode, 150);
 
         this.editor = ace.edit(this.$refs.aceEditor, {
             minLines: 10,
