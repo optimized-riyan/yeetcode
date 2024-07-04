@@ -75,8 +75,10 @@
                             <div v-if="runError">
                                 {{ runError }}
                             </div>
-                            <div v-else-if="testcaseOutputs.length == 0">
-                                You need to run the program at least once
+                            <div v-else-if="testcaseOutputs.length == 0" class="ml-2 mt-2">
+                                <OutputDisplay text-color="text-leetcode-red">
+                                    You need to run the program at least once
+                                </OutputDisplay>
                             </div>
                             <div v-else>
                                 <!-- testcases -->
@@ -90,7 +92,11 @@
                                     <ul>
                                         <li>
                                             <p>Your output:</p>
-                                            <p>{{ testcaseOutputs[currentTestcase] }}</p>
+                                            <div class="ml-2 mt-2">
+                                                <OutputDisplay text-color="text-leetcode-text">
+                                                    {{ testcaseOutputs[currentTestcase] }}
+                                                </OutputDisplay>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -137,6 +143,7 @@ import Submission from './Components/EditorComponents/Submission.vue';
 import SlabButton from '@/Pages/Components/EditorComponents/SlabButton.vue';
 import SolidButton from "@/Pages/Components/EditorComponents/SolidButton.vue";
 import Dropdown from '@/Pages/Components/Dropdown.vue';
+import OutputDisplay from './Components/EditorComponents/OutputDisplay.vue';
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -184,6 +191,7 @@ export default {
         SlabButton,
         SolidButton,
         Dropdown,
+        OutputDisplay,
     },
     computed: {
     },
