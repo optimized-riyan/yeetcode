@@ -139,7 +139,6 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-php";
-import 'ace-builds/src-noconflict/keybinding-vim';
 import LeftPanel from "@/Pages/Components/EditorComponents/LeftPanel.vue";
 import TestcaseParam from '@/Pages/Components/EditorComponents/TestcaseParam.vue';
 import Submission from './Components/EditorComponents/Submission.vue';
@@ -398,7 +397,6 @@ export default {
             showPrintMargin: false,
             theme: 'ace/theme/chaos',
             mode: 'ace/mode/python',
-            keyboardHandler: 'ace/keyboard/vim',
             tabSize: 4
         });
         this.changeEditorValueNoSelection(this.scaffholdings[this.languageIds[this.selectedLanguage]]);
