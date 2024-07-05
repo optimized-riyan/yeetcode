@@ -64,7 +64,7 @@
             <ul class="flex flex-col mr-4 py-2 border-y-2 border-leetcode-backgroundlight">
                 <li v-for="(hint, index) in problem.hints" :key="hint.hint_number">
                     <ContentDropdown :title="`Hint ${index+1}`">
-                        <div class="ml-3 mt-2">
+                        <div class="ml-3 my-2">
                             {{ hint.brief }}
                         </div>
                     </ContentDropdown>
