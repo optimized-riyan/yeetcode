@@ -13,14 +13,16 @@ use App\Models\Constraint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ProblemRequest;
+use Exception;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 
 class ProblemController extends Controller
 {
     public function index(Request $request)
     {
         return Inertia::render('ProblemSet', [
-            'problemList' => Problem::where("name", "like", "%".$request->input("name")."%")->with('difficulty')->paginate(10),
+            'problemList' => Problem::where("name", "like", "%" . $request->input("name") . "%")->with('difficulty')->paginate(10),
             'avatarImage' => auth()->user()->avatar_image,
         ]);
     }
@@ -265,6 +267,42 @@ class ProblemController extends Controller
             array_push($hintModels, $hintModel);
         }
         $problem->hints()->saveMany($hintModels);
+    }
+
+    public function runTrivial(Request $request)
+    {
+        $data = $request->json();
+        $postUrl = "http://" . env("JUDGE0_DOMAIN") . "/submissions/batch?base64_encoded=true";
+
+        $resBody = [];
+        try {
+            $response = Http::post($postUrl, $data);
+
+            $tokens = array_map(fn($token) => $token["token"], $response->json());
+            $getUrl = fn($token) => "http://" . env("JUDGE0_DOMAIN") . "/submissions/" . $token . "?";
+
+            $testcaseOutputs = [];
+            for ($i = 0; $i < count($tokens); $i++) {
+                do {
+                    $response = Http::get($getUrl($tokens[$i]) . "fields=status_id");
+                } while ($response->json("status_id") == 2 || $response->json("status_id") == 1);
+                $response = Http::get($getUrl($tokens[$i]) . "base64_encoded=true");
+
+                if ($response->json("stderr") || $response->json("compile_output")) {
+                    $resBody["error"] = $response->json("stderr") ? $response->json("stderr") : $response->json("compile_output");
+                    break;
+                } else {
+                    $testcaseOutputs[] = $response->json("stdout");
+                }
+            }
+            $resBody["outputs"] = $testcaseOutputs;
+        }
+        catch (Exception $e) {
+            $resBody["error"] = $e->getMessage();
+        }
+        finally {
+            return response()->json($resBody);
+        }
     }
 
     public function getProblemsByTitle(Request $request)

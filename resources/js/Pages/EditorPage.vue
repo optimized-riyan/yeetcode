@@ -204,7 +204,6 @@ export default {
         async runTrivial() {
             this.runError = "";
             this.consolePanel = "testcases";
-            const postUrl = `http://${this.$inertia.page.props.judge0Domain}/submissions/batch?base64_encoded=true`;
 
             const submissions = [];
             for (let i = 0; i < this.testcaseArray.length; i++) {
@@ -223,35 +222,20 @@ export default {
             };
 
             try {
-                let response = await axios.post(postUrl, data, config);
+                let response = await axios.post("/api/runTrivial", data, config);
+                console.log(response);
 
-                let tokens = response.data.map(token => token.token);
-                let getUrl = (token) => `http://${this.$inertia.page.props.judge0Domain}/submissions/${token}?`;
-
-                this.testcaseOutputs = [];
-                for (let i = 0; i < tokens.length; i++) {
-                    do {
-                        response = await axios.get(getUrl(tokens[i]) + "fields=status_id");
-                    } while (response.data.status_id == 2 || response.data.status_id == 1)
-                    response = await axios.get(getUrl(tokens[i]) + "base64_encoded=true");
-
-                    if (response.data.stderr || response.data.compile_output) {
-                        if (response.data.stderr)
-                            this.runError = this.base64decode(response.data.stderr);
-                        else
-                            this.runError = this.base64decode(response.data.compile_output);
-                        break;
-                    }
-                    else {
-                        this.testcaseOutputs.push(this.base64decode(response.data.stdout));
-                    }
+                if (response.data.error)
+                    this.runError = this.base64decode(response.data.error);
+                else {
+                    this.testcaseOutputs = response.data.outputs;
                 }
             }
             catch (err) {
                 console.error(err);
             }
             finally {
-                this.consolePanel = 'results';
+                this.consolePanel = "outputs";
             }
         },
         async submitCode() {

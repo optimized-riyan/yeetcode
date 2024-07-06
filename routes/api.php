@@ -24,6 +24,8 @@ Route::get('/get-problems', [ProblemController::class, 'getProblemsByTitle']);
 
 Route::get('/get-topics', [ProblemController::class, 'getTopicsWithFilter']);
 
+Route::post('/runTrivial', [ProblemController::class, 'runTrivial']);
+
 Route::post('/submitCode', [SubmissionController::class, 'submitCode']);
 
 Route::get("/getSubmissions/{problem}/{user}", [SubmissionController::class, "getSubmissions"]);
