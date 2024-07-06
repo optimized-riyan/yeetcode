@@ -223,19 +223,18 @@ export default {
 
             try {
                 let response = await axios.post("/api/runTrivial", data, config);
-                console.log(response);
 
                 if (response.data.error)
                     this.runError = this.base64decode(response.data.error);
                 else {
-                    this.testcaseOutputs = response.data.outputs;
+                    this.testcaseOutputs = response.data.outputs.map(output => this.base64decode(output));
                 }
             }
             catch (err) {
                 console.error(err);
             }
             finally {
-                this.consolePanel = "outputs";
+                this.consolePanel = "results";
             }
         },
         async submitCode() {

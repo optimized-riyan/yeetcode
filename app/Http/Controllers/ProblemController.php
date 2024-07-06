@@ -271,7 +271,7 @@ class ProblemController extends Controller
 
     public function runTrivial(Request $request)
     {
-        $data = $request->json();
+        $data["submissions"] = $request->json("submissions");
         $postUrl = "http://" . env("JUDGE0_DOMAIN") . "/submissions/batch?base64_encoded=true";
 
         $resBody = [];
