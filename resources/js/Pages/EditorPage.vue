@@ -17,10 +17,10 @@
             </div>
         </div>
         <!-- left and right panel -->
-        <splitpanes>
+        <splitpanes class="flex-grow">
             <!-- left panel -->
             <pane>
-                <LeftPanel :problem="problem"></LeftPanel>
+                <LeftPanel :problem="problem" class="h-full overflow-auto"></LeftPanel>
             </pane>
             <!-- right panel -->
             <pane>
@@ -278,7 +278,7 @@ export default {
         removeTestcase(index) {
             if (this.testcaseArray.length <= 1) return;
             this.testcaseArray.splice(index, 1);
-            this.currentTestcase = this.testcaseArray.length-1;
+            this.currentTestcase = this.testcaseArray.length - 1;
         },
         languageChange(language) {
             const modeUrl = "ace/mode/";
@@ -372,13 +372,13 @@ export default {
 };
 </script>
 <style>
-.splitpanes--vertical > .splitpanes__splitter {
-  min-width: 6px;
-  background: linear-gradient(90deg, #ccc, #111);
+.splitpanes--vertical>.splitpanes__splitter {
+    min-width: 5px;
+    background: gray;
 }
 
-.splitpanes--horizontal > .splitpanes__splitter {
-  min-height: 6px;
-  background: linear-gradient(0deg, #ccc, #111);
+.splitpanes--horizontal>.splitpanes__splitter {
+    min-height: 5px;
+    background: gray;
 }
 </style>
