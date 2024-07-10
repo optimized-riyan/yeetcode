@@ -17,116 +17,118 @@
             </div>
         </div>
         <!-- left and right panel -->
-        <div class="flex grow overflow-auto">
+        <splitpanes>
             <!-- left panel -->
-            <div class="w-1/3 overflow-y-auto" ref="pLeftPanel">
+            <pane>
                 <LeftPanel :problem="problem"></LeftPanel>
-            </div>
-            <!-- gutter b/w left & right panels -->
-            <div ref="pGutterLR" class="h-full w-2 top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
+            </pane>
             <!-- right panel -->
-            <div class="flex flex-col flex-grow">
-                <div class="h-2/3 bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
-                    <!-- editor settings -->
-                    <div class="flex justify-between items-center">
-                        <!-- language dropdown -->
-                        <Dropdown :available-languages="availableLanguages" :default-language="selectedLanguage" @lang-change="(language) => languageChange(language)"/>
-                        <!-- code reset button -->
-                        <div class="flex">
-                            <button type="button" @click="resetCode"><i class="fa-solid fa-rotate-left hover:text-leetcode-green-light text-lg mx-4"></i></button>
-                        </div>
-                    </div>
-                    <!-- editor -->
-                    <div class="grow">
-                        <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
-                    </div>
-                </div>
-                <!-- gutter b/w editor+settings & console -->
-                <div ref="pGutterEC" class="w-full h-2 top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
-                <!-- console -->
-                <div class="overflow-auto m-3">
-                    <!-- panel change buttons -->
-                    <div class="flex gap-2 mb-2">
-                        <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
-                        <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
-                        <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
-                    </div>
-                    <hr class="border-leetcode-green">
-                    <!-- panel contents -->
-                    <div class="mt-1 whitespace-pre-wrap">
-                        <!-- testcases tab -->
-                        <div v-if="consolePanel == 'testcases'">
-                            <!-- testcases -->
-                            <ul class="flex mt-3 mb-2 gap-2">
-                                <li v-for="(testcase, index) in testcaseArray" :key="index" class="my-auto relative">
-                                    <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" :is-active="index == currentTestcase"/>
-                                    <div class="absolute -top-2.5 -right-1" @click="removeTestcase(index)">
-                                        <i class="fa-solid fa-xmark text-leetcode-text"></i>
-                                    </div>
-                                </li>
-                                <li class="my-auto px-2 py-1 bg-leetcode-backgroundlight rounded-full border-2 border-leetcode-text border-opacity-0 hover:border-opacity-80" @click="addTestcase">
-                                    <button type="button"><i class="fa-solid fa-plus"></i></button>
-                                </li>
-                            </ul>
-                            <!-- testcase content -->
-                            <div>
-                                <textarea cols="30" rows="6" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight resize-none"></textarea>
+            <pane>
+                <splitpanes :horizontal="true">
+                    <pane>
+                        <div class="h-full bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
+                            <!-- editor settings -->
+                            <div class="flex justify-between items-center">
+                                <!-- language dropdown -->
+                                <Dropdown :available-languages="availableLanguages" :default-language="selectedLanguage" @lang-change="(language) => languageChange(language)"/>
+                                <!-- code reset button -->
+                                <div class="flex">
+                                    <button type="button" @click="resetCode"><i class="fa-solid fa-rotate-left hover:text-leetcode-green-light text-lg mx-4"></i></button>
+                                </div>
+                            </div>
+                            <!-- editor -->
+                            <div class="grow">
+                                <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
                             </div>
                         </div>
-                        <!-- results tab -->
-                        <div v-else-if="consolePanel == 'results'">
-                            <div v-if="runError">
-                                {{ runError }}
+                    </pane>
+                    <!-- console -->
+                    <pane>
+                        <div class="overflow-auto m-3">
+                            <!-- panel change buttons -->
+                            <div class="flex gap-2 mb-2">
+                                <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
+                                <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
+                                <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
                             </div>
-                            <div v-else-if="testcaseOutputs.length == 0" class="ml-2 mt-2">
-                                <OutputDisplay text-color="text-leetcode-red">
-                                    You need to run the program at least once
-                                </OutputDisplay>
-                            </div>
-                            <div v-else>
-                                <!-- testcases -->
-                                <ul class="flex my-2 gap-2">
-                                    <li v-for="(testcase, index) in testcaseArray" :key="index">
-                                        <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
-                                    </li>
-                                </ul>
-                                <!-- testcase content -->
-                                <div>
-                                    <ul>
-                                        <li>
-                                            <p>Your output:</p>
-                                            <div class="ml-2 mt-2">
-                                                <OutputDisplay text-color="text-leetcode-text">
-                                                    {{ testcaseOutputs[currentTestcase] }}
-                                                </OutputDisplay>
+                            <hr class="border-leetcode-green">
+                            <!-- panel contents -->
+                            <div class="mt-1 whitespace-pre-wrap">
+                                <!-- testcases tab -->
+                                <div v-if="consolePanel == 'testcases'">
+                                    <!-- testcases -->
+                                    <ul class="flex mt-3 mb-2 gap-2">
+                                        <li v-for="(testcase, index) in testcaseArray" :key="index" class="my-auto relative">
+                                            <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" :is-active="index == currentTestcase"/>
+                                            <div class="absolute -top-2.5 -right-1" @click="removeTestcase(index)">
+                                                <i class="fa-solid fa-xmark text-leetcode-text"></i>
                                             </div>
                                         </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- submissions tab -->
-                        <div v-else>
-                            <div v-if="isSubmissionsFetched">
-                                <div v-if="fetchedSubmissions.length == 0">
-                                    No submissions yet
-                                </div>
-                                <div v-else>
-                                    <ul class="flex flex-col mt-3 gap-2">
-                                        <li v-for="(submission, index) in fetchedSubmissions" :key="index">
-                                            <Submission :status="submission.status" />
+                                        <li class="my-auto px-2 py-1 bg-leetcode-backgroundlight rounded-full border-2 border-leetcode-text border-opacity-0 hover:border-opacity-80" @click="addTestcase">
+                                            <button type="button"><i class="fa-solid fa-plus"></i></button>
                                         </li>
                                     </ul>
+                                    <!-- testcase content -->
+                                    <div>
+                                        <textarea cols="30" rows="6" v-model="testcaseArray[currentTestcase].testcase" class="bg-leetcode-backgroundlight resize-none"></textarea>
+                                    </div>
                                 </div>
-                           </div>
-                            <div v-else>
-                                Submissions are being fetched
+                                <!-- results tab -->
+                                <div v-else-if="consolePanel == 'results'">
+                                    <div v-if="runError">
+                                        {{ runError }}
+                                    </div>
+                                    <div v-else-if="testcaseOutputs.length == 0" class="ml-2 mt-2">
+                                        <OutputDisplay text-color="text-leetcode-red">
+                                            You need to run the program at least once
+                                        </OutputDisplay>
+                                    </div>
+                                    <div v-else>
+                                        <!-- testcases -->
+                                        <ul class="flex my-2 gap-2">
+                                            <li v-for="(testcase, index) in testcaseArray" :key="index">
+                                                <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
+                                            </li>
+                                        </ul>
+                                        <!-- testcase content -->
+                                        <div>
+                                            <ul>
+                                                <li>
+                                                    <p>Your output:</p>
+                                                    <div class="ml-2 mt-2">
+                                                        <OutputDisplay text-color="text-leetcode-text">
+                                                            {{ testcaseOutputs[currentTestcase] }}
+                                                        </OutputDisplay>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- submissions tab -->
+                                <div v-else>
+                                    <div v-if="isSubmissionsFetched">
+                                        <div v-if="fetchedSubmissions.length == 0">
+                                            No submissions yet
+                                        </div>
+                                        <div v-else>
+                                            <ul class="flex flex-col mt-3 gap-2">
+                                                <li v-for="(submission, index) in fetchedSubmissions" :key="index">
+                                                    <Submission :status="submission.status" />
+                                                </li>
+                                            </ul>
+                                        </div>
+                                </div>
+                                    <div v-else>
+                                        Submissions are being fetched
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </pane>
+                </splitpanes>
+            </pane>
+        </splitpanes>
     </div>
 </template>
 <script>
@@ -146,6 +148,8 @@ import SlabButton from '@/Pages/Components/EditorComponents/SlabButton.vue';
 import SolidButton from "@/Pages/Components/EditorComponents/SolidButton.vue";
 import Dropdown from '@/Pages/Components/Dropdown.vue';
 import OutputDisplay from './Components/EditorComponents/OutputDisplay.vue';
+import { Splitpanes, Pane } from 'splitpanes';
+import 'splitpanes/dist/splitpanes.css'
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -194,6 +198,8 @@ export default {
         SolidButton,
         Dropdown,
         OutputDisplay,
+        Pane,
+        Splitpanes,
     },
     computed: {
     },
@@ -286,40 +292,6 @@ export default {
             if (this.scaffholdings[languageId] === undefined) this.scaffholdings[languageId] = "";
             this.scaffholdings[languageId] = this.editor.getValue();
         },
-        resizerWidth(e, leftPane) {
-            window.addEventListener('mousemove', mousemove);
-            window.addEventListener('mouseup', mouseup);
-
-            let prevX = e.x;
-            const leftPanel = leftPane.getBoundingClientRect();
-
-            function mousemove(e) {
-                let newX = prevX - e.x;
-                leftPane.style.width = leftPanel.width - newX + "px";
-            };
-
-            function mouseup() {
-                window.removeEventListener('mousemove', mousemove);
-                window.removeEventListener('mouseup', mouseup);
-            };
-        },
-        resizerHeight(e, upperPane) {
-            window.addEventListener('mousemove', mousemove);
-            window.addEventListener('mouseup', mouseup);
-
-            let prevY = e.y;
-            const upperPanel = upperPane.getBoundingClientRect();
-
-            function mousemove(e) {
-                let newY = prevY - e.y;
-                upperPane.style.height = upperPanel.height - newY + "px";
-            }
-
-            function mouseup() {
-                window.removeEventListener('mousemove', mousemove);
-                window.removeEventListener('mouseup', mouseup);
-            }
-        },
         storeCode() {
             localStorage.setItem([this.languageIds[this.selectedLanguage], this.problem.id], this.editor.getValue());
         },
@@ -388,10 +360,6 @@ export default {
         if (storedLanguage) {
             this.languageChange(storedLanguage);
         }
-
-        // resizers
-        this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizerWidth(e, this.$refs.pLeftPanel));
-        this.$refs.pGutterEC.addEventListener('mousedown', e => this.resizerHeight(e, this.$refs.pEditorAndSettings));
     },
     created() {
         this.userId = this.user.id;
@@ -403,3 +371,14 @@ export default {
     },
 };
 </script>
+<style>
+.splitpanes--vertical > .splitpanes__splitter {
+  min-width: 6px;
+  background: linear-gradient(90deg, #ccc, #111);
+}
+
+.splitpanes--horizontal > .splitpanes__splitter {
+  min-height: 6px;
+  background: linear-gradient(0deg, #ccc, #111);
+}
+</style>
