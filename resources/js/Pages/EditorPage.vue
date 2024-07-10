@@ -2,7 +2,7 @@
     <!-- entire page -->
     <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text">
         <!-- titlebar -->
-        <div class="h-10 mt-1 shrink-0 flex justify-between items-center">
+        <div class="h-10 my-1 flex justify-between items-center">
             <div class="ml-2">
                 <Link :href="route('problems.index')"><i class="fa-solid fa-less-than text-xs"></i> Problem List</Link>
             </div>
@@ -17,13 +17,13 @@
             </div>
         </div>
         <!-- left and right panel -->
-        <splitpanes class="flex-grow">
-            <!-- left panel -->
-            <pane>
-                <LeftPanel :problem="problem" class="h-full overflow-auto"></LeftPanel>
+        <splitpanes class="flex grow overflow-auto">
+            <pane class="flex grow">
+                <!-- left panel -->
+                <LeftPanel :problem="problem" class="flex grow overflow-auto"></LeftPanel>
             </pane>
-            <!-- right panel -->
             <pane>
+                <!-- right panel -->
                 <splitpanes :horizontal="true">
                     <pane>
                         <div class="h-full bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
