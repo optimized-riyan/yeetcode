@@ -275,34 +275,27 @@ class ProblemController extends Controller
         $postUrl = "http://" . env("JUDGE0_DOMAIN") . "/submissions/batch?base64_encoded=true";
 
         $resBody = [];
-        try {
-            $response = Http::post($postUrl, $data);
+        $response = Http::post($postUrl, $data);
 
-            $tokens = array_map(fn($token) => $token["token"], $response->json());
-            $getUrl = fn($token) => "http://" . env("JUDGE0_DOMAIN") . "/submissions/" . $token . "?";
+        $tokens = array_map(fn($token) => $token["token"], $response->json());
+        $getUrl = fn($token) => "http://" . env("JUDGE0_DOMAIN") . "/submissions/" . $token . "?";
 
-            $testcaseOutputs = [];
-            for ($i = 0; $i < count($tokens); $i++) {
-                do {
-                    $response = Http::get($getUrl($tokens[$i]) . "fields=status_id");
-                } while ($response->json("status_id") == 2 || $response->json("status_id") == 1);
-                $response = Http::get($getUrl($tokens[$i]) . "base64_encoded=true");
+        $testcaseOutputs = [];
+        for ($i = 0; $i < count($tokens); $i++) {
+            do {
+                $response = Http::get($getUrl($tokens[$i]) . "fields=status_id");
+            } while ($response->json("status_id") == 2 || $response->json("status_id") == 1);
+            $response = Http::get($getUrl($tokens[$i]) . "base64_encoded=true");
 
-                if ($response->json("stderr") || $response->json("compile_output")) {
-                    $resBody["error"] = $response->json("stderr") ? $response->json("stderr") : $response->json("compile_output");
-                    break;
-                } else {
-                    $testcaseOutputs[] = $response->json("stdout");
-                }
+            if ($response->json("stderr") || $response->json("compile_output")) {
+                $resBody["error"] = $response->json("stderr") ? $response->json("stderr") : $response->json("compile_output");
+                break;
+            } else {
+                $testcaseOutputs[] = $response->json("stdout");
             }
-            $resBody["outputs"] = $testcaseOutputs;
         }
-        catch (Exception $e) {
-            $resBody["error"] = $e->getMessage();
-        }
-        finally {
-            return response()->json($resBody);
-        }
+        $resBody["outputs"] = $testcaseOutputs;
+        return response()->json($resBody);
     }
 
     public function getProblemsByTitle(Request $request)
