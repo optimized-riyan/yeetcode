@@ -17,10 +17,10 @@
             </div>
         </div>
         <!-- left and right panel -->
-        <splitpanes class="flex grow overflow-auto">
-            <pane class="flex grow">
+        <splitpanes class="overflow-auto">
+            <pane class="flex">
                 <!-- left panel -->
-                <LeftPanel :problem="problem" class="flex grow overflow-auto"></LeftPanel>
+                <LeftPanel :problem="problem" class="overflow-auto"></LeftPanel>
             </pane>
             <pane>
                 <!-- right panel -->
