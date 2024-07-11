@@ -20,7 +20,7 @@
         <splitpanes class="overflow-auto">
             <pane class="flex">
                 <!-- left panel -->
-                <LeftPanel :problem="problem" class="overflow-auto"></LeftPanel>
+                <LeftPanel :problem="problem" class="w-full"></LeftPanel>
             </pane>
             <pane>
                 <!-- right panel -->
@@ -374,11 +374,11 @@ export default {
 <style>
 .splitpanes--vertical>.splitpanes__splitter {
     min-width: 5px;
-    background: gray;
+    background: #282828;
 }
 
 .splitpanes--horizontal>.splitpanes__splitter {
     min-height: 5px;
-    background: gray;
+    background: #282828;
 }
 </style>
