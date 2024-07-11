@@ -117,7 +117,7 @@ class ProblemController extends Controller
                     $testcaseArray[] = [
                         'testcase' => $testcase->testcase,
                         'output' => $testcase->expected_output,
-                        'is_trivial' => $testcase->is_trivial,
+                        'is_trivial' => $testcase->is_trivial == 0 ? false : true,
                     ];
                 }
                 return $testcaseArray;
