@@ -54,6 +54,6 @@ class User extends Authenticatable
 
     public function exploredProblems(): BelongsToMany
     {
-        return $this->belongsToMany(Problem::class)->withPivot("status");
+        return $this->belongsToMany(Problem::class, "explored_problems")->withPivot("status");
     }
 }

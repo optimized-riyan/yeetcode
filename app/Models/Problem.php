@@ -63,7 +63,7 @@ class Problem extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot("status");
+        return $this->belongsToMany(User::class, "explored_problems")->withPivot("status");
     }
 
     public function scopeProblemsByTitle($query, $title = '') {
