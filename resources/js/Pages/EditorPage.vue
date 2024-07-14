@@ -1,7 +1,7 @@
 <template lang="">
     <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text">
         <!-- titlebar -->
-        <div class="h-10 mt-1 shrink-0 flex justify-between items-center">
+        <div class="h-10 mt-1 flex justify-between items-center">
             <div class="ml-2">
                 <Link :href="route('problems.index')"><i class="fa-solid fa-less-than text-xs"></i> Problem List</Link>
             </div>
@@ -18,11 +18,11 @@
         <!-- left and right panel -->
         <div class="flex grow overflow-auto">
             <!-- left panel -->
-            <div class="w-1/3 overflow-y-auto" ref="pLeftPanel">
-                <LeftPanel :problem="problem"></LeftPanel>
+            <div class="w-1/3 overflow-auto" ref="pLeftPanel">
+                <LeftPanel :problem="problem" class="flex"></LeftPanel>
             </div>
             <!-- gutter b/w left & right panels -->
-            <div ref="pGutterLR" class="h-full w-1 top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
+            <div ref="pGutterLR" class="h-full w-[6px] top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
             <div class="flex flex-col flex-grow">
                 <div class="h-2/3 bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <!-- gutter b/w editor+settings & console -->
-                <div ref="pGutterEC" class="w-full h-1 top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
+                <div ref="pGutterEC" class="w-full h-[6px] top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
                 <!-- console -->
                 <div class="overflow-auto m-3">
                     <!-- panel change buttons -->
@@ -145,10 +145,10 @@ import SlabButton from '@/Pages/Components/EditorComponents/SlabButton.vue';
 import SolidButton from "@/Pages/Components/EditorComponents/SolidButton.vue";
 import Dropdown from '@/Pages/Components/Dropdown.vue';
 import OutputDisplay from './Components/EditorComponents/OutputDisplay.vue';
-import { Splitpanes, Pane } from 'splitpanes';
-import 'splitpanes/dist/splitpanes.css'
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
+import simplebar from 'simplebar-vue';
+import 'simplebar-vue/dist/simplebar.min.css';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
 ace.config.setModuleUrl("ace/mode/php_worker", workerPhpUrl);
@@ -195,8 +195,7 @@ export default {
         SolidButton,
         Dropdown,
         OutputDisplay,
-        Pane,
-        Splitpanes,
+        simplebar,
     },
     computed: {
     },
