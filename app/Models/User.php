@@ -52,8 +52,8 @@ class User extends Authenticatable
         return $this->hasMany(Submission::class);
     }
 
-    public function solvedProblems(): BelongsToMany
+    public function exploredProblems(): BelongsToMany
     {
-        return $this->belongsToMany(Problem::class);
+        return $this->belongsToMany(Problem::class)->withPivot("status");
     }
 }

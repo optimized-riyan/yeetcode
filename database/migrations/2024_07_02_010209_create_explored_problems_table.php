@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('solved_problems', function (Blueprint $table) {
+        Schema::create('explored_problems', function (Blueprint $table) {
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("problem_id");
+            $table->tinyText("status");
         });
     }
 
