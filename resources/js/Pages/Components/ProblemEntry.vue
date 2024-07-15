@@ -2,7 +2,7 @@
     <div class="flex bg-leetcode-backgroundlight p-3 my-1 rounded-lg">
         <!-- status -->
         <div class="ml-2 mr-4">
-            <i :class="icon"></i>
+            <i :class="getStatusIcon"></i>
         </div>
         <div class="flex justify-between flex-grow">
             <!-- name -->
@@ -44,7 +44,17 @@ export default {
                 default:
                     return "text-white";
             }
-        }
+        },
+        getStatusIcon() {
+            switch (this.problem.status) {
+                case "solved":
+                    return "fa-solid fa-check text-leetcode-green";
+                case "attempted":
+                    return "fa-solid fa-exclamation text-leetcode-yellow";
+                default:
+                    return "fa-solid fa-minus";
+            }
+        },
     },
 }
 </script>
