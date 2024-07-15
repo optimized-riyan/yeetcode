@@ -43,6 +43,7 @@ export default {
     props: {
         problemList: Object,
         avatarImage: String,
+        exploredProblems: Object,
     },
 }
 </script>

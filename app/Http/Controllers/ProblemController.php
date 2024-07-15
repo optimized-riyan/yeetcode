@@ -13,6 +13,7 @@ use App\Models\Constraint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ProblemRequest;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
@@ -23,6 +24,14 @@ class ProblemController extends Controller
     {
         return Inertia::render('ProblemSet', [
             'problemList' => Problem::where("name", "like", "%" . $request->input("name") . "%")->with('difficulty')->paginate(10),
+            "exploredProblems" => function () {
+                $user = User::find(auth()->user()->id);
+                $probIds = [];
+                foreach ($user->exploredProblems as $prob) {
+                    $probIds[$prob->pivot->problem_id] = $prob->pivot->status;
+                }
+                return $probIds;
+            },
             'avatarImage' => auth()->user()->avatar_image,
         ]);
     }
