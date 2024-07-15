@@ -45,5 +45,13 @@ export default {
         avatarImage: String,
         exploredProblems: Object,
     },
+    created() {
+        for (let i=0; i < this.problemList.data.length; i++) {
+            let problem = this.problemList.data[i];
+            if (problem.id in this.exploredProblems) {
+                this.problemList.data[i].status = this.exploredProblems[problem.id];
+            }
+        }
+    },
 }
 </script>
