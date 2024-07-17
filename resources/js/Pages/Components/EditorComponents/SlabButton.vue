@@ -3,6 +3,7 @@
     `bg-leetcode-backgroundlight px-2 py-1 border-2 border-opacity-0 border-leetcode-text rounded-xl
     ${classAttributesIfActive}`">
         {{ value }}
+        <slot />
     </button>
 </template>
 <script>

@@ -43,12 +43,19 @@
                 <!-- gutter b/w editor+settings & console -->
                 <div ref="pGutterEC" class="w-full h-[6px] top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
                 <!-- console -->
-                <div class="overflow-auto m-3">
+                <div class="overflow-clip p-3">
                     <!-- panel change buttons -->
-                    <div class="flex gap-2 mb-2">
-                        <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
-                        <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
-                        <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
+                    <div class="flex mb-2 gap-2 justify-between">
+                        <div class="flex gap-2">
+                            <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
+                            <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
+                            <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
+                        </div>
+                        <div>
+                            <SlabButton @click="toggleConsole">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </SlabButton>
+                        </div>
                     </div>
                     <hr class="border-leetcode-green">
                     <!-- panel contents -->
@@ -86,7 +93,7 @@
                                 <!-- testcases -->
                                 <ul class="flex my-2 gap-2">
                                     <li v-for="(testcase, index) in testcaseArray" :key="index">
-                                        <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" />
+                                        <SlabButton @click="testcaseChange(index)" :value="`Testcase ${index+1}`" :is-active="index == currentTestcase" />
                                     </li>
                                 </ul>
                                 <!-- testcase content -->
@@ -363,6 +370,8 @@ export default {
                 window.removeEventListener('mouseup', mouseup);
             }
         },
+        toggleConsole() {
+        }
     },
     mounted() {
         this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));
@@ -390,7 +399,6 @@ export default {
         if (storedLanguage) {
             this.languageChange(storedLanguage);
         }
-
 
         // resizers
         this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizerWidth(e, this.$refs.pLeftPanel));
