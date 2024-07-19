@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text">
+    <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text overflow-hidden">
         <!-- titlebar -->
         <div class="h-10 mt-1 flex justify-between items-center">
             <div class="ml-2">
@@ -16,10 +16,12 @@
             </div>
         </div>
         <!-- left and right panel -->
-        <div class="flex grow overflow-auto">
+        <div class="flex h-full grow overflow-hidden">
             <!-- left panel -->
-            <div class="w-1/3 overflow-auto" ref="pLeftPanel">
-                <LeftPanel :problem="problem" class="flex"></LeftPanel>
+            <div class="w-1/3 h-full overflow-hidden" ref="pLeftPanel">
+                <simplebar class="h-full">
+                    <LeftPanel :problem="problem" class="overflow-auto"></LeftPanel>
+                </simplebar>
             </div>
             <!-- gutter b/w left & right panels -->
             <div ref="pGutterLR" class="h-full w-[6px] top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
