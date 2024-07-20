@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <!-- gutter b/w editor+settings & console -->
-                <div ref="pGutterEC" class="w-full h-[6px] top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
+                <div ref="pGutterEC" class="w-full h-[6px] top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter shrink-0"></div>
                 <!-- console -->
                 <div class="overflow-clip p-3" ref="pConsole">
                     <!-- panel change buttons -->
