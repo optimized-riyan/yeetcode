@@ -44,7 +44,7 @@
                     </div>
                     <!-- console toggle -->
                     <div class="absolute right-4 bottom-3">
-                        <SlabButton @click="toggleConsole" ref="pConsoleToggler">
+                        <SlabButton @click="toggleConsole" ref="pConsoleToggler" :rotate-content-around="!isConsoleOpen">
                             <i class="fa-solid fa-chevron-down"></i>
                         </SlabButton>
                     </div>
@@ -194,6 +194,7 @@ export default {
             isSubmissionsFetched: false,
             isConsoleOpen: true,
             userId: 0,
+            consoleTogglerRotation: 0,
         }
     },
     components: {
@@ -378,7 +379,7 @@ export default {
             if (this.isConsoleOpen) {
                 this.$refs.pConsole.style.display = "";
                 this.$refs.pGutterEC.style.visibility = "visible";
-                console.log(this.$refs.pConsoleToggler);
+                this.consoleTogglerRotation = 0;
             }
             else {
                 const gutter = this.$refs.pGutterEC;
@@ -394,6 +395,7 @@ export default {
                 gutter.style.visibility = "hidden";
                 console.style.display = "none";
                 editor.style.height = (editorHeight + consoleHeight) + "px";
+                this.consoleTogglerRotation = 180;
             }
         },
     },
