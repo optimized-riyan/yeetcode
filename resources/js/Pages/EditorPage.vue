@@ -27,7 +27,8 @@
             <div ref="pGutterLR" class="h-full w-[6px] top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
             <div class="flex flex-col flex-grow">
-                <div class="h-2/3 bg-leetcode-background flex flex-col" ref="pEditorAndSettings">
+                <!-- editor wrapper -->
+                <div class="h-2/3 bg-leetcode-background flex flex-col relative" ref="pEditorAndSettings">
                     <!-- editor settings -->
                     <div class="flex justify-between items-center">
                         <!-- language dropdown -->
@@ -41,23 +42,22 @@
                     <div class="grow">
                         <div ref="aceEditor" class="h-full" @input="syncAceEditor"></div>
                     </div>
+                    <!-- console toggle -->
+                    <div class="absolute right-4 bottom-3">
+                        <SlabButton @click="toggleConsole" ref="pConsoleToggler">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </SlabButton>
+                    </div>
                 </div>
                 <!-- gutter b/w editor+settings & console -->
                 <div ref="pGutterEC" class="w-full h-[6px] top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter"></div>
                 <!-- console -->
-                <div class="overflow-clip p-3">
+                <div class="overflow-clip p-3" ref="pConsole">
                     <!-- panel change buttons -->
-                    <div class="flex mb-2 gap-2 justify-between">
-                        <div class="flex gap-2">
-                            <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
-                            <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
-                            <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
-                        </div>
-                        <div>
-                            <SlabButton @click="toggleConsole">
-                                <i class="fa-solid fa-chevron-down"></i>
-                            </SlabButton>
-                        </div>
+                    <div class="flex mb-2 gap-2">
+                        <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
+                        <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
+                        <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
                     </div>
                     <hr class="border-leetcode-green">
                     <!-- panel contents -->
@@ -192,6 +192,7 @@ export default {
             originalScaffholdings: null,
             fetchedSubmissions: null,
             isSubmissionsFetched: false,
+            isConsoleOpen: true,
             userId: 0,
         }
     },
@@ -338,7 +339,7 @@ export default {
         getIsActive(consolePanel) {
             return consolePanel == this.consolePanel;
         },
-        resizerWidth(e, leftPane) {
+        resizeLeftRight(e, leftPane) {
             window.addEventListener('mousemove', mousemove);
             window.addEventListener('mouseup', mouseup);
 
@@ -355,7 +356,7 @@ export default {
                 window.removeEventListener('mouseup', mouseup);
             };
         },
-        resizerHeight(e, upperPane) {
+        resizeRightPanel(e, upperPane) {
             window.addEventListener('mousemove', mousemove);
             window.addEventListener('mouseup', mouseup);
 
@@ -373,7 +374,28 @@ export default {
             }
         },
         toggleConsole() {
-        }
+            this.isConsoleOpen = !this.isConsoleOpen;
+            if (this.isConsoleOpen) {
+                this.$refs.pConsole.style.display = "";
+                this.$refs.pGutterEC.style.visibility = "visible";
+                console.log(this.$refs.pConsoleToggler);
+            }
+            else {
+                const gutter = this.$refs.pGutterEC;
+                const editor = this.$refs.pEditorAndSettings;
+                const console = this.$refs.pConsole;
+
+                const editorBoundingRect = editor.getBoundingClientRect();
+                const consoleBoundingRect = console.getBoundingClientRect();
+
+                const editorHeight = editorBoundingRect.height;
+                const consoleHeight = consoleBoundingRect.height;
+
+                gutter.style.visibility = "hidden";
+                console.style.display = "none";
+                editor.style.height = (editorHeight + consoleHeight) + "px";
+            }
+        },
     },
     mounted() {
         this.originalScaffholdings = JSON.parse(JSON.stringify(this.scaffholdings));
@@ -403,8 +425,8 @@ export default {
         }
 
         // resizers
-        this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizerWidth(e, this.$refs.pLeftPanel));
-        this.$refs.pGutterEC.addEventListener('mousedown', e => this.resizerHeight(e, this.$refs.pEditorAndSettings));
+        this.$refs.pGutterLR.addEventListener('mousedown', e => this.resizeLeftRight(e, this.$refs.pLeftPanel));
+        this.$refs.pGutterEC.addEventListener('mousedown', e => this.resizeRightPanel(e, this.$refs.pEditorAndSettings));
     },
     created() {
         this.userId = this.user.id;
