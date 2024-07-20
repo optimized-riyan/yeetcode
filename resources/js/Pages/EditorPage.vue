@@ -26,7 +26,7 @@
             <!-- gutter b/w left & right panels -->
             <div ref="pGutterLR" class="h-full w-[6px] top-0 left-0 cursor-col-resize bg-leetcode-backgroundlighter"></div>
             <!-- right panel -->
-            <div class="flex flex-col flex-grow">
+            <div class="flex flex-col flex-grow" ref="pRightPanel">
                 <!-- editor wrapper -->
                 <div class="h-2/3 bg-leetcode-background flex flex-col relative" ref="pEditorAndSettings">
                     <!-- editor settings -->
@@ -194,7 +194,6 @@ export default {
             isSubmissionsFetched: false,
             isConsoleOpen: true,
             userId: 0,
-            consoleTogglerRotation: 0,
         }
     },
     components: {
@@ -216,6 +215,7 @@ export default {
         },
         async runTrivial() {
             this.runError = "";
+            this.$refs.pConsoleToggler.click();
             this.consolePanel = "testcases";
 
             const submissions = [];
@@ -376,26 +376,26 @@ export default {
         },
         toggleConsole() {
             this.isConsoleOpen = !this.isConsoleOpen;
+            const gutter = this.$refs.pGutterEC;
+            const editor = this.$refs.pEditorAndSettings;
+            const console = this.$refs.pConsole;
+
             if (this.isConsoleOpen) {
-                this.$refs.pConsole.style.display = "";
-                this.$refs.pGutterEC.style.visibility = "visible";
-                this.consoleTogglerRotation = 0;
+                console.style.display = "";
+                gutter.style.visibility = "visible";
             }
             else {
-                const gutter = this.$refs.pGutterEC;
-                const editor = this.$refs.pEditorAndSettings;
-                const console = this.$refs.pConsole;
+                const rightPanel = this.$refs.pRightPanel;
 
-                const editorBoundingRect = editor.getBoundingClientRect();
-                const consoleBoundingRect = console.getBoundingClientRect();
+                const rightPanelBoundingRect = rightPanel.getBoundingClientRect();
+                const gutterBoundingRect = gutter.getBoundingClientRect();
 
-                const editorHeight = editorBoundingRect.height;
-                const consoleHeight = consoleBoundingRect.height;
+                const rightPanelHeight = rightPanelBoundingRect.height;
+                const gutterHeight = gutterBoundingRect.height;
 
                 gutter.style.visibility = "hidden";
                 console.style.display = "none";
-                editor.style.height = (editorHeight + consoleHeight) + "px";
-                this.consoleTogglerRotation = 180;
+                editor.style.height = (rightPanelHeight - gutterHeight) + "px";
             }
         },
     },
