@@ -44,7 +44,7 @@
                     </div>
                     <!-- console toggle -->
                     <div class="absolute right-4 bottom-3">
-                        <SlabButton @click="toggleConsole" ref="pConsoleToggler" :rotate-content-around="!isConsoleOpen">
+                        <SlabButton @click="toggleConsole" :rotate-content-around="!isConsoleOpen">
                             <i class="fa-solid fa-chevron-down"></i>
                         </SlabButton>
                     </div>
@@ -215,7 +215,6 @@ export default {
         },
         async runTrivial() {
             this.runError = "";
-            this.$refs.pConsoleToggler.click();
             this.consolePanel = "testcases";
 
             const submissions = [];
