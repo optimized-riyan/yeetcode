@@ -154,3 +154,8 @@ public/placeholder.jpg
 
 # todo notes & info
 todo_info.txt
+
+# soft links directory
+soft_links/
+soft_links/*
+soft_links/*.*

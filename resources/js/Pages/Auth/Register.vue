@@ -42,7 +42,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Email (Don't worry, a fake email will also work)" />
 
                 <TextInput
                     id="email"
