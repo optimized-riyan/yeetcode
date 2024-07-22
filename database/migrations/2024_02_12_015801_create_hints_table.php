@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('problem_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('hint_number');
-            $table->text('brief');
+            $table->tinyText('brief');
         });
     }
 

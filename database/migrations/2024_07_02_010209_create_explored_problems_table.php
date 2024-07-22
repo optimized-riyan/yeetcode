@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('explored_problems', function (Blueprint $table) {
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("problem_id");
-            $table->tinyText("status");     // values: solved, attempted
+            $table->string("status", 63);     // values: solved, attempted
         });
     }
 
