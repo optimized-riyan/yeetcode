@@ -41,7 +41,7 @@ class Problem extends Model
     }
 
     public function topics(): BelongsToMany {
-        return $this->belongsToMany(Topic::class);
+        return $this->belongsToMany(Topic::class, "related_topics");
     }
 
     public function similarProblems(): BelongsToMany {

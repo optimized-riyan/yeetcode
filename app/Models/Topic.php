@@ -14,7 +14,7 @@ class Topic extends Model
     public $timestamps = false;
 
     public function problems(): BelongsToMany {
-        return $this->belongsToMany(Problem::class);
+        return $this->belongsToMany(Problem::class, "related_topics");
     }
 
     public function scopeTopicsWithFilter($query, $title = '') {
