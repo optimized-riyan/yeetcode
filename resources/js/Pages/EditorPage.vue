@@ -194,6 +194,7 @@ export default {
             isSubmissionsFetched: false,
             isConsoleOpen: true,
             userId: 0,
+            editorHeight: 0,
         }
     },
     components: {
@@ -382,6 +383,7 @@ export default {
             if (this.isConsoleOpen) {
                 console.style.display = "";
                 gutter.style.visibility = "visible";
+                editor.style.height = this.editorHeight;
             }
             else {
                 const rightPanel = this.$refs.pRightPanel;
@@ -394,6 +396,7 @@ export default {
 
                 gutter.style.visibility = "hidden";
                 console.style.display = "none";
+                this.editorHeight = editor.style.height;
                 editor.style.height = (rightPanelHeight - gutterHeight) + "px";
             }
         },
