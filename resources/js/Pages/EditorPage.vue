@@ -44,7 +44,7 @@
                     </div>
                     <!-- console toggle -->
                     <div class="absolute right-4 bottom-3">
-                        <SlabButton @click="toggleConsole" :rotate-content-around="!isConsoleOpen">
+                        <SlabButton @click="toggleConsole(!isConsoleOpen)" :rotate-content-around="!isConsoleOpen">
                             <i class="fa-solid fa-chevron-down"></i>
                         </SlabButton>
                     </div>
@@ -84,7 +84,7 @@
                         <!-- results tab -->
                         <div v-else-if="consolePanel == 'results'" class="relative h-full">
                             <!-- loading overlay -->
-                            <div class="loading" v-if="true">
+                            <div class="loading" v-if="resultsLoading">
                                 . . . Fetching Results . . .
                             </div>
                             <div v-if="runError">
@@ -120,7 +120,7 @@
                         <!-- submissions tab -->
                         <div v-else class="relative h-full">
                             <!-- loading overlay -->
-                            <div class="loading" v-if="true">
+                            <div class="loading" v-if="submissionsLoading">
                                 . . . Fetching Submissions . . .
                             </div>
                             <div v-if="isSubmissionsFetched">
@@ -228,7 +228,9 @@ export default {
         },
         async runTrivial() {
             this.runError = "";
-            this.consolePanel = "testcases";
+            this.consolePanel = "results";
+            this.resultsLoading = true;
+            this.toggleConsole(true);
 
             const submissions = [];
             for (let i = 0; i < this.testcaseArray.length; i++) {
@@ -260,11 +262,14 @@ export default {
             }
             finally {
                 this.consolePanel = "results";
+                this.resultsLoading = false;
             }
         },
         async submitCode() {
             this.isSubmissionsFetched = false;
             this.consolePanel = "submissions";
+            this.submissionsLoading = true;
+            this.isConsoleOpen = true;
             const submissionCreationUrl = "/api/submitCode";
 
             const config = {
@@ -285,6 +290,9 @@ export default {
             }
             catch (err) {
                 console.error(err);
+            }
+            finally {
+                this.submissionsLoading = false;
             }
         },
         addTestcase() {
@@ -386,8 +394,10 @@ export default {
                 window.removeEventListener('mouseup', mouseup);
             }
         },
-        toggleConsole() {
-            this.isConsoleOpen = !this.isConsoleOpen;
+        toggleConsole(isConsoleOpen) {
+            if (isConsoleOpen == this.isConsoleOpen) return;
+
+            this.isConsoleOpen = isConsoleOpen;
             const gutter = this.$refs.pGutterEC;
             const editor = this.$refs.pEditorAndSettings;
             const console = this.$refs.pConsole;
