@@ -52,16 +52,16 @@
                 <!-- gutter b/w editor+settings & console -->
                 <div ref="pGutterEC" class="w-full h-[6px] top-0 left-0 cursor-row-resize bg-leetcode-backgroundlighter shrink-0"></div>
                 <!-- console -->
-                <div class="overflow-clip p-3" ref="pConsole">
+                <div class="overflow-clip p-3 grow flex flex-col" ref="pConsole">
                     <!-- panel change buttons -->
-                    <div class="flex mb-2 gap-2">
+                    <div class="flex mb-2 gap-2 shrink-0">
                         <SlabButton @click="()=>this.consolePanel='testcases'" value="Testcases" :is-active="getIsActive('testcases')" />
                         <SlabButton @click="()=>this.consolePanel='results'" value="Results" :is-active="getIsActive('results')"/>
                         <SlabButton @click="changeConsoleToSubmissionsAndFetch" value="Submissions" :is-active="getIsActive('submissions')"/>
                     </div>
-                    <hr class="border-leetcode-green">
+                    <hr class="border-leetcode-green shrink-0">
                     <!-- panel contents -->
-                    <div class="mt-1 whitespace-pre-wrap">
+                    <div class="mt-1 whitespace-pre-wrap grow">
                         <!-- testcases tab -->
                         <div v-if="consolePanel == 'testcases'">
                             <!-- testcases -->
@@ -82,12 +82,16 @@
                             </div>
                         </div>
                         <!-- results tab -->
-                        <div v-else-if="consolePanel == 'results'">
+                        <div v-else-if="consolePanel == 'results'" class="relative h-full">
+                            <!-- loading overlay -->
+                            <div class="loading" v-if="true">
+                                . . . Fetching Results . . .
+                            </div>
                             <div v-if="runError">
                                 {{ runError }}
                             </div>
                             <div v-else-if="testcaseOutputs.length == 0" class="ml-2 mt-2">
-                                <OutputDisplay text-color="text-leetcode-red">
+                                <OutputDisplay text-color="text-leetcode-text">
                                     You need to run the program at least once
                                 </OutputDisplay>
                             </div>
@@ -114,10 +118,16 @@
                             </div>
                         </div>
                         <!-- submissions tab -->
-                        <div v-else>
+                        <div v-else class="relative h-full">
+                            <!-- loading overlay -->
+                            <div class="loading" v-if="true">
+                                . . . Fetching Submissions . . .
+                            </div>
                             <div v-if="isSubmissionsFetched">
-                                <div v-if="fetchedSubmissions.length == 0">
-                                    No submissions yet
+                                <div v-if="fetchedSubmissions.length == 0" class="ml-2 mt-2">
+                                    <OutputDisplay text-color="text-leetcode-text">
+                                        No submissions yet
+                                    </OutputDisplay>
                                 </div>
                                 <div v-else>
                                     <ul class="flex flex-col mt-3 gap-2">
@@ -195,6 +205,8 @@ export default {
             isConsoleOpen: true,
             userId: 0,
             editorHeight: 0,
+            resultsLoading: false,
+            submissionsLoading: false,
         }
     },
     components: {
@@ -442,3 +454,23 @@ export default {
     },
 };
 </script>
+<style scoped>
+.loading {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, .6);
+    top: -6px;
+    animation: loading 1s linear infinite alternate;
+    border-radius: 12px;
+}
+
+@keyframes loading {
+    from {color: rgba(194, 196, 199, 1);}
+    to {color: rgba(194, 196, 199, 0);}
+}
+</style>
