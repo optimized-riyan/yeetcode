@@ -269,7 +269,7 @@ export default {
             this.isSubmissionsFetched = false;
             this.consolePanel = "submissions";
             this.submissionsLoading = true;
-            this.isConsoleOpen = true;
+            this.toggleConsole(true);
             const submissionCreationUrl = "/api/submitCode";
 
             const config = {
