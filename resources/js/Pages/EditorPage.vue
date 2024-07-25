@@ -120,9 +120,6 @@
                         <!-- submissions tab -->
                         <div v-else class="relative h-full">
                             <!-- loading overlay -->
-                            <div class="loading" v-if="submissionsLoading">
-                                . . . Fetching Submissions . . .
-                            </div>
                             <div v-if="isSubmissionsFetched">
                                 <div v-if="fetchedSubmissions.length == 0" class="ml-2 mt-2">
                                     <OutputDisplay text-color="text-leetcode-text">
@@ -138,7 +135,9 @@
                                 </div>
                            </div>
                             <div v-else>
-                                Submissions are being fetched
+                                <div class="loading">
+                                    . . . Fetching Submissions . . .
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -268,7 +267,6 @@ export default {
         async submitCode() {
             this.isSubmissionsFetched = false;
             this.consolePanel = "submissions";
-            this.submissionsLoading = true;
             this.toggleConsole(true);
             const submissionCreationUrl = "/api/submitCode";
 
@@ -292,7 +290,7 @@ export default {
                 console.error(err);
             }
             finally {
-                this.submissionsLoading = false;
+                this.isSubmissionsFetched = true;
             }
         },
         addTestcase() {
@@ -474,7 +472,7 @@ export default {
     position: absolute;
     font-size: 20px;
     background-color: rgba(0, 0, 0, .6);
-    top: -6px;
+    top: -2px;
     animation: loading 1s linear infinite alternate;
     border-radius: 12px;
 }
