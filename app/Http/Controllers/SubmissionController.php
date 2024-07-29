@@ -47,4 +47,9 @@ class SubmissionController extends Controller
         $submissions = User::find($userId)->submissions()->where('problem_id', $problemId)->orderByDesc("created_at")->get();
         return response()->json($submissions);
     }
+
+    public function getErrorneousTc(Submission $submission)
+    {
+        return response(str_replace("\n", "<br>", $submission->errorneous_tc));
+    }
 }

@@ -29,3 +29,5 @@ Route::post('/runTrivial', [ProblemController::class, 'runTrivial']);
 Route::post('/submitCode', [SubmissionController::class, 'submitCode']);
 
 Route::get("/getSubmissions/{problem}/{user}", [SubmissionController::class, "getSubmissions"]);
+
+Route::get("/getErrorTc/{submission}", [SubmissionController::class, "getErrorneousTc"]);

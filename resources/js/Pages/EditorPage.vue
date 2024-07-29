@@ -129,7 +129,7 @@
                                 <div v-else>
                                     <ul class="flex flex-col mt-3 gap-2">
                                         <li v-for="(submission, index) in fetchedSubmissions" :key="index">
-                                            <Submission :status="submission.status" />
+                                            <Submission :submission="submission" />
                                         </li>
                                     </ul>
                                 </div>

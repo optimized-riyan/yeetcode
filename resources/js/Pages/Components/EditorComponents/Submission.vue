@@ -1,15 +1,21 @@
 <template lang="">
-    <p :class="`font-bold text-lg ${messageColor} bg-leetcode-backgroundlight px-3 py-2 rounded-lg`">{{ message }}</p>
+    <div :class="`font-bold bg-leetcode-backgroundlight px-3 py-2 rounded-lg justify-between flex`">
+        <div :class="`text-lg ${messageColor}`">{{ message }}</div>
+        <div v-if="submission.errorneous_tc">
+            <button type="button" @click="showTestcase" class="text-sm">Open Testcase</button>
+        </div>
+    </div>
 </template>
 <script>
 export default {
     data() {
         return {
             messageColor: "text-red-600",
+            status: this.submission.status,
         }
     },
     props: {
-        status: String,
+        submission: Object,
     },
     computed: {
         message() {
@@ -36,6 +42,9 @@ export default {
         },
     },
     methods: {
+        showTestcase() {
+            window.open(`/api/getErrorTc/${this.submission.id}`);
+        }
     }
 }
 </script>
