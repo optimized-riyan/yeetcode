@@ -199,7 +199,7 @@ export default {
                 "c++": "c_cpp",
             },
             originalScaffholdings: null,
-            fetchedSubmissions: null,
+            fetchedSubmissions: [],
             isSubmissionsFetched: false,
             isConsoleOpen: true,
             userId: 0,
