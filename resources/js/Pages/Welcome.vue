@@ -12,14 +12,6 @@
                 </div>
             </div>
             <div class="flex justify-between text-leetcode-blue">
-                <div class="flex gap-8">
-                    <Link :href="route('login')">
-                        <u>Login</u>
-                    </Link>
-                    <Link :href="route('register')">
-                        <u>Register</u>
-                    </Link>
-                </div>
                 <div>
                     <Link :href="route('problems.index')">
                         <u>Go to problems page</u>
