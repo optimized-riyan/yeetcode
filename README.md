@@ -1,1 +1,1 @@
-Temporarily hosted on http://43.205.241.164:8000/
+Hosted on https://43.205.241.164/
