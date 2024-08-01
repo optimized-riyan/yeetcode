@@ -1,7 +1,7 @@
 <template lang="">
     <div :class="`font-bold bg-leetcode-backgroundlight px-3 py-2 rounded-lg justify-between flex`">
         <div :class="`text-lg ${messageColor}`">{{ message }}</div>
-        <div v-if="submission.errorneous_tc">
+        <div v-if="errorTc">
             <button type="button" @click="showTestcase" class="text-sm">Open Testcase</button>
         </div>
     </div>
@@ -11,11 +11,12 @@ export default {
     data() {
         return {
             messageColor: "text-red-600",
-            status: this.submission.status,
         }
     },
     props: {
-        submission: Object,
+        status: String,
+        errorTc: String,
+        submissionId: Number,
     },
     computed: {
         message() {
@@ -43,7 +44,7 @@ export default {
     },
     methods: {
         showTestcase() {
-            window.open(`/api/getErrorTc/${this.submission.id}`);
+            window.open(`/api/getErrorTc/${this.submissionId}`);
         }
     }
 }
