@@ -1,4 +1,5 @@
 <template lang="">
+    <Head title="Contact Me" />
     <ProblemSetLayout :avatar-image="avatarImage">
         <div class="flex justify-center items-center h-full w-full">
             <div class="h-2/6 w-4/12 bg-leetcode-backgroundlight rounded-lg flex flex-col justify-center">
@@ -25,10 +26,12 @@
 </template>
 <script>
 import ProblemSetLayout from './Layouts/ProblemSetLayout.vue';
+import { Head } from '@inertiajs/vue3';
 
 export default {
     components: {
         ProblemSetLayout,
+        Head,
     },
     props: {
         avatarImage: String,

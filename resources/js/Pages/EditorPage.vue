@@ -1,4 +1,5 @@
 <template lang="">
+    <Head :title="problem.name" />
     <div class="flex flex-col h-screen bg-leetcode-background text-leetcode-text overflow-hidden">
         <!-- titlebar -->
         <div class="h-10 mt-1 flex justify-between items-center">
@@ -167,6 +168,7 @@ import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 import simplebar from 'simplebar-vue';
 import 'simplebar-vue/dist/simplebar.min.css';
+import { Head } from '@inertiajs/vue3';
 
 ace.config.setModuleUrl('ace/mode/javascript_worker', workerJavascriptUrl);
 ace.config.setModuleUrl("ace/mode/php_worker", workerPhpUrl);
@@ -218,6 +220,7 @@ export default {
         Dropdown,
         OutputDisplay,
         simplebar,
+        Head,
     },
     computed: {
     },
