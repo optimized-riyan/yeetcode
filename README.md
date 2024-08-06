@@ -21,4 +21,4 @@ The website is **securely** hosted here [https://43.205.241.164/](https://43.205
 
 # Contact Me
 
-If you are looking for a Junior Software Developer for Laravel/PHP and you like my work, you can contact me through [LinkedIn](https://www.linkedin.com/in/riyangonsalves/). Any and all criticism of the project is also welcome.
+If you are looking for a Junior Software Developer for Laravel/PHP and you like my work, you can contact me through [LinkedIn](https://www.linkedin.com/in/riyangonsalves/). Any and all criticism of the project is also welcome, through LinkedIn or by submitting an issue in this project's repo.
