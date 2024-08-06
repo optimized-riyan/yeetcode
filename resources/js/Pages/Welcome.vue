@@ -1,4 +1,5 @@
 <template lang="">
+    <Head title="Welcome" />
     <div class="h-screen w-screen bg-leetcode-background flex flex-col justify-center items-center text-leetcode-text">
         <div class="h-1/4 w-4/12 bg-leetcode-backgroundlight flex flex-col px-8 py-6 justify-between rounded-xl">
             <div class="flex flex-col items-center">
@@ -27,6 +28,7 @@
 </template>
 <script>
 import { Link } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
 
 export default {
     data() {
@@ -42,6 +44,7 @@ export default {
     },
     components: {
         Link,
+        Head,
     },
     methods: {
         nextEmoji() {
